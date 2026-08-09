@@ -3,13 +3,31 @@
 /* Class-based dark mode: `dark` is toggled on <html> by ThemeToggle. */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Blocky display font carried over from the original site's wordmark. */
+/* One family for the whole app: TeX Gyre Heros (GUST Font License), the
+ * libre Helvetica of the URW/Nimbus Sans lineage — the same letterforms
+ * as the helvetiker face extruded in the three.js scenes and on the
+ * Shorts! covers. Body copy at 400, wordmark lettering + bold copy at
+ * 700 (= helvetiker bold). Fallbacks stay in the Helvetica family. */
 @font-face {
-  font-family: 'Cinerama';
-  src: url('./assets/fonts/Cinerama.otf') format('opentype');
-  font-weight: normal;
+  font-family: 'TeX Gyre Heros';
+  src: url('./assets/fonts/TeXGyreHeros-Regular-latin.woff2') format('woff2');
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+20AC, U+2122;
+}
+
+@font-face {
+  font-family: 'TeX Gyre Heros';
+  src: url('./assets/fonts/TeXGyreHeros-Bold-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+2000-206F, U+20AC, U+2122;
 }
 
 /*
@@ -52,7 +70,10 @@
   --color-accent: var(--ttf-accent);
   --color-accent-strong: var(--ttf-accent-strong);
   --color-accent-ink: var(--ttf-accent-ink);
-  --font-display: 'Cinerama', 'Trebuchet MS', 'Gill Sans', sans-serif;
+  --font-display:
+    'TeX Gyre Heros', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-sans:
+    'TeX Gyre Heros', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 * {
@@ -71,8 +92,7 @@ body {
   /* Solid fallback ground; the fixed .sky layer paints the real backdrop. */
   background-color: #cfe7f8;
   font-family:
-    ui-sans-serif, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    sans-serif;
+    'TeX Gyre Heros', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   line-height: 1.65;
   transition: color 300ms ease;
   -webkit-font-smoothing: antialiased;
@@ -210,23 +230,122 @@ body {
 
 /* --------------------------------------------------------- components --- */
 
-.wordmark {
+/*
+ * Display lettering (Wordmark3D.tsx): flat rainbow-gradient text — the
+ * exact .rainbow-text treatment from the release cards, in the display
+ * weight. Light stops are the AA-darkened set; dark stops the luminous
+ * pastels. (Earlier per-letter and extruded layer-stack experiments were
+ * retired in favor of this.)
+ */
+.wm3d {
   font-family: var(--font-display);
-  letter-spacing: 0.04em;
-  text-shadow: 0 2px 0 var(--ttf-halo);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  word-spacing: 0.08em;
+  background-image: linear-gradient(
+    100deg,
+    #c23a72,
+    #b5651e,
+    #7f7a14,
+    #2b8544,
+    #1f6f99,
+    #6a54cc
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.dark .wm3d {
+  background-image: linear-gradient(
+    100deg,
+    #ff8ab8,
+    #ffb877,
+    #f2e35c,
+    #7fe89a,
+    #7cd0ff,
+    #b8a6ff
+  );
+}
+
+/* --------------------------------------------------- three.js hero title --- */
+
+/* The hero <h1> keeps the CSS lettering as its layout box + fallback; the
+ * lazy three.js canvas bleeds past it (extrusion, bob) and cross-fades in. */
+.hero3d {
+  position: relative;
+  display: inline-block;
+}
+
+/* The 3D overlay expects a single line; the fluid clamp on the hero h1
+ * keeps this fitting down to 320px viewports. */
+.hero3d .wm3d {
+  white-space: nowrap;
+}
+
+.hero3d .hero3d-fallback {
+  transition: opacity 600ms ease;
+}
+
+.hero3d.is-live .hero3d-fallback {
+  opacity: 0;
+  /* Invisible fallback content would still paint a selection highlight
+   * around nothing — drop it from selection while the canvas is live. */
+  user-select: none;
+}
+
+.hero3d-canvas {
+  position: absolute;
+  left: -12%;
+  top: -42%;
+  width: 124%;
+  height: 200%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 900ms ease;
+}
+
+.hero3d.is-live .hero3d-canvas {
+  opacity: 1;
+}
+
+/* Two-line hero block (title + subtitle): the box is ~1.75× taller than
+ * the single-line marks, so the canvas bleed percentages shrink. */
+.hero3d-tall .hero3d-canvas {
+  top: -20%;
+  height: 148%;
+}
+
+/* Sticky header backdrop — more opaque than the glass cards so the header
+ * wordmark's 4.5:1 color solve still holds when darker content (photos,
+ * dark-mode sections) scrolls beneath the blur. */
+.header-bar {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.dark .header-bar {
+  background: var(--ttf-card);
 }
 
 .card-glass {
   background: var(--ttf-card);
   border: 1px solid var(--ttf-card-border);
-  border-radius: 1.25rem;
+  border-radius: 0.625rem;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 10px 30px -18px rgba(9, 40, 66, 0.35);
+  /* High-float elevation: a tight contact shadow plus two big soft drops
+   * reads as real height, not a smudge. */
+  box-shadow:
+    0 6px 12px -6px rgba(9, 40, 66, 0.2),
+    0 28px 44px -18px rgba(9, 40, 66, 0.34),
+    0 64px 96px -32px rgba(9, 40, 66, 0.32);
 }
 
 .dark .card-glass {
-  box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.8);
+  box-shadow:
+    0 6px 12px -6px rgba(0, 0, 0, 0.55),
+    0 28px 44px -18px rgba(0, 0, 0, 0.65),
+    0 64px 96px -32px rgba(0, 0, 0, 0.6);
 }
 
 /* Rainbow-chrome accent, echoing the Shorts! Vol. 1 cover lettering.
@@ -260,7 +379,7 @@ body {
 
 .rainbow-bar {
   height: 4px;
-  border-radius: 9999px;
+  border-radius: 2px;
   background-image: linear-gradient(
     90deg,
     #e0508c,
@@ -270,6 +389,244 @@ body {
     #2e9fd0,
     #7f6ae0
   );
+}
+
+/* The landing-page instrument tableau (JamStudio.tsx). The container owns
+ * the aspect ratio so the page doesn't jump when the canvas mounts; while
+ * the scene hasn't loaded it's just a slice of open sky. */
+.jam-studio {
+  position: relative;
+  /* Instances can override via the --studio-aspect custom property
+   * (e.g. Tailwind [--studio-aspect:1.55/1] on the About rig card). */
+  aspect-ratio: var(--studio-aspect, 2.15 / 1);
+}
+
+@media (max-width: 640px) {
+  .jam-studio {
+    aspect-ratio: var(--studio-aspect, 4 / 3);
+  }
+}
+
+.jam-studio-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 900ms ease;
+}
+
+.jam-studio.is-live .jam-studio-canvas {
+  opacity: 1;
+}
+
+/* Shorts grid cards: browser-native virtualization — offscreen cards skip
+ * layout and paint entirely; the intrinsic-size estimate keeps scrollbar
+ * geometry stable before a card first renders. */
+.short-card {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 480px;
+}
+
+/* ------------------------------------------------------------- buttons --- */
+
+/* Chunky 3D buttons: bevel highlight along the top, an extruded edge
+ * below, and a soft ground shadow. Hover lifts, press pushes the face
+ * down onto its edge. Add .btn-3d-accent on solid accent buttons so the
+ * edge is a darker cut of the accent instead of neutral ink. */
+.btn-3d {
+  --btn-edge: rgba(9, 40, 66, 0.24);
+  --btn-ground: rgba(9, 40, 66, 0.2);
+  --btn-bevel: rgba(255, 255, 255, 0.35);
+  box-shadow:
+    inset 0 1px 0 var(--btn-bevel),
+    0 2px 0 var(--btn-edge),
+    0 6px 10px -5px var(--btn-ground);
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.dark .btn-3d {
+  --btn-edge: rgba(0, 0, 0, 0.55);
+  --btn-ground: rgba(0, 0, 0, 0.4);
+  --btn-bevel: rgba(255, 255, 255, 0.12);
+}
+
+.btn-3d:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 var(--btn-bevel),
+    0 3px 0 var(--btn-edge),
+    0 8px 13px -5px var(--btn-ground);
+}
+
+.btn-3d:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 1px 0 var(--btn-bevel),
+    0 1px 0 var(--btn-edge),
+    0 3px 6px -3px var(--btn-ground);
+}
+
+.btn-3d-accent {
+  --btn-edge: color-mix(in oklab, var(--ttf-accent) 55%, #041420);
+}
+
+.dark .btn-3d-accent {
+  --btn-edge: color-mix(in oklab, var(--ttf-accent) 40%, #000000);
+}
+
+/* ------------------------------------------------------- loading gears --- */
+
+/* The legacy site's loading gears (LoadingGears.tsx): three interlocking
+ * gears with offset shadow copies, spun by CSS. Colors ride the theme
+ * tokens — accent gears over halo shadows. */
+.loading-gears {
+  width: auto;
+  color: var(--ttf-accent);
+}
+
+.lg-gear {
+  fill: currentColor;
+}
+
+.lg-shadow {
+  fill: var(--ttf-halo);
+}
+
+.lg-spin-small-front {
+  animation: lg-ccw 2.5s infinite linear;
+  transform-origin: 100.136px 225.345px;
+}
+
+.lg-spin-small {
+  animation: lg-ccw 2.5s infinite linear;
+  transform-origin: 110.136px 235.345px;
+}
+
+.lg-spin-medium-front {
+  animation: lg-cw 3.75s infinite linear;
+  transform-origin: 254.675px 379.447px;
+}
+
+.lg-spin-medium {
+  animation: lg-cw 3.75s infinite linear;
+  transform-origin: 264.675px 389.447px;
+}
+
+.lg-spin-large-front {
+  animation: lg-ccw 5s infinite linear;
+  transform-origin: 461.37px 173.694px;
+}
+
+.lg-spin-large {
+  animation: lg-ccw 5s infinite linear;
+  transform-origin: 471.37px 183.694px;
+}
+
+@keyframes lg-cw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes lg-ccw {
+  from {
+    transform: rotate(359deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+/* While JS is booting a 3D piece, its box shows the gears instead of the
+ * CSS lettering. Gated on html.js (set by an inline head script), so
+ * no-JS visitors and search engines keep the real text; .no3d (WebGL
+ * failure) restores it too. */
+.js .hero3d:not(.is-live):not(.no3d) .hero3d-fallback {
+  opacity: 0;
+}
+
+/* One indicator for the whole hero: the studio box sits at its visual
+ * center, so only it carries the gears. */
+.jam-studio-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+
+.js .jam-studio:not(.is-live):not(.no3d) .jam-studio-loading {
+  opacity: 1;
+}
+
+/* -------------------------------------------------------------- icons --- */
+
+/* Per-icon tint (light mode): each icon carries its own vibrant color via
+ * --icon-c (see SpriteIcon's tint prop). Dark mode falls back to
+ * currentColor — pair with dark:text-ink where white icons are wanted. */
+.icon-tint {
+  fill: var(--icon-c, currentColor);
+}
+
+.dark .icon-tint {
+  fill: currentColor;
+}
+
+/* Chunky mini-extrusion: a hard offset shadow plus a soft ground blur,
+ * echoing the wm3d lettering at icon scale. */
+.icon-3d {
+  filter: drop-shadow(1px 1.5px 0 rgba(18, 48, 72, 0.4))
+    drop-shadow(2px 4px 5px rgba(18, 48, 72, 0.22));
+}
+
+.dark .icon-3d {
+  filter: drop-shadow(1px 1.5px 0 rgba(0, 0, 0, 0.6))
+    drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.45));
+}
+
+/* -------------------------------------------------------- decorations --- */
+
+/* Fixed scenery gutters (Decorations.tsx): palms, solids, instruments.
+ * Sits above the sky canvas (-10) and below the content, never intercepts
+ * pointer events. Items float on a slow composited transform loop. */
+.deco-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -5;
+  pointer-events: none;
+}
+
+.deco {
+  position: absolute;
+  opacity: 0.92;
+  filter: drop-shadow(2px 3px 0 rgba(18, 48, 72, 0.24))
+    drop-shadow(3px 8px 10px rgba(18, 48, 72, 0.16));
+  animation: deco-float 8s ease-in-out infinite alternate;
+}
+
+.dark .deco {
+  opacity: 0.85;
+  filter: drop-shadow(2px 3px 0 rgba(0, 0, 0, 0.5))
+    drop-shadow(3px 8px 12px rgba(0, 0, 0, 0.4));
+}
+
+@keyframes deco-float {
+  from {
+    transform: translateY(-6px) rotate(var(--deco-rot, 0deg));
+  }
+  to {
+    transform: translateY(7px) rotate(var(--deco-rot, 0deg));
+  }
 }
 
 /* ------------------------------------------------------ reduced motion --- */

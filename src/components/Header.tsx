@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { ThemeToggle } from './ThemeToggle'
+import { Wordmark3D } from './Wordmark3D'
 import { site } from '../data/site'
 
 const navLinks = [
@@ -17,21 +18,14 @@ export function Header() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-40 border-b border-card-border bg-card backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-card-border header-bar backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
         <Link
           to="/"
-          className="wordmark flex items-baseline gap-2 text-lg text-ink no-underline transition hover:text-accent sm:text-xl"
+          className="flex items-baseline gap-2 text-xl no-underline transition hover:-translate-y-0.5 sm:text-2xl"
           onClick={() => setOpen(false)}
         >
-          <span>{site.name}</span>
-          <span
-            className="text-sm text-muted"
-            title={site.artist}
-            aria-hidden="true"
-          >
-            {site.artistChinese}
-          </span>
+          <Wordmark3D small text={site.name} />
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
@@ -56,7 +50,7 @@ export function Header() {
           <ThemeToggle />
           <button
             type="button"
-            className="rounded-lg border border-card-border bg-card p-2 text-ink md:hidden"
+            className="btn-3d rounded-lg border border-card-border bg-card p-2 text-ink md:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? 'Close menu' : 'Open menu'}

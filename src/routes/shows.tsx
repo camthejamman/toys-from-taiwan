@@ -43,7 +43,7 @@ function Shows() {
             </p>
             <a
               href={`mailto:${site.email}?subject=Booking%20inquiry`}
-              className="rounded-full bg-accent px-6 py-2.5 font-semibold text-accent-ink no-underline transition hover:bg-accent-strong"
+              className="btn-3d btn-3d-accent rounded-md bg-accent px-6 py-2.5 font-semibold text-accent-ink no-underline transition hover:bg-accent-strong"
             >
               Invite me to play
             </a>
@@ -66,7 +66,7 @@ function Shows() {
         </p>
         <a
           href={`mailto:${site.email}?subject=Booking%20inquiry`}
-          className="mt-4 inline-block rounded-full bg-accent px-7 py-3 font-semibold text-accent-ink no-underline shadow-lg transition hover:bg-accent-strong"
+          className="mt-4 inline-block btn-3d btn-3d-accent rounded-md bg-accent px-7 py-3 font-semibold text-accent-ink no-underline shadow-lg transition hover:bg-accent-strong"
         >
           Book Toys From Taiwan
         </a>

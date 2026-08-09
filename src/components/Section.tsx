@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Wordmark3D } from './Wordmark3D'
 
 /**
  * Consistent page section: heading with a rainbow accent bar, then content.
@@ -24,10 +25,14 @@ export function Section({
           {eyebrow}
         </p>
       ) : null}
-      <Heading className="wordmark mb-2 mt-1 text-3xl text-ink sm:text-4xl">
-        {title}
-      </Heading>
-      <div className={`rainbow-bar mb-8 w-24 ${center ? 'mx-auto' : ''}`} aria-hidden="true" />
+      {/* inline-block shrink-wraps to the heading, so the rainbow bar is
+          always exactly as wide as the lettering above it */}
+      <div className="mb-8 inline-block">
+        <Heading className="m-0 mt-1 text-3xl sm:text-4xl">
+          <Wordmark3D text={title} />
+        </Heading>
+        <div className="rainbow-bar mt-2" aria-hidden="true" />
+      </div>
       {children}
     </section>
   )

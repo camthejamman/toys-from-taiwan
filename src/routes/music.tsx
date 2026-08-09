@@ -3,6 +3,7 @@ import { Section } from '../components/Section'
 import { BandcampEmbed } from '../components/BandcampEmbed'
 import { PlatformPillRow } from '../components/PlatformPill'
 import { SpriteIcon } from '../components/SpriteIcon'
+import { Wordmark3D } from '../components/Wordmark3D'
 import { site, socials, streaming } from '../data/site'
 import { releases } from '../data/releases'
 
@@ -33,7 +34,9 @@ function Music() {
               <BandcampEmbed release={release} />
             </div>
             <div>
-              <h3 className="wordmark m-0 text-3xl text-ink">{release.title}</h3>
+              <h3 className="m-0 text-3xl">
+                <Wordmark3D text={release.title} />
+              </h3>
               <p className="m-0 mt-1 text-sm font-semibold uppercase tracking-widest text-muted">
                 {release.trackCount} tracks ·{' '}
                 {new Date(release.releaseDate + 'T00:00:00').toLocaleDateString(
@@ -46,7 +49,7 @@ function Music() {
                 {release.tags.map((tag) => (
                   <li
                     key={tag}
-                    className="rounded-full border border-card-border bg-card px-3 py-1 text-xs font-semibold uppercase tracking-wide text-muted"
+                    className="rounded-md border border-card-border bg-card px-3 py-1 text-xs font-semibold uppercase tracking-wide text-muted"
                   >
                     {tag}
                   </li>

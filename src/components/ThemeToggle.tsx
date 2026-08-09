@@ -50,7 +50,7 @@ export function ThemeToggle() {
       aria-label="Night sky theme"
       aria-pressed={dark ?? undefined}
       title="Day / night sky"
-      className="rounded-full border border-card-border bg-card p-2 text-ink transition hover:text-accent"
+      className="btn-3d rounded-md border border-card-border bg-card p-2 text-ink transition hover:text-accent"
     >
       {/* sun — shown in light mode */}
       <svg

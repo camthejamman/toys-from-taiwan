@@ -16,7 +16,7 @@ export function BandcampEmbed({ release }: { release: Release }) {
       <button
         type="button"
         onClick={() => setLoaded(true)}
-        className="group relative block w-full max-w-sm cursor-pointer overflow-hidden rounded-2xl border border-card-border bg-transparent p-0 text-left shadow-lg"
+        className="group relative block w-full max-w-sm cursor-pointer overflow-hidden rounded-lg border border-card-border bg-transparent p-0 text-left shadow-lg"
         aria-label={`Play ${release.title} — loads the Bandcamp player`}
       >
         <img
@@ -42,7 +42,7 @@ export function BandcampEmbed({ release }: { release: Release }) {
   const linkcol = dark ? '7cd0ff' : '0687f5'
 
   return (
-    <div className="w-full max-w-sm overflow-hidden rounded-2xl border border-card-border shadow-lg">
+    <div className="w-full max-w-sm overflow-hidden rounded-lg border border-card-border shadow-lg">
       <iframe
         title={`${release.title} — Bandcamp player`}
         src={`https://bandcamp.com/EmbeddedPlayer/album=${release.bandcampAlbumId}/size=large/bgcol=${bgcol}/linkcol=${linkcol}/tracklist=true/artwork=small/transparent=true/`}

@@ -16,6 +16,8 @@ import { Route as MusicRouteImport } from './routes/music'
 import { Route as ShowsRouteImport } from './routes/shows'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as VideosRouteImport } from './routes/videos'
+import { Route as VideosIndexRouteImport } from './routes/videos.index'
+import { Route as VideosShortsRouteImport } from './routes/videos.shorts'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +54,16 @@ const VideosRoute = VideosRouteImport.update({
   path: '/videos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VideosIndexRoute = VideosIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => VideosRoute,
+} as any)
+const VideosShortsRoute = VideosShortsRouteImport.update({
+  id: '/shorts',
+  path: '/shorts',
+  getParentRoute: () => VideosRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,7 +72,9 @@ export interface FileRoutesByFullPath {
   '/music': typeof MusicRoute
   '/shows': typeof ShowsRoute
   '/support': typeof SupportRoute
-  '/videos': typeof VideosRoute
+  '/videos': typeof VideosRouteWithChildren
+  '/videos/shorts': typeof VideosShortsRoute
+  '/videos/': typeof VideosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -69,7 +83,8 @@ export interface FileRoutesByTo {
   '/music': typeof MusicRoute
   '/shows': typeof ShowsRoute
   '/support': typeof SupportRoute
-  '/videos': typeof VideosRoute
+  '/videos/shorts': typeof VideosShortsRoute
+  '/videos': typeof VideosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -79,14 +94,32 @@ export interface FileRoutesById {
   '/music': typeof MusicRoute
   '/shows': typeof ShowsRoute
   '/support': typeof SupportRoute
-  '/videos': typeof VideosRoute
+  '/videos': typeof VideosRouteWithChildren
+  '/videos/shorts': typeof VideosShortsRoute
+  '/videos/': typeof VideosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/about' | '/contact' | '/music' | '/shows' | '/support' | '/videos'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/music'
+    | '/shows'
+    | '/support'
+    | '/videos'
+    | '/videos/shorts'
+    | '/videos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/music' | '/shows' | '/support' | '/videos'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/music'
+    | '/shows'
+    | '/support'
+    | '/videos/shorts'
+    | '/videos'
   id:
     | '__root__'
     | '/'
@@ -96,6 +129,8 @@ export interface FileRouteTypes {
     | '/shows'
     | '/support'
     | '/videos'
+    | '/videos/shorts'
+    | '/videos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -105,7 +140,7 @@ export interface RootRouteChildren {
   MusicRoute: typeof MusicRoute
   ShowsRoute: typeof ShowsRoute
   SupportRoute: typeof SupportRoute
-  VideosRoute: typeof VideosRoute
+  VideosRoute: typeof VideosRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -159,8 +194,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VideosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/videos/': {
+      id: '/videos/'
+      path: '/'
+      fullPath: '/videos/'
+      preLoaderRoute: typeof VideosIndexRouteImport
+      parentRoute: typeof VideosRoute
+    }
+    '/videos/shorts': {
+      id: '/videos/shorts'
+      path: '/shorts'
+      fullPath: '/videos/shorts'
+      preLoaderRoute: typeof VideosShortsRouteImport
+      parentRoute: typeof VideosRoute
+    }
   }
 }
+
+interface VideosRouteChildren {
+  VideosShortsRoute: typeof VideosShortsRoute
+  VideosIndexRoute: typeof VideosIndexRoute
+}
+
+const VideosRouteChildren: VideosRouteChildren = {
+  VideosShortsRoute: VideosShortsRoute,
+  VideosIndexRoute: VideosIndexRoute,
+}
+
+const VideosRouteWithChildren =
+  VideosRoute._addFileChildren(VideosRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -169,7 +231,7 @@ const rootRouteChildren: RootRouteChildren = {
   MusicRoute: MusicRoute,
   ShowsRoute: ShowsRoute,
   SupportRoute: SupportRoute,
-  VideosRoute: VideosRoute,
+  VideosRoute: VideosRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -26,6 +26,9 @@ export type PlatformLink = {
   icon: string
   /** Short human note, shown where there is room (e.g. Support page). */
   note?: string
+  /** Light-mode icon color. Brand color where one exists; unset falls
+   * back to the rotating vibrant palette. Dark mode renders white. */
+  color?: string
 }
 
 /** Social platforms — where the shows, streams, and videos live. */
@@ -36,6 +39,7 @@ export const socials: PlatformLink[] = [
     href: 'https://www.youtube.com/@toysfromtaiwan',
     icon: 'icon-youtube',
     note: 'Full jams & video shorts',
+    color: '#e00000',
   },
   {
     id: 'tiktok',
@@ -43,6 +47,7 @@ export const socials: PlatformLink[] = [
     href: 'https://www.tiktok.com/@toysfromtaiwan',
     icon: 'icon-tiktok',
     note: 'Live every Thursday · 9:30pm ET',
+    color: '#161823',
   },
   {
     id: 'instagram',
@@ -50,6 +55,7 @@ export const socials: PlatformLink[] = [
     href: 'https://www.instagram.com/toysfromtaiwan/',
     icon: 'icon-instagram',
     note: 'Clips & show announcements',
+    color: '#e4405f',
   },
   {
     id: 'twitch',
@@ -57,6 +63,7 @@ export const socials: PlatformLink[] = [
     href: 'https://www.twitch.tv/toysfromtaiwan',
     icon: 'icon-twitch',
     note: 'Live-looping streams',
+    color: '#9146ff',
   },
 ]
 
@@ -68,24 +75,28 @@ export const streaming: PlatformLink[] = [
     href: 'https://toysfromtaiwan.bandcamp.com/',
     icon: 'icon-bandcamp',
     note: 'Name your price — best way to buy',
-  },
-  {
-    id: 'spotify',
-    label: 'Spotify',
-    href: 'https://open.spotify.com/artist/2FOHOwAyJLD2RImyfPimKa',
-    icon: 'icon-spotify',
+    color: '#408294',
   },
   {
     id: 'applemusic',
     label: 'Apple Music',
     href: 'https://music.apple.com/us/artist/toys-from-taiwan/6796355234',
     icon: 'icon-applemusic',
+    color: '#fa233b',
+  },
+  {
+    id: 'spotify',
+    label: 'Spotify',
+    href: 'https://open.spotify.com/artist/2FOHOwAyJLD2RImyfPimKa',
+    icon: 'icon-spotify',
+    color: '#1db954',
   },
   {
     id: 'youtubemusic',
     label: 'YouTube Music',
     href: 'https://music.youtube.com/channel/UCS143MNau76WxnPjGWrMWRw',
     icon: 'icon-youtubemusic',
+    color: '#e00000',
   },
 ]
 

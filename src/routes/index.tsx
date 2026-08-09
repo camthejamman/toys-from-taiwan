@@ -1,4 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
+import { HeroTitle } from '../components/HeroTitle'
+import { JamStudio } from '../components/JamStudio'
 import { Section } from '../components/Section'
 import { SocialStrip } from '../components/SocialStrip'
 import { PlatformPillRow } from '../components/PlatformPill'
@@ -15,16 +17,19 @@ export const Route = createFileRoute('/')({
 const highlights = [
   {
     icon: 'icon-record',
+    tint: '#d6437f',
     title: '100% Live',
     text: 'Every beat, melody, and rhythm is looped on the spot. No backing tracks, ever.',
   },
   {
     icon: 'icon-equalizer2',
+    tint: '#2a92c4',
     title: 'One-Man Band',
     text: 'Guitar, bass, keys, bongos, drum machines, and gizmos — all played and stacked live.',
   },
   {
     icon: 'icon-tv',
+    tint: '#2f9e53',
     title: 'Video-Game Vibes',
     text: 'Cheesy midi sounds, chill grooves, and retro N64-flavored jams to relax to.',
   },
@@ -37,15 +42,15 @@ function Home() {
   return (
     <>
       {/* hero */}
-      <section className="mx-auto flex max-w-6xl flex-col items-center px-4 pb-10 pt-16 text-center sm:pt-24">
-        <h1 className="wordmark m-0 text-4xl leading-tight text-ink sm:text-6xl lg:text-7xl">
-          {site.name}
-        </h1>
-        <p className="mt-4 text-xl font-semibold text-ink sm:text-2xl">
+      <section className="mx-auto flex max-w-6xl flex-col items-center overflow-x-clip px-4 pb-10 pt-16 text-center sm:pt-24">
+        {/* Fluid clamp keeps the single-line wordmark inside 320px+ phones;
+            overflow-x-clip stops the canvas bleed from widening the page. */}
+        <HeroTitle text={site.name} subtitle={site.tagline} />
+        {/* the jam-studio tableau; the copy below restates it for SEO/AT */}
+        <JamStudio />
+        <p className="mt-2 text-xl font-semibold text-ink sm:text-2xl">
           {site.tagline}{' '}
-          <span className="wordmark text-muted" title={site.artist}>
-            {site.artistChinese}
-          </span>
+          <span title={site.artist}>{site.artistChinese}</span>
         </p>
         <p className="mt-1 text-muted">
           A one-man live-looping jam band from {site.location}
@@ -53,13 +58,13 @@ function Home() {
         <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
           <Link
             to="/music"
-            className="rounded-full bg-accent px-7 py-3 font-semibold text-accent-ink no-underline shadow-lg transition hover:bg-accent-strong"
+            className="btn-3d btn-3d-accent rounded-md bg-accent px-7 py-3 font-semibold text-accent-ink no-underline shadow-lg transition hover:bg-accent-strong"
           >
             Listen to the Music
           </Link>
           <Link
             to="/contact"
-            className="rounded-full border border-card-border bg-card px-7 py-3 font-semibold text-ink no-underline backdrop-blur transition hover:border-accent hover:text-accent"
+            className="btn-3d rounded-md border border-card-border bg-card px-7 py-3 font-semibold text-ink no-underline backdrop-blur transition hover:border-accent hover:text-accent"
           >
             Book a Show
           </Link>
@@ -78,7 +83,8 @@ function Home() {
             <article key={h.title} className="card-glass p-6 text-center">
               <SpriteIcon
                 name={h.icon}
-                className="mx-auto h-10 w-10 text-accent"
+                className="mx-auto h-10 w-10 text-accent icon-3d dark:text-ink"
+                tint={h.tint}
               />
               <h3 className="mb-2 mt-4 text-lg font-bold text-ink">{h.title}</h3>
               <p className="m-0 text-muted">{h.text}</p>
@@ -97,7 +103,7 @@ function Home() {
         <div className="card-glass flex flex-col items-center gap-8 p-6 sm:p-10 md:flex-row">
           <Link
             to="/music"
-            className="block w-full max-w-xs shrink-0 overflow-hidden rounded-2xl shadow-xl transition hover:scale-[1.02]"
+            className="block w-full max-w-xs shrink-0 overflow-hidden rounded-lg shadow-xl transition hover:scale-[1.02]"
             aria-label={`${featured.title} — listen on the Music page`}
           >
             <img
@@ -127,7 +133,11 @@ function Home() {
         <div className="grid gap-5 md:grid-cols-2">
           <article className="card-glass p-6">
             <div className="flex items-center gap-3">
-              <SpriteIcon name="icon-tiktok" className="h-8 w-8 text-accent" />
+              <SpriteIcon
+                name="icon-tiktok"
+                className="h-8 w-8 text-accent icon-3d dark:text-ink"
+                tint="#2fa39a"
+              />
               <h3 className="m-0 text-lg font-bold text-ink">Live online</h3>
             </div>
             <p className="mb-4 mt-3 text-muted">
@@ -143,7 +153,11 @@ function Home() {
 
           <article className="card-glass p-6">
             <div className="flex items-center gap-3">
-              <SpriteIcon name="icon-calendar" className="h-8 w-8 text-accent" />
+              <SpriteIcon
+                name="icon-calendar"
+                className="h-8 w-8 text-accent icon-3d dark:text-ink"
+                tint="#d97e2e"
+              />
               <h3 className="m-0 text-lg font-bold text-ink">
                 {nextShow ? 'Next show' : 'Shows'}
               </h3>
@@ -166,7 +180,7 @@ function Home() {
             )}
             <Link
               to="/shows"
-              className="mt-2 inline-block rounded-full border border-card-border bg-card px-5 py-2 text-sm font-semibold text-accent no-underline transition hover:border-accent"
+              className="mt-2 inline-block btn-3d rounded-md border border-card-border bg-card px-5 py-2 text-sm font-semibold text-accent no-underline transition hover:border-accent"
             >
               All shows
             </Link>
@@ -197,13 +211,13 @@ function Home() {
             <div className="flex flex-wrap gap-3">
               <Link
                 to="/about"
-                className="rounded-full border border-card-border bg-card px-5 py-2 text-sm font-semibold text-accent no-underline transition hover:border-accent"
+                className="btn-3d rounded-md border border-card-border bg-card px-5 py-2 text-sm font-semibold text-accent no-underline transition hover:border-accent"
               >
                 More about the project
               </Link>
               <Link
                 to="/support"
-                className="inline-flex items-center gap-2 rounded-full border border-card-border bg-card px-5 py-2 text-sm font-semibold text-accent no-underline transition hover:border-accent"
+                className="inline-flex items-center gap-2 btn-3d rounded-md border border-card-border bg-card px-5 py-2 text-sm font-semibold text-accent no-underline transition hover:border-accent"
               >
                 <SpriteIcon name="icon-heart" className="h-4 w-4" />
                 Support the jams

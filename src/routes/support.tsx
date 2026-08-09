@@ -22,7 +22,7 @@ export const Route = createFileRoute('/support')({
 function Support() {
   return (
     <>
-      <Section title="Feelin' Tipsy?" eyebrow="$$ Support the jams $$" center as="h1">
+      <Section title="Feelin' Tipsy?" eyebrow="$ Support the jams $" center as="h1">
         <p className="mx-auto -mt-2 max-w-xl text-muted">
           Tap a card below to send a tip — every single one keeps the loops
           looping. Thank you!
@@ -41,7 +41,7 @@ function Support() {
                 className="h-12 w-12 text-ink transition group-hover:scale-110 group-hover:text-accent"
               />
               <span className="text-lg font-bold text-ink">{p.label}</span>
-              <span className="rounded-full border border-card-border bg-card px-3 py-1 text-sm font-semibold text-muted">
+              <span className="btn-3d rounded-md border border-card-border bg-card px-3 py-1 text-sm font-semibold text-muted">
                 {p.handle}
               </span>
             </a>
@@ -71,7 +71,7 @@ function Support() {
             alt="Goofy cartoon drawing of Jam's face"
             width={500}
             height={296}
-            className="mx-auto mt-6 w-full max-w-xs rounded-2xl border border-card-border"
+            className="mx-auto mt-6 w-full max-w-xs rounded-lg border border-card-border"
             loading="lazy"
           />
         </div>

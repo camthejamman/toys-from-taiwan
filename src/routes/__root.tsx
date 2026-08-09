@@ -2,9 +2,11 @@ import { HeadContent, Link, Scripts, createRootRoute } from '@tanstack/react-rou
 
 import appCss from '../styles.css?url'
 import { AmbientSky } from '../components/AmbientSky'
+import { Decorations } from '../components/Decorations'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { themeInitScript } from '../components/ThemeToggle'
+import { Wordmark3D } from '../components/Wordmark3D'
 import { site } from '../data/site'
 
 export const Route = createRootRoute({
@@ -28,6 +30,10 @@ export const Route = createRootRoute({
     scripts: [
       // Sets the .dark class before first paint — must stay inline.
       { children: themeInitScript },
+      // Marks JS as available before first paint: the hero swaps its CSS
+      // lettering for loading gears only when this class is present, so
+      // no-JS visitors keep the real text.
+      { children: "document.documentElement.classList.add('js')" },
     ],
   }),
   shellComponent: RootDocument,
@@ -46,6 +52,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <div className="sky-stars" />
         </div>
         <AmbientSky />
+        <Decorations />
         <div className="flex min-h-screen flex-col">
           <Header />
           <main className="flex-1">{children}</main>
@@ -60,14 +67,18 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 function NotFound() {
   return (
     <div className="mx-auto flex max-w-2xl flex-col items-center px-4 py-24 text-center">
-      <p className="wordmark m-0 text-7xl text-accent">404</p>
-      <h1 className="wordmark mt-2 text-3xl text-ink">Lost in the clouds</h1>
+      <p className="m-0 text-7xl">
+        <Wordmark3D text="404" />
+      </p>
+      <h1 className="mt-2 text-3xl">
+        <Wordmark3D text="Lost in the clouds" />
+      </h1>
       <p className="mt-3 text-muted">
         This page floated away. Head back home and the jams will find you.
       </p>
       <Link
         to="/"
-        className="mt-6 rounded-full bg-accent px-6 py-2.5 font-semibold text-accent-ink no-underline transition hover:bg-accent-strong"
+        className="mt-6 btn-3d btn-3d-accent rounded-md bg-accent px-6 py-2.5 font-semibold text-accent-ink no-underline transition hover:bg-accent-strong"
       >
         Back to the Jam Lounge
       </Link>

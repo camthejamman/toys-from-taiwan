@@ -18,13 +18,40 @@
  * deploy. On any failure it exits non-zero WITHOUT touching the existing
  * videos.json, so a flaky network can never break the site.
  */
-import { mkdir, readdir, rm, writeFile } from 'node:fs/promises'
+import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
+// Optional: shrinks the 1080×1920 Shorts frames (~200 KB each) to card
+// size before committing. Missing sharp never breaks the fetch.
+let sharp = null
+try {
+  sharp = (await import('sharp')).default
+} catch {
+  console.warn('sharp unavailable — shorts thumbnails stay full size')
+}
 
 const CHANNEL_ID = 'UC6dxtcMsqP_EfYigct6vv0Q' // youtube.com/@toysfromtaiwan
 const HANDLE = '@toysfromtaiwan'
 const KEEP = 9
+/** The Shorts tab feeds a pseudo-infinite scroll — pull deep. */
+const SHORTS_KEEP = 108
+
+/** Run `fn` over `items` with bounded concurrency, preserving order. */
+async function mapPool(items, limit, fn) {
+  const out = new Array(items.length)
+  let next = 0
+  await Promise.all(
+    Array.from({ length: Math.min(limit, items.length) }, async () => {
+      while (next < items.length) {
+        const i = next++
+        out[i] = await fn(items[i])
+      }
+    }),
+  )
+  return out
+}
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const thumbsDir = path.join(root, 'public', 'thumbs')
@@ -89,10 +116,88 @@ function parseVideosTab(html) {
   return videos
 }
 
-/** Exact upload date from a video's watch page. */
+/** Ordered Shorts from the /shorts tab (2026 layout: shortsLockupViewModel
+ * blocks with a reelWatchEndpoint videoId and the clean title in
+ * overlayMetadata.primaryText). Works on the tab HTML and on innertube
+ * continuation-response JSON alike. */
+function parseShortsTab(text) {
+  const shorts = []
+  const seen = new Set()
+  // Whitespace-tolerant: the tab HTML is minified JSON, but innertube
+  // continuation responses come back pretty-printed.
+  for (const chunk of text.split(/"shortsLockupViewModel":\s*\{/).slice(1)) {
+    const id = chunk.match(/"videoId":\s*"([A-Za-z0-9_-]{11})"/)?.[1]
+    const rawTitle = chunk.match(
+      /"overlayMetadata":\s*\{\s*"primaryText":\s*\{\s*"content":\s*"((?:[^"\\]|\\.)*)"/,
+    )?.[1]
+    if (!id || rawTitle == null || seen.has(id)) continue
+    seen.add(id)
+    shorts.push({ id, title: JSON.parse(`"${rawTitle}"`).trim() })
+  }
+  return shorts
+}
+
+/** The whole Shorts feed (up to SHORTS_KEEP): initial tab HTML, then the
+ * keyless innertube browse-continuation API — the page embeds its own API
+ * key and client version, and each response carries the next token. */
+async function fetchAllShorts() {
+  const html = await fetchText(`https://www.youtube.com/${HANDLE}/shorts`)
+  const items = parseShortsTab(html)
+  const apiKey = html.match(/"INNERTUBE_API_KEY":"([^"]+)"/)?.[1]
+  const clientVersion =
+    html.match(/"INNERTUBE_CONTEXT_CLIENT_VERSION":"([^"]+)"/)?.[1] ??
+    '2.20260101.00.00'
+  // The grid's own continuation lives in a continuationItemRenderer with
+  // trigger ON_ITEM_SHOWN (the first structural block); the shorter tokens
+  // elsewhere are tab/sort-chip endpoints that return the wrong route.
+  const gridToken = (text) =>
+    text.match(
+      /"continuationItemRenderer":\s*\{[\s\S]{0,3000}?"token":\s*"([^"]+)"/,
+    )?.[1]
+  let token = gridToken(html)
+  const seen = new Set(items.map((s) => s.id))
+  for (let hop = 0; hop < 12 && token && apiKey; hop++) {
+    if (items.length >= SHORTS_KEEP) break
+    const res = await fetch(
+      `https://www.youtube.com/youtubei/v1/browse?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          context: { client: { clientName: 'WEB', clientVersion } },
+          continuation: token,
+        }),
+      },
+    )
+    if (!res.ok) break
+    const text = await res.text()
+    const more = parseShortsTab(text).filter((s) => !seen.has(s.id))
+    if (more.length === 0) break
+    for (const m of more) {
+      seen.add(m.id)
+      items.push(m)
+    }
+    token = gridToken(text)
+  }
+  return items.slice(0, SHORTS_KEEP)
+}
+
+/** Exact upload date from a video's watch page. Null on failure, and a
+ * single 429 trips a circuit breaker for the rest of the run — dates are
+ * nice-to-have; hammering a rate limit can ruin the whole fetch. */
+let dateLimited = false
 async function fetchUploadDate(id) {
-  const html = await fetchText(`https://www.youtube.com/watch?v=${id}`)
-  return html.match(/"uploadDate":"([^"]+)"/)?.[1]?.slice(0, 10)
+  if (dateLimited) return null
+  try {
+    const html = await fetchText(`https://www.youtube.com/watch?v=${id}`)
+    return html.match(/"uploadDate":"([^"]+)"/)?.[1]?.slice(0, 10) ?? null
+  } catch (err) {
+    if (String(err).includes('429')) {
+      dateLimited = true
+      console.warn('watch pages rate-limited — remaining dates left null')
+    }
+    return null
+  }
 }
 
 async function isShort(id) {
@@ -106,6 +211,27 @@ async function isShort(id) {
 const rss = await fetchRssEntries().catch(() => [])
 const rssById = new Map(rss.map((e) => [e.id, e]))
 
+// The previous run is a cache: known dates never trigger a watch-page
+// fetch again, and a failed shorts fetch keeps the old list instead of
+// wiping it (the original videos.json-preserving philosophy).
+let previous = { videos: [], shorts: [] }
+try {
+  previous = JSON.parse(await readFile(dataFile, 'utf8'))
+} catch {}
+const prevDates = new Map(
+  [...(previous.videos ?? []), ...(previous.shorts ?? [])]
+    .filter((v) => v.published)
+    .map((v) => [v.id, v.published]),
+)
+
+async function resolveDate(id) {
+  return (
+    rssById.get(id)?.published ??
+    prevDates.get(id) ??
+    (await fetchUploadDate(id))
+  )
+}
+
 let videos = []
 try {
   const tab = parseVideosTab(
@@ -113,11 +239,7 @@ try {
   ).slice(0, KEEP)
   if (tab.length === 0) throw new Error('videos tab parse yielded nothing')
   videos = await Promise.all(
-    tab.map(async (v) => ({
-      ...v,
-      published:
-        rssById.get(v.id)?.published ?? (await fetchUploadDate(v.id)) ?? null,
-    })),
+    tab.map(async (v) => ({ ...v, published: (await resolveDate(v.id)) ?? null })),
   )
 } catch (err) {
   console.warn(`videos tab failed (${err.message}); falling back to RSS`)
@@ -131,6 +253,22 @@ try {
 if (videos.length === 0)
   throw new Error('No videos found — refusing to overwrite data')
 
+// ---- Shorts (the /shorts tab + continuations) — portrait thumbnails ----
+let shorts = []
+try {
+  const raw = await fetchAllShorts()
+  shorts = await mapPool(raw, 4, async (s) => ({
+    ...s,
+    published: (await resolveDate(s.id)) ?? null,
+  }))
+} catch (err) {
+  console.warn(`shorts fetch failed (${err.message})`)
+}
+if (shorts.length === 0 && (previous.shorts?.length ?? 0) > 0) {
+  console.warn(`reusing previous ${previous.shorts.length} shorts`)
+  shorts = previous.shorts
+}
+
 await mkdir(thumbsDir, { recursive: true })
 for (const video of videos) {
   // maxresdefault is sharpest but not guaranteed; fall back to mqdefault (16:9).
@@ -142,16 +280,39 @@ for (const video of videos) {
     Buffer.from(await thumb.arrayBuffer()),
   )
 }
+await mapPool(shorts, 4, async (short) => {
+  // Thumbs are effectively immutable — skip ones we already have.
+  if (existsSync(path.join(thumbsDir, `${short.id}.jpg`))) return
+  // Portrait frames for Shorts (both variants are 1080×1920); downscale to
+  // 480w (2× the rendered card) so 100+ committed thumbs stay a few MB.
+  let thumb = await fetch(`https://i.ytimg.com/vi/${short.id}/oar2.jpg`)
+  if (!thumb.ok) thumb = await fetch(`https://i.ytimg.com/vi/${short.id}/oardefault.jpg`)
+  if (!thumb.ok) thumb = await fetch(`https://i.ytimg.com/vi/${short.id}/frame0.jpg`)
+  if (!thumb.ok) throw new Error(`Thumbnail failed for short ${short.id}`)
+  let buf = Buffer.from(await thumb.arrayBuffer())
+  if (sharp) {
+    buf = await sharp(buf)
+      .resize(480, null, { withoutEnlargement: true })
+      .jpeg({ quality: 78 })
+      .toBuffer()
+      .catch(() => buf)
+  }
+  await writeFile(path.join(thumbsDir, `${short.id}.jpg`), buf)
+})
 
-// Drop thumbnails for videos that fell out of the list.
-const keep = new Set(videos.map((v) => `${v.id}.jpg`))
+// Drop thumbnails for videos that fell out of the lists.
+const keep = new Set(
+  [...videos, ...shorts].map((v) => `${v.id}.jpg`),
+)
 for (const file of await readdir(thumbsDir)) {
   if (!keep.has(file)) await rm(path.join(thumbsDir, file))
 }
 
 await writeFile(
   dataFile,
-  JSON.stringify({ channelId: CHANNEL_ID, videos }, null, 2) + '\n',
+  JSON.stringify({ channelId: CHANNEL_ID, videos, shorts }, null, 2) + '\n',
 )
 console.log(`Wrote ${videos.length} videos:`)
 for (const v of videos) console.log(`  ${v.published ?? '????-??-??'}  ${v.title}`)
+console.log(`Wrote ${shorts.length} shorts:`)
+for (const s of shorts) console.log(`  ${s.published ?? '????-??-??'}  ${s.title}`)

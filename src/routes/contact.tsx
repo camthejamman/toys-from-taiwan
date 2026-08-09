@@ -142,7 +142,7 @@ function Contact() {
               </ul>
               <a
                 href={`mailto:${site.email}?subject=Booking%3A%20${encodeURIComponent(tier.name)}`}
-                className="mt-6 rounded-full bg-accent px-5 py-2 text-center font-semibold text-accent-ink no-underline transition hover:bg-accent-strong"
+                className="mt-6 btn-3d btn-3d-accent rounded-md bg-accent px-5 py-2 text-center font-semibold text-accent-ink no-underline transition hover:bg-accent-strong"
               >
                 Book Now!
               </a>

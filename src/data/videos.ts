@@ -8,12 +8,15 @@ export type Video = {
 }
 
 /**
- * Latest regular uploads (no Shorts), refreshed by `npm run fetch-videos`
+ * Latest uploads, refreshed by `npm run fetch-videos`
  * (scripts/fetch-videos.mjs) — CI also runs it before every deploy, and the
  * deploy workflow rebuilds on a weekly schedule so this stays current
- * without manual pushes.
+ * without manual pushes. `videos` = regular uploads (the Jams tab);
+ * `shorts` = the channel's /shorts tab (portrait thumbnails).
  */
 export const videos: Video[] = videosJson.videos
+
+export const shorts: Video[] = (videosJson as { shorts?: Video[] }).shorts ?? []
 
 export const channelUrl = 'https://www.youtube.com/@toysfromtaiwan'
 

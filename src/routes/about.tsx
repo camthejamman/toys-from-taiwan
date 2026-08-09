@@ -1,8 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Section } from '../components/Section'
 import { SpriteIcon } from '../components/SpriteIcon'
+import { Wordmark3D } from '../components/Wordmark3D'
+import { ICON_COLORS } from '../lib/rainbow'
 import { site } from '../data/site'
-import instruments from '../assets/images/instruments.jpg'
+import { JamStudio } from '../components/JamStudio'
 
 export const Route = createFileRoute('/about')({
   component: About,
@@ -102,21 +104,17 @@ function About() {
 
       <Section title="The Vibes" eyebrow="What you'll hear">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {vibeCards.map((card) => (
+          {vibeCards.map((card, i) => (
             <article key={card.title} className="card-glass flex flex-col p-6">
               <div className="flex items-center justify-between">
-                {/* Cinerama has no % glyph, so render it in the body font. */}
-                <h3 className="wordmark m-0 text-2xl text-ink">
-                  {card.title.endsWith('%') ? (
-                    <>
-                      {card.title.slice(0, -1)}
-                      <span className="font-sans font-extrabold">%</span>
-                    </>
-                  ) : (
-                    card.title
-                  )}
+                <h3 className="m-0 text-2xl">
+                  <Wordmark3D text={card.title} />
                 </h3>
-                <SpriteIcon name={card.icon} className="h-6 w-6 text-muted" />
+                <SpriteIcon
+                  name={card.icon}
+                  className="h-6 w-6 text-muted icon-3d dark:text-ink"
+                  tint={ICON_COLORS[i % ICON_COLORS.length]}
+                />
               </div>
               <ul className="my-4 flex list-none flex-col gap-1.5 p-0 font-medium italic text-ink">
                 {card.items.map((item) => (
@@ -144,14 +142,8 @@ function About() {
 
       <Section title="The Rig" eyebrow="Toys, gizmos & gear">
         <div className="card-glass flex flex-col items-center gap-6 p-6 sm:p-8 md:flex-row">
-          <img
-            src={instruments}
-            alt="Cartoon drawing of the live-looping rig: speakers, bass, guitar, keyboard, drum machine, and loop pedals"
-            width={850}
-            height={503}
-            className="w-full max-w-md mix-blend-multiply dark:invert dark:mix-blend-screen"
-            loading="lazy"
-          />
+          {/* the live three.js rig — the copy next to it is the description */}
+          <JamStudio className="max-w-xl shrink-0 md:w-1/2 [--studio-aspect:1.5/1]" />
           <div>
             <p className="mt-0 text-ink">
               The one-man band runs on a small mountain of musical toys:
