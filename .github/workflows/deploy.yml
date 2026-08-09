@@ -1,0 +1,60 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # Weekly rebuild (Mondays 12:00 UTC) so the Videos page picks up new
+    # YouTube uploads without a manual push.
+    - cron: '0 12 * * 1'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Queue newer runs instead of cancelling — cancelling mid-deploy can leave
+# the Pages deployment in a bad state.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Refresh the Videos page from YouTube. If YouTube is flaky, the
+      # committed videos.json/thumbnails are used instead — never fatal.
+      - name: Refresh YouTube videos
+        run: npm run fetch-videos
+        continue-on-error: true
+
+      - name: Build (static prerender)
+        run: npm run build
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist/client
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

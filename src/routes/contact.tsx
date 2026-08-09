@@ -1,0 +1,155 @@
+import { createFileRoute } from '@tanstack/react-router'
+import { Section } from '../components/Section'
+import { SpriteIcon } from '../components/SpriteIcon'
+import { site } from '../data/site'
+import jamFace from '../assets/images/jam-face.jpg'
+
+export const Route = createFileRoute('/contact')({
+  component: Contact,
+  head: () => ({
+    meta: [
+      { title: `Contact & Booking · ${site.name}` },
+      {
+        name: 'description',
+        content:
+          'Book Toys From Taiwan for your venue or event — contact Jam directly by email or phone.',
+      },
+    ],
+  }),
+})
+
+/** "How Much Music Stuff Should I Bring?" — the three rig tiers. */
+const rigTiers = [
+  {
+    name: 'SOME STUFF',
+    pitch: "I'll travel lite and set up quickly!",
+    icon: 'icon-record',
+    gear: ['1 Looper', 'Drum Machine / Percussion', 'Electric Guitar', 'Effects', 'Maybe more!'],
+  },
+  {
+    name: 'MOST STUFF',
+    pitch: "Now I'll really start jamming out!",
+    icon: 'icon-drums',
+    gear: [
+      '2 Loopers',
+      'Drum Machine / Percussion',
+      'Electric Guitar',
+      'Effects',
+      'Mystery Instruments',
+    ],
+  },
+  {
+    name: 'ALL OF THE STUFF!',
+    pitch: "I'll bring the whole rig and get really weird!",
+    icon: 'icon-rockstar',
+    gear: [
+      '3 Loopers',
+      'Drum Machines / Percussions',
+      'Electric Synth Guitar',
+      'Keyboards & Pads',
+      'Mystery Instruments & Gizmos',
+      'All My Effects',
+    ],
+    featured: true,
+  },
+] as const
+
+function Contact() {
+  return (
+    <>
+      <Section title="Get in Touch" eyebrow="Contact & booking" as="h1">
+        <div className="card-glass flex flex-col-reverse items-center gap-8 p-6 sm:p-10 md:flex-row md:justify-between">
+          <ul className="m-0 flex list-none flex-col gap-4 p-0">
+            <li>
+              <a
+                href={`mailto:${site.email}`}
+                className="group flex items-center gap-3 text-ink no-underline transition hover:text-accent"
+              >
+                <SpriteIcon name="icon-envelop" className="h-6 w-6 text-accent" />
+                <span className="font-semibold">{site.email}</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={`tel:${site.phone}`}
+                className="group flex items-center gap-3 text-ink no-underline transition hover:text-accent"
+              >
+                <SpriteIcon name="icon-phone" className="h-6 w-6 text-accent" />
+                <span className="font-semibold">{site.phoneDisplay}</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={site.linktree}
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-center gap-3 text-ink no-underline transition hover:text-accent"
+              >
+                <SpriteIcon name="icon-eye" className="h-6 w-6 text-accent" />
+                <span className="font-semibold">Jam on the Web (Linktree)</span>
+              </a>
+            </li>
+          </ul>
+          <img
+            src={jamFace}
+            alt="Cartoon drawing of Jam's face"
+            width={180}
+            height={180}
+            className="h-40 w-40 rounded-full border-2 border-card-border object-cover shadow-lg"
+            loading="lazy"
+          />
+        </div>
+        <p className="mt-6 text-muted">
+          Booking a brewery night, coffee-shop afternoon, private party, or
+          something weirder? Email is the fastest way to reach me — tell me the
+          date, the space, and the vibe you&apos;re after.
+        </p>
+      </Section>
+
+      <Section title="“How Much Music Stuff Should I Bring?”" eyebrow="Pick your rig">
+        <div className="grid items-start gap-5 lg:grid-cols-3">
+          {rigTiers.map((tier) => (
+            <article
+              key={tier.name}
+              className={`card-glass flex flex-col p-6 ${
+                'featured' in tier && tier.featured
+                  ? 'ring-2 ring-accent lg:-mt-2 lg:mb-2'
+                  : ''
+              }`}
+            >
+              <SpriteIcon
+                name={tier.icon}
+                className="mx-auto h-12 w-12 text-accent"
+              />
+              <h3 className="mb-1 mt-4 text-center text-lg font-extrabold text-ink">
+                {tier.name}
+              </h3>
+              <p className="m-0 text-center text-sm italic text-muted">
+                {tier.pitch}
+              </p>
+              <p className="mb-2 mt-5 font-bold text-ink">
+                Here&apos;s what I&apos;ll bring:
+              </p>
+              <ul className="m-0 flex list-none flex-col gap-1.5 p-0 text-ink">
+                {tier.gear.map((item) => (
+                  <li key={item} className="flex items-baseline gap-2">
+                    <span className="text-accent" aria-hidden="true">
+                      –
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={`mailto:${site.email}?subject=Booking%3A%20${encodeURIComponent(tier.name)}`}
+                className="mt-6 rounded-full bg-accent px-5 py-2 text-center font-semibold text-accent-ink no-underline transition hover:bg-accent-strong"
+              >
+                Book Now!
+              </a>
+            </article>
+          ))}
+        </div>
+      </Section>
+    </>
+  )
+}

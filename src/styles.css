@@ -1,0 +1,290 @@
+@import 'tailwindcss';
+
+/* Class-based dark mode: `dark` is toggled on <html> by ThemeToggle. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Blocky display font carried over from the original site's wordmark. */
+@font-face {
+  font-family: 'Cinerama';
+  src: url('./assets/fonts/Cinerama.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*
+ * Theme tokens. Light = faint blue sky with hazy clouds; dark = starry night.
+ * The raw values live on :root/.dark so the `dark` class flips everything,
+ * and @theme inline maps them into Tailwind utilities (text-ink, bg-card, …).
+ */
+:root {
+  --ttf-ink: #16324c;
+  /* Muted/accent values are AA-checked against the sky-gradient top (#aed9f4),
+   * the worst-case backdrop for text sitting directly on the sky. */
+  --ttf-muted: #3f5a73;
+  --ttf-card: rgba(255, 255, 255, 0.68);
+  --ttf-card-solid: #f4fafe;
+  --ttf-card-border: rgba(103, 165, 210, 0.4);
+  --ttf-accent: #025d92;
+  --ttf-accent-strong: #024a75;
+  --ttf-accent-ink: #ffffff;
+  --ttf-halo: rgba(255, 255, 255, 0.55);
+}
+
+.dark {
+  --ttf-ink: #e6effd;
+  --ttf-muted: #9db1cd;
+  --ttf-card: rgba(10, 18, 40, 0.62);
+  --ttf-card-solid: #0d1630;
+  --ttf-card-border: rgba(148, 180, 255, 0.18);
+  --ttf-accent: #67c7f5;
+  --ttf-accent-strong: #9adcff;
+  --ttf-accent-ink: #04121f;
+  --ttf-halo: rgba(64, 96, 160, 0.25);
+}
+
+@theme inline {
+  --color-ink: var(--ttf-ink);
+  --color-muted: var(--ttf-muted);
+  --color-card: var(--ttf-card);
+  --color-card-solid: var(--ttf-card-solid);
+  --color-card-border: var(--ttf-card-border);
+  --color-accent: var(--ttf-accent);
+  --color-accent-strong: var(--ttf-accent-strong);
+  --color-accent-ink: var(--ttf-accent-ink);
+  --font-display: 'Cinerama', 'Trebuchet MS', 'Gill Sans', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--ttf-ink);
+  /* Solid fallback ground; the fixed .sky layer paints the real backdrop. */
+  background-color: #cfe7f8;
+  font-family:
+    ui-sans-serif, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  line-height: 1.65;
+  transition: color 300ms ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+.dark body {
+  background-color: #060a18;
+}
+
+::selection {
+  background: var(--ttf-accent);
+  color: var(--ttf-accent-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ttf-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------------------------------------------------------------- sky --- */
+
+/* Fixed full-viewport backdrop: gradient + static decorations. The three.js
+ * canvas (when it loads) animates on top of the gradient, and `sky-live` on
+ * <html> fades the static decorations out in favor of the live scene. */
+.sky {
+  position: fixed;
+  inset: 0;
+  z-index: -20;
+  overflow: hidden;
+  background: linear-gradient(180deg, #aed9f4 0%, #d5ecfa 48%, #ecf7fe 100%);
+  transition: background 500ms ease;
+}
+
+.dark .sky {
+  background: linear-gradient(180deg, #03050d 0%, #070d20 55%, #0d1730 100%);
+}
+
+.sky-clouds,
+.sky-stars {
+  position: absolute;
+  inset: 0;
+  transition: opacity 1200ms ease;
+}
+
+/* Hazy scattered clouds: pre-faded radial gradients, doubled width so the
+ * whole layer can drift with a cheap transform loop. */
+.sky-clouds {
+  width: 200%;
+  background-image:
+    radial-gradient(38rem 11rem at 12% 22%, rgba(255, 255, 255, 0.85), transparent 62%),
+    radial-gradient(26rem 8rem at 33% 12%, rgba(255, 255, 255, 0.7), transparent 65%),
+    radial-gradient(44rem 12rem at 55% 30%, rgba(255, 255, 255, 0.75), transparent 60%),
+    radial-gradient(30rem 9rem at 74% 16%, rgba(255, 255, 255, 0.8), transparent 64%),
+    radial-gradient(40rem 12rem at 90% 34%, rgba(255, 255, 255, 0.65), transparent 60%),
+    radial-gradient(34rem 10rem at 22% 58%, rgba(255, 255, 255, 0.55), transparent 62%),
+    radial-gradient(46rem 13rem at 62% 68%, rgba(255, 255, 255, 0.6), transparent 58%),
+    radial-gradient(30rem 9rem at 84% 82%, rgba(255, 255, 255, 0.5), transparent 62%);
+  background-repeat: repeat-x;
+  background-size: 50% 100%;
+  animation: clouds-drift 150s linear infinite;
+}
+
+@keyframes clouds-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.dark .sky-clouds {
+  opacity: 0;
+}
+
+/* Starry night: two repeating speckle fields, the second twinkles gently. */
+.sky-stars {
+  opacity: 0;
+  background-image:
+    radial-gradient(1px 1px at 25px 35px, rgba(255, 255, 255, 0.9), transparent 100%),
+    radial-gradient(1px 1px at 110px 90px, rgba(214, 230, 255, 0.8), transparent 100%),
+    radial-gradient(1.5px 1.5px at 190px 150px, rgba(255, 255, 255, 0.95), transparent 100%),
+    radial-gradient(1px 1px at 240px 60px, rgba(255, 244, 214, 0.7), transparent 100%),
+    radial-gradient(1px 1px at 300px 190px, rgba(255, 255, 255, 0.75), transparent 100%);
+  background-size: 340px 240px;
+}
+
+.sky-stars::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 60px 170px, rgba(255, 255, 255, 0.9), transparent 100%),
+    radial-gradient(1.5px 1.5px at 150px 40px, rgba(198, 220, 255, 0.9), transparent 100%),
+    radial-gradient(1px 1px at 260px 120px, rgba(255, 255, 255, 0.8), transparent 100%),
+    radial-gradient(1px 1px at 20px 100px, rgba(255, 235, 200, 0.75), transparent 100%);
+  background-size: 320px 220px;
+  animation: stars-twinkle 7s ease-in-out infinite alternate;
+}
+
+@keyframes stars-twinkle {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.dark .sky-stars {
+  opacity: 1;
+}
+
+/* When the three.js scene is running it replaces the static decorations. */
+.sky-live .sky-clouds,
+.sky-live .sky-stars {
+  opacity: 0;
+}
+
+.ambient-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1500ms ease;
+}
+
+.sky-live .ambient-canvas {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------- components --- */
+
+.wordmark {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 0 var(--ttf-halo);
+}
+
+.card-glass {
+  background: var(--ttf-card);
+  border: 1px solid var(--ttf-card-border);
+  border-radius: 1.25rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px -18px rgba(9, 40, 66, 0.35);
+}
+
+.dark .card-glass {
+  box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.8);
+}
+
+/* Rainbow-chrome accent, echoing the Shorts! Vol. 1 cover lettering.
+ * Light-mode stops are darkened so every stop stays >=3:1 on the cards. */
+.rainbow-text {
+  background-image: linear-gradient(
+    100deg,
+    #c23a72,
+    #b5651e,
+    #7f7a14,
+    #2b8544,
+    #1f6f99,
+    #6a54cc
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.dark .rainbow-text {
+  background-image: linear-gradient(
+    100deg,
+    #ff8ab8,
+    #ffb877,
+    #f2e35c,
+    #7fe89a,
+    #7cd0ff,
+    #b8a6ff
+  );
+}
+
+.rainbow-bar {
+  height: 4px;
+  border-radius: 9999px;
+  background-image: linear-gradient(
+    90deg,
+    #e0508c,
+    #e08a3c,
+    #b9b32c,
+    #3cb45c,
+    #2e9fd0,
+    #7f6ae0
+  );
+}
+
+/* ------------------------------------------------------ reduced motion --- */
+
+@media (prefers-reduced-motion: reduce) {
+  .sky-clouds,
+  .sky-stars::after {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
