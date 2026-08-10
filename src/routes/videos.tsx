@@ -19,9 +19,9 @@ export const Route = createFileRoute('/videos')({
 })
 
 const tabClass =
-  'btn-3d rounded-md border border-card-border bg-card px-5 py-2 font-semibold text-ink no-underline transition hover:border-accent hover:text-accent'
+  'btn-3d rounded-md border border-card-border bg-card px-5 py-2 font-semibold text-ink no-underline transition hover:border-accent hover:text-accent lg:px-7 lg:py-2.5 lg:text-lg'
 const activeTabClass =
-  'btn-3d btn-3d-accent rounded-md bg-accent px-5 py-2 font-semibold text-accent-ink no-underline'
+  'btn-3d btn-3d-accent rounded-md bg-accent px-5 py-2 font-semibold text-accent-ink no-underline lg:px-7 lg:py-2.5 lg:text-lg'
 
 function VideosLayout() {
   const tiktok = socials.find((s) => s.id === 'tiktok')
@@ -49,24 +49,33 @@ function VideosLayout() {
 
       <Outlet />
 
-      <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+      <div className="mt-10 flex flex-wrap items-center justify-center gap-3 lg:mt-12 lg:gap-4">
         <a
           href={`${channelUrl}/videos`}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 btn-3d btn-3d-accent rounded-md bg-accent px-6 py-2.5 font-semibold text-accent-ink no-underline shadow-lg transition hover:bg-accent-strong"
+          className="inline-flex w-full items-center justify-center gap-2 btn-3d btn-3d-accent rounded-md bg-accent px-6 py-2.5 font-semibold text-accent-ink no-underline shadow-lg transition hover:bg-accent-strong sm:w-auto lg:px-8 lg:py-3 lg:text-lg"
         >
-          <SpriteIcon name="icon-youtube" className="h-5 w-5" />
-          FullScreen YouTube Jams
+          <SpriteIcon name="icon-youtube" className="h-5 w-5 lg:h-6 lg:w-6" />
+          Long Jams on YouTube
+        </a>
+        <a
+          href={`${channelUrl}/shorts`}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex w-full items-center justify-center gap-2 btn-3d rounded-md border border-card-border bg-card px-6 py-2.5 font-semibold text-ink no-underline transition hover:border-accent hover:text-accent sm:w-auto lg:px-8 lg:py-3 lg:text-lg"
+        >
+          <SpriteIcon name="icon-youtube" className="h-5 w-5 lg:h-6 lg:w-6" />
+          Shorts on YouTube
         </a>
         {instagram ? (
           <a
             href={instagram.href}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 btn-3d rounded-md border border-card-border bg-card px-6 py-2.5 font-semibold text-ink no-underline transition hover:border-accent hover:text-accent"
+            className="inline-flex w-full items-center justify-center gap-2 btn-3d rounded-md border border-card-border bg-card px-6 py-2.5 font-semibold text-ink no-underline transition hover:border-accent hover:text-accent sm:w-auto lg:px-8 lg:py-3 lg:text-lg"
           >
-            <SpriteIcon name="icon-instagram" className="h-5 w-5" />
+            <SpriteIcon name="icon-instagram" className="h-5 w-5 lg:h-6 lg:w-6" />
             Reels on Instagram
           </a>
         ) : null}
@@ -75,21 +84,12 @@ function VideosLayout() {
             href={tiktok.href}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 btn-3d rounded-md border border-card-border bg-card px-6 py-2.5 font-semibold text-ink no-underline transition hover:border-accent hover:text-accent"
+            className="inline-flex w-full items-center justify-center gap-2 btn-3d rounded-md border border-card-border bg-card px-6 py-2.5 font-semibold text-ink no-underline transition hover:border-accent hover:text-accent sm:w-auto lg:px-8 lg:py-3 lg:text-lg"
           >
-            <SpriteIcon name="icon-tiktok" className="h-5 w-5" />
-            TikTok
+            <SpriteIcon name="icon-tiktok" className="h-5 w-5 lg:h-6 lg:w-6" />
+            Jams on TikTok
           </a>
         ) : null}
-        <a
-          href={`${channelUrl}/shorts`}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 btn-3d rounded-md border border-card-border bg-card px-6 py-2.5 font-semibold text-ink no-underline transition hover:border-accent hover:text-accent"
-        >
-          <SpriteIcon name="icon-youtube" className="h-5 w-5" />
-          Shorts on YouTube
-        </a>
       </div>
     </Section>
   )

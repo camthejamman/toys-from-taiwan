@@ -33,16 +33,24 @@ bare three.js (no react-three-fiber, on purpose — load perf is a priority).
   9:16 grid); videos.tsx holds the tab nav + shared footer buttons
   (+ __root.tsx = document shell, nav/footer, theme init, 404)
 - `src/components/` — Header, Footer, Section (page section w/ heading —
+  optional `className` passthrough for layout, e.g. the xl flex-col trick
+  that lets Meet JAM's card stretch to match its neighbor column —
   pass `as="h1"` on the FIRST Section of a page), SpriteIcon (has a `tint`
   prop: light-mode color, white in dark), ThemeToggle, SocialStrip,
   PlatformPill, ShowList, BandcampEmbed, VideoEmbed, AmbientSky,
   Wordmark3D (all display lettering — per-letter 3D gradient, see below),
   HeroTitle (landing hero: title + "100% Live-Looping…果酱" subtitle as
   CSS lettering + lazy three.js overlay), JamStudio (landing instrument
-  tableau), JamGlyph3D (footer 果酱: sprite fallback + lazy three.js
-  overlay), Decorations (fixed gutter scenery — palms/solids/instruments,
-  xl+ only, stacked at runtime so items never overlap), LoadingGears (the
-  legacy site's spinning gears, used by the hero loading state)
+  tableau), JamGlyph3D (果酱: sprite fallback + lazy three.js overlay —
+  currently unused; was the footer glyph until the footer refactor),
+  Decorations (fixed gutter scenery — palms/solids/instruments in TWO
+  independently-stacked columns per side, xl+ only; the layer stays
+  invisible until the runtime stacker has placed everything, then fades
+  in via .deco-ready — kills the hydration "wiggle" — and depth tiers
+  cull toward the edges as the viewport narrows: items at x ≥ 10rem need
+  ~1800px, x ≥ 5rem need ~1560px), LoadingGears (the legacy site's
+  spinning gears, used by the hero loading state — rainbow-gradient
+  filled via the in-SVG #lg-rainbow def)
 - `src/lib/rainbow.ts` — the brand hue curve + extruded-face lightness +
   ICON_COLORS, shared by Wordmark3D and both three.js pieces
 - `src/three/ambientSky.ts` — lazy three.js background (clouds day / stars
@@ -61,10 +69,13 @@ bare three.js (no react-three-fiber, on purpose — load perf is a priority).
   drift instead of the poster's strobe). Mounted by JamStudio.tsx in TWO
   places: the landing hero (default layout classes; the tagline below it
   is the SEO/AT copy) and the About "Rig" card (via the className prop +
-  the `--studio-aspect` CSS var for a squarer box). Vibrant toy-box
-  palettes (LIGHT_PALETTE/DARK_PALETTE) with a GLOW=0.22 emissive that
-  tracks the drift so colors stay saturated under ACES; dark grid is
-  bright lime #66ff33; left speaker sits at x=-545 (not the poster's
+  the `--studio-aspect` CSS var for a squarer box). Palettes
+  (LIGHT_PALETTE/DARK_PALETTE) are sampled from the hero wordmark's
+  color recipe (rainbow.ts hue curve + saturation 0.95 +
+  extruded-face lightness, per theme) so the instruments wear the title's
+  colors, with a GLOW=0.22 emissive that tracks the drift so colors stay
+  saturated under ACES; dark grid
+  is bright lime #66ff33; left speaker sits at x=-545 (not the poster's
   -620) so its feet stay on the grid when narrow layouts compact.
 - `src/assets/sprite.svg` — icon sprite (legacy icons + simple-icons brands),
   all fills stripped so icons inherit currentColor
@@ -88,9 +99,16 @@ bare three.js (no react-three-fiber, on purpose — load perf is a priority).
   fetching is CORS-blocked without an API key or proxy.
 - Shorts tab UI (videos.shorts.tsx): PAGINATION, not infinite scroll (Cam
   switched deliberately so the platform buttons below stay reachable) —
-  12 per page, URL-driven via the `page` search param (validateSearch;
-  page 1 = no param), smooth scroll back to the grid top on page change,
-  memoized ShortCard + .short-card { content-visibility: auto }.
+  20 per page (fetch-videos caps shorts at 108 → never more than 6 pages,
+  so the pager fits ONE row even on 320px phones: h-8 buttons + gap-1
+  below sm, h-10 from sm, lg:h-11). Pager arrows are inline SVG Chevrons
+  — the ‹ › text glyphs sat visibly off-center in the square buttons.
+  URL-driven via the `page` search param (validateSearch; page 1 = no
+  param), smooth scroll back to the grid top on page change. Titles are
+  hashtag runs on YouTube — ShortCard strips them at display time
+  (displayTitle; videos.json stays verbatim). Memoized ShortCard +
+  .short-card { content-visibility: auto }; 2xl adds a 5th grid column
+  (20 % 5 = 0, no orphan row).
 
 ## Reference material (visual source of truth)
 
@@ -142,10 +160,17 @@ effects unprompted. The `small` prop is vestigial.
   subtitle stays put (like the covers).
 - jamStudio.ts — the Solune-poster instrument tableau on a GridHelper
   floor. Transparent canvas (site sky shows through). Colors DRIFT (eased
-  lerp between palette targets), not the posters' 350ms strobe. Light =
-  crayon palette + blue grid; dark = pastels + neon-green grid. On narrow
-  aspects the stage COMPACTS (instruments slide inward, grid narrows)
-  rather than zooming out.
+  lerp between palette targets), not the posters' 350ms strobe; both
+  palettes are sampled from the hero wordmark's letter recipe (hue curve,
+  saturation 0.95, extruded-face lightness per theme), so the instruments
+  wear the title's colors. Blue grid light / neon-green grid dark. On
+  narrow aspects the stage COMPACTS (instruments slide inward, grid
+  narrows) rather than zooming out. The landing box (JamStudio.tsx
+  default className) steps 5xl→6xl→7xl→84rem→92rem with the viewport and
+  deepens to a 2/1 aspect from lg — the camera fit is HEIGHT-bound in
+  this wide box, so aspect depth (not width) is what grows the
+  instruments — with an svh max-height cap so short laptops still fit
+  the hero under the title.
 - jamGlyph.ts — footer 果酱 from src/assets/jam-standard.svg at vol1's
   thin-plate proportions (depth ≈ 0.15× glyph height, light bevel).
 
@@ -164,11 +189,72 @@ right/up axes until projected bounds sit dead-center — world-space center
 
 **Loading flow** — an inline head script adds `js` to <html> before paint;
 CSS then hides the hero's fallback lettering and shows ONE LoadingGears
-cluster (in the jam-studio box, the hero's visual center) until the scenes
-mount and cross-fade in. `no3d` (WebGL/chunk failure) restores the CSS
-lettering. No-JS visitors and crawlers never get `js`, so they always see
-real text; sr-only copy exists regardless, and the tagline below the
-tableau is the visible SEO restatement.
+cluster (in the jam-studio box, the hero's visual center; the gears wear
+the .rainbow-bar gradient via the in-SVG #lg-rainbow def and run BIG —
+h-32 on phones up to h-[36rem] at 1920, lifted -translate-y-[10%] above
+the box centerline). The home route gates the reveal: HeroTitle and
+JamStudio take onSettled/reveal props; each settles only after its first
+frame has PAINTED (double-rAF after mount, so the cross-fade never
+stutters mid-shader-compile), and neither canvas shows until BOTH have
+settled — then the gears finish their 400ms fade and the two canvases
+fade in together (BOTH carry a matching 400ms transition-delay in
+styles.css; keep them in sync or one scene leads the other). A failed
+scene still settles, so it can't strand the gears. Scenes fully dispose
+on unmount, so renavigating to home replays the whole sequence —
+deliberate. `no3d` (WebGL/chunk failure) restores the CSS lettering.
+No-JS visitors and crawlers never get `js`, so they always see real
+text; sr-only copy exists regardless, and the copy below the tableau is
+the visible SEO restatement.
+
+## Responsive system (2026-08 mobile + wide passes)
+
+Two full passes — phones (320–430px) and wide screens (1280–1920px+) —
+settled these patterns. Sub-lg layouts are DONE: desktop tuning must be
+additive lg:/xl:/2xl: prefixes only.
+
+- **Content caps**: sections cap at max-w-6xl, 2xl:max-w-7xl. Don't
+  exceed 80rem for opaque content — the deco gutters need ~196px/side.
+  The hero is the exception (2xl 88rem, 1800px+ 96rem): its canvases are
+  transparent, so they can stretch toward the scenery without burying it.
+- **Header/Footer are full-bleed** (w-full, lg:px-10 edge insets),
+  re-centering only past 1920px (min-[1920px]:max-w-[120rem]). Header is
+  a `grid-cols-[1fr_auto_1fr]` so the nav sits dead-center; the
+  toggle/hamburger div carries an explicit col-start-3 because the
+  mobile-hidden nav vacates its grid slot and auto-placement would drag
+  the buttons into the center column. Brand link is whitespace-nowrap
+  with a text-lg/sm:text-xl/lg:text-2xl ladder (fits 320px AND the tight
+  768px band). Mobile menu has a dvh max-height + scroll for landscape
+  phones.
+- **Footer shape**: wide = platform icons left, "Back to top" text-link
+  right (smooth scroll, instant under reduced motion), © centered below,
+  slim py. Below lg = the centered mobile stack (wordmark — mobile-only,
+  the header already shows it on desktop — then a 4+4 icon block, then
+  back-to-top, then ©). No page links: the sticky header owns those.
+- **Buttons on phones**: never let flex-wrap produce orphan rows. Pairs/
+  quads of full-width buttons via `w-full sm:w-auto` (+ justify-center on
+  inline-flex ones): hero CTAs, videos platform row, Meet JAM, ShowList's
+  Details. PlatformPill is w-full below sm (labels never wrap), natural
+  width from sm, lg padding/text step-up.
+- **Icon strips**: SocialStrip caps its own mobile width (max-w-52;
+  callers override via className, e.g. the hero's max-sm:max-w-60 for
+  bigger icons) so 8 icons always wrap into a symmetric 4+4 — the cap is
+  the mechanism that prevents 7+1 orphans. Size ladders live at call
+  sites via iconClassName.
+- **Text wrapping**: styles.css @layer base sets h1–h3 text-wrap:balance
+  and p text-wrap:pretty sitewide. Unbreakable strings get targeted
+  fixes: paypal handle = max-w-full + wrap-anywhere (break-words does NOT
+  fix flex min-content overflow), show times / release dates =
+  whitespace-nowrap spans, "JAM 果酱" = NBSP join.
+- **Home at xl**: Catch a Jam + Meet JAM pair into one 2-col band (plain
+  wrapper div that becomes a grid at xl; Catch a Jam's inner grid flips
+  to xl:grid-cols-1; Meet JAM's Section gets className="xl:flex
+  xl:flex-col xl:items-start" — items-start preserves the rainbow-bar
+  shrink-wrap — and its card xl:w-full xl:grow to match the neighbor
+  column's height).
+- **Grid-column breakpoints**: 3-across card grids go md:grid-cols-3 (not
+  sm — 640px columns are too cramped); never use grid-cols-2 for 3 items
+  (orphan row). Shorts grid adds 2xl:grid-cols-5; the 9-video Jams grid
+  stays 3×3 (9 % 4 ≠ 0).
 
 ## Gotchas (learned the hard way)
 
@@ -257,8 +343,8 @@ tableau is the visible SEO restatement.
   other playing embed folds back to its thumbnail.
 - **Videos page**: Shorts grid is single-column below `sm` (full-width
   portrait cards); the four platform buttons under both tabs are, in
-  order: FullScreen YouTube Jams (accent), Reels on Instagram, TikTok,
-  Shorts on YouTube.
+  order: Long Jams on YouTube (accent), Shorts on YouTube, Reels
+  on Instagram, Jams on TikTok.
 
 ## Conventions
 

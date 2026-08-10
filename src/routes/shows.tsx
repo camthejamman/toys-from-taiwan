@@ -32,7 +32,7 @@ function Shows() {
           <div className="card-glass flex flex-col items-center gap-4 p-8 text-center sm:p-12">
             <SpriteIcon name="icon-calendar" className="h-12 w-12 text-accent" />
             <h3 className="m-0 text-xl font-bold text-ink">Booking soon!</h3>
-            <p className="m-0 max-w-2xl text-muted">
+            <p className="m-0 max-w-2xl text-left text-muted sm:text-center">
               I am currently hard at work, meticulously scheduling and booking
               upcoming shows. I am passionate about live instrumental music and
               I&apos;m eager to perform in venues where original music is truly
@@ -43,7 +43,7 @@ function Shows() {
             </p>
             <a
               href={`mailto:${site.email}?subject=Booking%20inquiry`}
-              className="btn-3d btn-3d-accent rounded-md bg-accent px-6 py-2.5 font-semibold text-accent-ink no-underline transition hover:bg-accent-strong"
+              className="btn-3d btn-3d-accent rounded-md bg-accent px-6 py-2.5 font-semibold text-accent-ink no-underline transition hover:bg-accent-strong lg:px-7 lg:py-3 lg:text-lg"
             >
               Invite me to play
             </a>
@@ -66,7 +66,7 @@ function Shows() {
         </p>
         <a
           href={`mailto:${site.email}?subject=Booking%20inquiry`}
-          className="mt-4 inline-block btn-3d btn-3d-accent rounded-md bg-accent px-7 py-3 font-semibold text-accent-ink no-underline shadow-lg transition hover:bg-accent-strong"
+          className="mt-4 inline-block btn-3d btn-3d-accent rounded-md bg-accent px-7 py-3 font-semibold text-accent-ink no-underline shadow-lg transition hover:bg-accent-strong lg:px-8 lg:py-3.5 lg:text-lg"
         >
           Book Toys From Taiwan
         </a>

@@ -80,6 +80,22 @@
   box-sizing: border-box;
 }
 
+/* Nicer wrapping on narrow screens: headings split into even lines
+ * instead of stranding one word, paragraphs avoid orphan last lines.
+ * Progressive enhancement (older engines ignore text-wrap); layered so
+ * text-balance / text-pretty utilities can still override per element. */
+@layer base {
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
 html,
 body,
 #app {
@@ -307,6 +323,9 @@ body {
 
 .hero3d.is-live .hero3d-canvas {
   opacity: 1;
+  /* Match the jam-studio canvas's 400ms gear-fade delay so the title and
+   * the instruments fade in at the same moment. */
+  transition-delay: 400ms;
 }
 
 /* Two-line hero block (title + subtitle): the box is ~1.75× taller than
@@ -419,6 +438,9 @@ body {
 
 .jam-studio.is-live .jam-studio-canvas {
   opacity: 1;
+  /* Wait out the gears' 400ms fade so they are fully gone before the
+   * scene starts to appear — no cross-fade overlap. */
+  transition-delay: 400ms;
 }
 
 /* Shorts grid cards: browser-native virtualization — offscreen cards skip
@@ -481,15 +503,15 @@ body {
 /* ------------------------------------------------------- loading gears --- */
 
 /* The legacy site's loading gears (LoadingGears.tsx): three interlocking
- * gears with offset shadow copies, spun by CSS. Colors ride the theme
- * tokens — accent gears over halo shadows. */
+ * gears with offset shadow copies, spun by CSS. Gears wear the
+ * .rainbow-bar gradient (defined inside the SVG as #lg-rainbow) over
+ * halo shadows. */
 .loading-gears {
   width: auto;
-  color: var(--ttf-accent);
 }
 
 .lg-gear {
-  fill: currentColor;
+  fill: url(#lg-rainbow);
 }
 
 .lg-shadow {
@@ -604,6 +626,18 @@ body {
   inset: 0;
   z-index: -5;
   pointer-events: none;
+}
+
+/* The stacker positions items after hydration; hide the layer until then
+ * (JS visitors only) so the scenery fades in already settled instead of
+ * visibly snapping from its SSR percentage tops. */
+.js .deco-layer {
+  opacity: 0;
+  transition: opacity 600ms ease;
+}
+
+.js .deco-layer.deco-ready {
+  opacity: 1;
 }
 
 .deco {

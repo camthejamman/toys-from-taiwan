@@ -70,6 +70,13 @@ export const socials: PlatformLink[] = [
 /** Streaming / listening platforms — where the music lives. */
 export const streaming: PlatformLink[] = [
   {
+    id: 'spotify',
+    label: 'Spotify',
+    href: 'https://open.spotify.com/artist/2FOHOwAyJLD2RImyfPimKa',
+    icon: 'icon-spotify',
+    color: '#1db954',
+  },
+  {
     id: 'bandcamp',
     label: 'Bandcamp',
     href: 'https://toysfromtaiwan.bandcamp.com/',
@@ -83,13 +90,6 @@ export const streaming: PlatformLink[] = [
     href: 'https://music.apple.com/us/artist/toys-from-taiwan/6796355234',
     icon: 'icon-applemusic',
     color: '#fa233b',
-  },
-  {
-    id: 'spotify',
-    label: 'Spotify',
-    href: 'https://open.spotify.com/artist/2FOHOwAyJLD2RImyfPimKa',
-    icon: 'icon-spotify',
-    color: '#1db954',
   },
   {
     id: 'youtubemusic',

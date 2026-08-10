@@ -28,23 +28,25 @@ function Music() {
         {releases.map((release) => (
           <article
             key={release.slug}
-            className="card-glass flex flex-col gap-8 p-6 sm:p-10 lg:flex-row"
+            className="card-glass flex flex-col gap-8 p-6 sm:p-10 lg:flex-row xl:gap-12"
           >
-            <div className="mx-auto w-full max-w-sm shrink-0 lg:mx-0">
+            <div className="mx-auto w-full max-w-sm shrink-0 lg:mx-0 xl:max-w-md">
               <BandcampEmbed release={release} />
             </div>
             <div>
-              <h3 className="m-0 text-3xl">
+              <h3 className="m-0 text-2xl sm:text-3xl">
                 <Wordmark3D text={release.title} />
               </h3>
               <p className="m-0 mt-1 text-sm font-semibold uppercase tracking-widest text-muted">
                 {release.trackCount} tracks ·{' '}
-                {new Date(release.releaseDate + 'T00:00:00').toLocaleDateString(
-                  'en-US',
-                  { month: 'long', day: 'numeric', year: 'numeric' },
-                )}
+                <span className="whitespace-nowrap">
+                  {new Date(release.releaseDate + 'T00:00:00').toLocaleDateString(
+                    'en-US',
+                    { month: 'long', day: 'numeric', year: 'numeric' },
+                  )}
+                </span>
               </p>
-              <p className="mt-4 text-ink">{release.blurb}</p>
+              <p className="mb-4 mt-4 text-ink">{release.blurb}</p>
               <ul className="m-0 flex list-none flex-wrap gap-2 p-0">
                 {release.tags.map((tag) => (
                   <li
@@ -70,7 +72,7 @@ function Music() {
       </Section>
 
       <Section title="Watch the Loops Happen" eyebrow="Video & live streams">
-        <div className="grid gap-5 sm:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-3 xl:gap-6">
           {socials
             .filter((s) => ['youtube', 'tiktok', 'twitch'].includes(s.id))
             .map((s) => (
@@ -79,14 +81,15 @@ function Music() {
                 href={s.href}
                 target="_blank"
                 rel="noreferrer"
-                className="card-glass group flex flex-col items-center gap-3 p-6 text-center no-underline transition hover:border-accent"
+                className="card-glass group flex flex-col items-center gap-3 p-6 text-center no-underline transition hover:border-accent lg:p-8"
               >
                 <SpriteIcon
                   name={s.icon}
-                  className="h-10 w-10 text-ink transition group-hover:text-accent"
+                  className="h-10 w-10 text-ink transition group-hover:text-accent lg:h-12 lg:w-12"
+                  tint={s.color}
                 />
-                <span className="text-lg font-bold text-ink">{s.label}</span>
-                <span className="text-sm text-muted">{s.note}</span>
+                <span className="text-lg font-bold text-ink lg:text-xl">{s.label}</span>
+                <span className="text-sm text-muted lg:text-base">{s.note}</span>
               </a>
             ))}
         </div>

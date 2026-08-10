@@ -14,7 +14,7 @@ export function SocialStrip({
 }) {
   return (
     <ul
-      className={`m-0 flex list-none flex-wrap items-center justify-center gap-5 p-0 ${className}`}
+      className={`mx-auto my-0 flex max-w-52 list-none flex-wrap items-center justify-center gap-5 p-0 sm:max-w-none ${className}`}
     >
       {platforms.map((p, i) => (
         <li key={p.id}>

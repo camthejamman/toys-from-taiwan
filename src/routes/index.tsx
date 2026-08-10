@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { HeroTitle } from '../components/HeroTitle'
+import { Wordmark3D } from '../components/Wordmark3D'
 import { JamStudio } from '../components/JamStudio'
 import { Section } from '../components/Section'
 import { SocialStrip } from '../components/SocialStrip'
@@ -22,7 +24,7 @@ const highlights = [
     text: 'Every beat, melody, and rhythm is looped on the spot. No backing tracks, ever.',
   },
   {
-    icon: 'icon-equalizer2',
+    icon: 'icon-rockstar',
     tint: '#2a92c4',
     title: 'One-Man Band',
     text: 'Guitar, bass, keys, bongos, drum machines, and gizmos — all played and stacked live.',
@@ -39,59 +41,76 @@ function Home() {
   const nextShow = sortShows(upcomingShows, 'asc')[0]
   const featured = releases[0]
 
+  // The hero holds TWO scenes (3D title + instrument tableau). Neither
+  // reveals until both have settled (first frame painted, or failed), so
+  // the loading gears hold until the whole hero can appear at once.
+  const [titleSettled, setTitleSettled] = useState(false)
+  const [studioSettled, setStudioSettled] = useState(false)
+  const reveal = titleSettled && studioSettled
+
   return (
     <>
       {/* hero */}
-      <section className="mx-auto flex max-w-6xl flex-col items-center overflow-x-clip px-4 pb-10 pt-16 text-center sm:pt-24">
+      {/* the hero runs wider than the card sections at 2xl — the studio
+          canvas is transparent, so it can stretch toward the deco gutters
+          without burying them the way an opaque card would */}
+      <section className="mx-auto flex max-w-6xl flex-col items-center overflow-x-clip px-4 pb-10 pt-6 text-center 2xl:max-w-[88rem] min-[1800px]:max-w-[96rem]">
         {/* Fluid clamp keeps the single-line wordmark inside 320px+ phones;
             overflow-x-clip stops the canvas bleed from widening the page. */}
-        <HeroTitle text={site.name} subtitle={site.tagline} />
+        <HeroTitle
+          text={site.name}
+          subtitle={site.tagline}
+          onSettled={() => setTitleSettled(true)}
+          reveal={reveal}
+        />
         {/* the jam-studio tableau; the copy below restates it for SEO/AT */}
-        <JamStudio />
-        <p className="mt-2 text-xl font-semibold text-ink sm:text-2xl">
-          {site.tagline}{' '}
-          <span title={site.artist}>{site.artistChinese}</span>
+        <JamStudio
+          onSettled={() => setStudioSettled(true)}
+          reveal={reveal}
+        />
+        <p className="mt-2 text-balance text-3xl uppercase sm:text-4xl xl:text-5xl">
+          <Wordmark3D text={site.name} />
         </p>
-        <p className="mt-1 text-muted">
-          A one-man live-looping jam band from {site.location}
+        <p className="mt-1 text-lg text-muted xl:text-xl">
+          A live-looping one man midi jam band based in sunny Florida!
         </p>
         <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
           <Link
             to="/music"
-            className="btn-3d btn-3d-accent rounded-md bg-accent px-7 py-3 font-semibold text-accent-ink no-underline shadow-lg transition hover:bg-accent-strong"
+            className="btn-3d btn-3d-accent w-full rounded-md bg-accent px-7 py-3 text-center font-semibold text-accent-ink no-underline shadow-lg transition hover:bg-accent-strong sm:w-auto lg:px-9 lg:py-3.5 lg:text-lg"
           >
             Listen to the Music
           </Link>
           <Link
             to="/contact"
-            className="btn-3d rounded-md border border-card-border bg-card px-7 py-3 font-semibold text-ink no-underline backdrop-blur transition hover:border-accent hover:text-accent"
+            className="btn-3d w-full rounded-md border border-card-border bg-card px-7 py-3 text-center font-semibold text-ink no-underline backdrop-blur transition hover:border-accent hover:text-accent sm:w-auto lg:px-9 lg:py-3.5 lg:text-lg"
           >
             Book a Show
           </Link>
         </div>
         <SocialStrip
           platforms={[...socials, ...streaming]}
-          className="mt-9"
-          iconClassName="h-7 w-7"
+          className="mt-9 max-sm:max-w-60 lg:gap-8"
+          iconClassName="h-11 w-11 sm:h-12 sm:w-12 lg:h-14 lg:w-14"
         />
       </section>
 
       {/* what the show is */}
       <Section title="The Show" eyebrow="What is this?" center>
-        <div className="grid gap-5 sm:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-3 xl:gap-8">
           {highlights.map((h) => (
-            <article key={h.title} className="card-glass p-6 text-center">
+            <article key={h.title} className="card-glass p-6 text-center xl:p-8">
               <SpriteIcon
                 name={h.icon}
-                className="mx-auto h-10 w-10 text-accent icon-3d dark:text-ink"
+                className="mx-auto h-20 w-20 text-accent icon-3d dark:text-ink xl:h-24 xl:w-24"
                 tint={h.tint}
               />
-              <h3 className="mb-2 mt-4 text-lg font-bold text-ink">{h.title}</h3>
+              <h3 className="mb-2 mt-4 text-lg font-bold text-ink xl:text-xl">{h.title}</h3>
               <p className="m-0 text-muted">{h.text}</p>
             </article>
           ))}
         </div>
-        <p className="mx-auto mt-8 max-w-2xl text-muted">
+        <p className="mx-auto mt-8 max-w-2xl text-muted xl:max-w-3xl xl:text-lg">
           It&apos;s a very relaxing, refreshing kind of vibe — musically engaging,
           but at a comfortable volume, so you and your friends can hang out and
           talk without yelling over the music.
@@ -100,10 +119,10 @@ function Home() {
 
       {/* featured release */}
       <Section title={featured.title} eyebrow="Latest release">
-        <div className="card-glass flex flex-col items-center gap-8 p-6 sm:p-10 md:flex-row">
+        <div className="card-glass flex flex-col items-center gap-8 p-6 sm:p-10 md:flex-row xl:gap-12">
           <Link
             to="/music"
-            className="block w-full max-w-xs shrink-0 overflow-hidden rounded-lg shadow-xl transition hover:scale-[1.02]"
+            className="block w-full max-w-xs shrink-0 overflow-hidden rounded-lg shadow-xl transition hover:scale-[1.02] xl:max-w-sm"
             aria-label={`${featured.title} — listen on the Music page`}
           >
             <img
@@ -119,18 +138,21 @@ function Home() {
             <p className="m-0 text-sm font-semibold uppercase tracking-widest text-muted">
               {featured.trackCount} tracks · {featured.year}
             </p>
-            <p className="rainbow-text mb-3 mt-1 text-2xl font-extrabold sm:text-3xl">
+            <p className="rainbow-text mb-3 mt-1 text-2xl font-extrabold sm:text-3xl xl:text-4xl">
               Live-looped video-game jams
             </p>
-            <p className="text-ink">{featured.blurb}</p>
+            <p className="text-ink xl:text-lg">{featured.blurb}</p>
             <PlatformPillRow platforms={streaming} className="mt-5" />
           </div>
         </div>
       </Section>
 
-      {/* live online + next show */}
+      {/* live online + next show, paired with Meet JAM into one row at xl
+          so wide screens get a composed 2-column band instead of two
+          shallow full-width sections */}
+      <div className="xl:mx-auto xl:grid xl:max-w-6xl xl:grid-cols-2 2xl:max-w-7xl">
       <Section title="Catch a Jam" eyebrow="Live & upcoming">
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-1">
           <article className="card-glass p-6">
             <div className="flex items-center gap-3">
               <SpriteIcon
@@ -188,19 +210,26 @@ function Home() {
         </div>
       </Section>
 
-      {/* meet jam + support strip */}
-      <Section title="Meet JAM" eyebrow="The human behind the loops">
-        <div className="card-glass flex flex-col items-center gap-6 p-6 sm:flex-row sm:p-8">
+      {/* meet jam + support strip; at xl the section is a flex column and
+          the card grows, so it matches the combined height of the two
+          Catch a Jam cards beside it (items-start keeps the heading's
+          rainbow-bar shrink-wrap intact) */}
+      <Section
+        title="Meet JAM"
+        eyebrow="The human behind the loops"
+        className="xl:flex xl:flex-col xl:items-start"
+      >
+        <div className="card-glass flex flex-col items-center gap-6 p-6 sm:flex-row sm:p-8 xl:w-full xl:grow">
           <img
             src={jamFace}
             alt="Cartoon drawing of Jam's face"
             width={160}
             height={160}
-            className="h-32 w-32 rounded-full border-2 border-card-border object-cover shadow-lg"
+            className="h-48 w-48 rounded-full border-2 border-card-border object-cover shadow-lg xl:h-56 xl:w-56"
             loading="lazy"
           />
           <div>
-            <p className="mt-0 text-ink">
+            <p className="mt-0 text-ink xl:text-lg">
               Thanks for visiting my site! I&apos;m a solo musician based in
               sunny {site.location}. I put on a{' '}
               <strong>live one-man-band</strong> show that&apos;s unlike any solo
@@ -208,16 +237,16 @@ function Home() {
               <strong>100% live-looped</strong>, instrumental jam session filled
               with cheesy midi video game sounds!
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 mt-6">
               <Link
                 to="/about"
-                className="btn-3d rounded-md border border-card-border bg-card px-5 py-2 text-sm font-semibold text-accent no-underline transition hover:border-accent"
+                className="btn-3d w-full rounded-md border border-card-border bg-card px-5 py-2 text-center text-sm font-semibold text-accent no-underline transition hover:border-accent md:w-auto"
               >
                 More about the project
               </Link>
               <Link
                 to="/support"
-                className="inline-flex items-center gap-2 btn-3d rounded-md border border-card-border bg-card px-5 py-2 text-sm font-semibold text-accent no-underline transition hover:border-accent"
+                className="inline-flex w-full items-center justify-center gap-2 btn-3d rounded-md border border-card-border bg-card px-5 py-2 text-sm font-semibold text-accent no-underline transition hover:border-accent md:w-auto"
               >
                 <SpriteIcon name="icon-heart" className="h-4 w-4" />
                 Support the jams
@@ -226,6 +255,7 @@ function Home() {
           </div>
         </div>
       </Section>
+      </div>
     </>
   )
 }

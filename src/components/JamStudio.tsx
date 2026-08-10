@@ -10,15 +10,30 @@ import type { JamStudioHandle } from '../three/jamStudio'
  * the SEO copy lives in regular HTML right below it.
  */
 export function JamStudio({
-  className = 'mx-auto -mt-8 max-w-5xl sm:-mt-24',
+  /* Landing hero: the box (and with it the scene — it refits on resize)
+   * steps up with the viewport. The camera fit is height-bound in this
+   * wide box, so the lg+ 2/1 aspect is what actually grows the
+   * instruments; the svh cap hands short laptop screens a scene that
+   * still fits under the title instead of overflowing the fold. */
+  className = 'mx-auto -mt-10 max-w-5xl sm:-mt-28 lg:max-w-6xl lg:-mt-40 lg:[--studio-aspect:2/1] lg:max-h-[calc(100svh-18rem)] xl:max-w-7xl 2xl:max-w-[84rem] min-[1800px]:max-w-[92rem] min-[1800px]:-mt-48',
+  onSettled,
+  reveal,
 }: {
   /** Wrapper layout classes; the default is the landing-hero placement.
    * The scene itself always fills the box (aspect via .jam-studio). */
   className?: string
+  /** Fires once when the scene has painted its first frame OR failed —
+   * lets the page gate several scenes into one simultaneous reveal. */
+  onSettled?: () => void
+  /** When provided, a ready scene stays hidden until this turns true. */
+  reveal?: boolean
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [live, setLive] = useState(false)
+  const [ready, setReady] = useState(false)
   const [failed, setFailed] = useState(false)
+  const live = ready && (reveal ?? true)
+  const onSettledRef = useRef(onSettled)
+  onSettledRef.current = onSettled
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -39,12 +54,28 @@ export function JamStudio({
             dark: document.documentElement.classList.contains('dark'),
             reduceMotion: reduceMotion.matches,
           })
-          if (handle) setLive(true)
-          else setFailed(true)
+          if (handle) {
+            // Double-rAF: let the first (shader-compiling) frame land and
+            // paint while the canvas is still invisible, so the gears
+            // cross-fade starts stutter-free.
+            requestAnimationFrame(() =>
+              requestAnimationFrame(() => {
+                if (disposed) return
+                setReady(true)
+                onSettledRef.current?.()
+              }),
+            )
+          } else {
+            setFailed(true)
+            onSettledRef.current?.()
+          }
         })
         .catch(() => {
           // WebGL/context failure — drop the gears, leave open sky.
-          if (!disposed) setFailed(true)
+          if (!disposed) {
+            setFailed(true)
+            onSettledRef.current?.()
+          }
         })
     }
 
@@ -80,8 +111,10 @@ export function JamStudio({
       className={`jam-studio w-full ${className} ${live ? 'is-live' : ''} ${failed ? 'no3d' : ''}`}
       aria-hidden="true"
     >
-      <div className="jam-studio-loading">
-        <LoadingGears className="h-16 sm:h-28" />
+      {/* -translate lifts the cluster above the box's centerline — the
+          box hangs below the title, so dead-center reads too low */}
+      <div className="jam-studio-loading -translate-y-[10%]">
+        <LoadingGears className="h-44 sm:h-56 md:h-72 lg:h-[28rem] min-[1800px]:h-[36rem]" />
       </div>
       <canvas ref={canvasRef} className="jam-studio-canvas" />
     </div>

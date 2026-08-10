@@ -48,7 +48,7 @@ const vibeCards = [
     icon: 'icon-music',
     instrument: 'icon-vibes',
     quote: 'Really Chill Vibes',
-    items: ['Spacey Surfer Rock', 'Psychedelic Jams', 'Hawaiian Slide', "60's Lounge"],
+    items: ['Psychedelic Midi Jams', 'Midi Hawaiian Slide', 'Spacey Midi Rock', "Midi Sambas"],
   },
   {
     title: 'Trippy',
@@ -69,41 +69,46 @@ const vibeCards = [
 function About() {
   return (
     <>
-      <Section title="Welcome to the Jam Lounge" eyebrow="About" as="h1">
+      <Section title="Toys From Taiwan" eyebrow="About" as="h1">
         <div className="card-glass p-6 sm:p-8">
           <p className="mt-0 text-ink">
-            Hi, I&apos;m Jam, and welcome to the Jam Lounge. Thanks for stopping
+            Hi, I&apos;m Jam, and these are my Toys From Taiwan. Thanks for stopping
             by! Here&apos;s a little bit about me and my music project:
           </p>
-          <h3 className="mb-2 mt-6 text-lg font-bold text-ink">About Me</h3>
-          <p className="m-0 text-ink">
-            I specialize in creating 100% live looping songs and jams. Every
-            beat, melody, and rhythm you hear is crafted in real time, with no
-            backing tracks or any pre-recorded music. I use a bunch of loop
-            machines and effects pedals to put it all together. I play guitar,
-            bass, keyboard, and I put together random jams on the fly with some
-            singing in between!
-          </p>
-          <h3 className="mb-2 mt-6 text-lg font-bold text-ink">The Music</h3>
-          <p className="m-0 text-ink">
-            Experience deep relaxation through dynamic and spontaneous jams in
-            the Jam Lounge. Truly, every jam I make is an improvised arrangement
-            of sound, rhythm, and melody, brought to life before your ears. And
-            it&apos;s all live and made in real time! Come check out my show
-            soon. I bet you&apos;ll dig it! I&apos;m looking forward to playing
-            for you!
-          </p>
-          <p className="mb-0 mt-6 font-bold text-ink">
-            Thanks for stopping by and hanging in the Jam Lounge!
-          </p>
-          <p className="m-0 mt-1 font-bold text-accent">
+          {/* two prose columns at xl — plain block divs below xl, so the
+              stacked rhythm is unchanged there */}
+          <div className="xl:grid xl:grid-cols-2 xl:gap-x-10">
+            <div>
+              <h3 className="mb-2 mt-6 text-lg font-bold text-ink">About Me</h3>
+              <p className="m-0 text-ink">
+                I specialize in creating 100% live looping songs and jams. Every
+                beat, melody, and rhythm you hear is crafted in real time, with no
+                backing tracks or any pre-recorded music. I use a bunch of loop
+                machines and effects pedals to put it all together. I play guitar,
+                bass, keyboard, and I put together random jams on the fly with some
+                singing in between!
+              </p>
+            </div>
+            <div>
+              <h3 className="mb-2 mt-6 text-lg font-bold text-ink">The Music</h3>
+              <p className="m-0 text-ink">
+                Experience deep relaxation through dynamic and spontaneous jams in
+                the Jam Lounge. Truly, every jam I make is an improvised arrangement
+                of sound, rhythm, and melody, brought to life before your ears. And
+                it&apos;s all live and made in real time! Come check out my show
+                soon. I bet you&apos;ll dig it! I&apos;m looking forward to playing
+                for you!
+              </p>
+            </div>
+          </div>
+          <p className="m-0 mt-4 font-bold text-ink">
             — JAM <span title={site.artist}>{site.artistChinese}</span>
           </p>
         </div>
       </Section>
 
       <Section title="The Vibes" eyebrow="What you'll hear">
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:gap-6">
           {vibeCards.map((card, i) => (
             <article key={card.title} className="card-glass flex flex-col p-6">
               <div className="flex items-center justify-between">
@@ -129,7 +134,8 @@ function About() {
               <div className="mt-auto flex flex-col items-center gap-2 pt-2">
                 <SpriteIcon
                   name={card.instrument}
-                  className="h-16 w-16 text-accent"
+                  className="h-24 w-24 text-accent icon-3d dark:text-ink lg:h-28 lg:w-28"
+                  tint={ICON_COLORS[i % ICON_COLORS.length]}
                 />
                 <p className="m-0 text-center text-sm font-semibold text-muted">
                   “{card.quote}”
@@ -141,9 +147,9 @@ function About() {
       </Section>
 
       <Section title="The Rig" eyebrow="Toys, gizmos & gear">
-        <div className="card-glass flex flex-col items-center gap-6 p-6 sm:p-8 md:flex-row">
+        <div className="card-glass flex flex-col items-center gap-6 p-6 sm:p-8 lg:flex-row xl:gap-10">
           {/* the live three.js rig — the copy next to it is the description */}
-          <JamStudio className="max-w-xl shrink-0 md:w-1/2 [--studio-aspect:1.5/1]" />
+          <JamStudio className="max-w-xl shrink-0 lg:w-1/2 [--studio-aspect:1.5/1] max-sm:[--studio-aspect:4/3] xl:w-[55%] xl:max-w-2xl" />
           <div>
             <p className="mt-0 text-ink">
               The one-man band runs on a small mountain of musical toys:

@@ -4,7 +4,7 @@ import type { Show } from '../data/shows'
 
 export function ShowList({ shows }: { shows: Show[] }) {
   return (
-    <ul className="m-0 flex list-none flex-col gap-4 p-0">
+    <ul className="m-0 flex list-none flex-col gap-4 p-0 xl:grid xl:grid-cols-2">
       {shows.map((show) => (
         <li
           key={`${show.date}-${show.venue}`}
@@ -19,7 +19,7 @@ export function ShowList({ shows }: { shows: Show[] }) {
               <p className="m-0 font-semibold text-ink">
                 {formatShowDate(show.date)}
                 {show.time ? (
-                  <span className="font-normal text-muted"> · {show.time}</span>
+                  <span className="whitespace-nowrap font-normal text-muted"> · {show.time}</span>
                 ) : null}
               </p>
               <p className="m-0 text-ink">{show.venue}</p>
@@ -34,7 +34,7 @@ export function ShowList({ shows }: { shows: Show[] }) {
               href={show.href}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex w-fit items-center gap-1.5 rounded-full border border-card-border bg-card px-4 py-1.5 text-sm font-semibold text-accent no-underline transition hover:border-accent"
+              className="btn-3d inline-flex w-full items-center justify-center gap-1.5 rounded-md border border-card-border bg-card px-4 py-1.5 text-sm font-semibold text-accent no-underline transition hover:border-accent sm:w-fit"
             >
               Details
               <svg

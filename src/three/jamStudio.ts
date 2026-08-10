@@ -30,6 +30,7 @@ import {
   WebGLRenderer,
 } from 'three'
 import { SVGLoader } from 'three/addons/loaders/SVGLoader.js'
+import { extrudedFaceLightness, gradientHue } from '../lib/rainbow'
 import speakerLeftRaw from '../assets/instruments/speaker-left.svg?raw'
 import speakerRightRaw from '../assets/instruments/speaker-right.svg?raw'
 import guitarRaw from '../assets/instruments/guitar.svg?raw'
@@ -43,30 +44,21 @@ export type JamStudioHandle = {
   dispose: () => void
 }
 
-/** Vivid toy-box palette for light mode — brighter than the day poster's
- * crayon set, so the gear reads fun against the pale sky. */
-const LIGHT_PALETTE = [
-  '#ff4655', // red
-  '#2f9dff', // blue
-  '#ffd23f', // yellow
-  '#2fe07a', // green
-  '#ff9432', // orange
-  '#c05bff', // purple
-  '#7d6bff', // violet
-  '#ff5fb4', // pink
-]
+/** The instruments wear the hero wordmark's colors: eight samples of the
+ * exact recipe heroTitle paints its letters with (brand hue curve,
+ * saturation 0.95, extruded-face lightness) — per theme, so light mode
+ * gets the AA-darkened title colors and dark mode the luminous pastels. */
+function titlePalette(dark: boolean): string[] {
+  const c = new Color()
+  return Array.from({ length: 8 }, (_, i) => {
+    const t = i / 7
+    c.setHSL(gradientHue(t), 0.95, extrudedFaceLightness(t, dark))
+    return `#${c.getHexString()}`
+  })
+}
 
-/** Luminous pastels for the night poster look. */
-const DARK_PALETTE = [
-  '#ff9d9d',
-  '#9fb5ff',
-  '#ffe89e',
-  '#9df0b2',
-  '#ffc48f',
-  '#d9a3f0',
-  '#b8a8ff',
-  '#ff9fd4',
-]
+const LIGHT_PALETTE = titlePalette(false)
+const DARK_PALETTE = titlePalette(true)
 
 /** Materials glow a fraction of their own color (the vol1 lettering trick)
  * so they stay vibrant under ACES instead of dimming in shadow. */
@@ -261,8 +253,8 @@ export function mountJamStudio(
   handsonic.rotation.y = -0.08
   guitar.position.set(-120, 435, 100)
   guitar.rotation.z = (51 * Math.PI) / 180
-  loop1.position.set(-100, -230, 260)
-  loop2.position.set(220, -230, 260)
+  loop1.position.set(-100, -230, 420)
+  loop2.position.set(220, -230, 420)
 
   const studio = new Group()
   studio.add(speakerL, speakerR, guitar, keyboard, handsonic, loop1, loop2)

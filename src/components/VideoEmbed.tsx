@@ -75,7 +75,7 @@ export function VideoEmbed({
           </span>
         </button>
       )}
-      <h3 className="mb-0 mt-3 text-base font-bold text-ink">{video.title}</h3>
+      <h3 className="mb-0 mt-3 break-words text-base font-bold text-ink">{video.title}</h3>
       {date ? <p className="m-0 text-sm text-muted">{date}</p> : null}
     </article>
   )

@@ -19,10 +19,14 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-card-border header-bar backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
+      {/* Full-bleed like the footer: brand hugs the left edge, toggle the
+          right; content only re-centers inside a cap beyond 1920px. The
+          1fr_auto_1fr grid keeps the nav links dead-center regardless of
+          how wide the flanking brand/toggle are. */}
+      <div className="mx-auto grid w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-3 lg:px-10 min-[1920px]:max-w-[120rem]">
         <Link
           to="/"
-          className="flex items-baseline gap-2 text-xl no-underline transition hover:-translate-y-0.5 sm:text-2xl"
+          className="flex items-baseline gap-2 justify-self-start whitespace-nowrap text-lg no-underline transition hover:-translate-y-0.5 sm:text-xl lg:text-2xl"
           onClick={() => setOpen(false)}
         >
           <Wordmark3D small text={site.name} />
@@ -39,14 +43,17 @@ export function Header() {
                 'aria-current': 'page',
               }}
               inactiveProps={{ className: 'text-ink' }}
-              className="rounded-lg px-3 py-1.5 text-sm no-underline transition hover:bg-accent/10 hover:text-accent"
+              className="rounded-lg px-2 py-1.5 text-sm no-underline transition hover:bg-accent/10 hover:text-accent lg:px-3 xl:text-base"
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        {/* col-start-3 is explicit: when the nav is display:none on mobile
+            it vacates its grid slot, and auto-placement would otherwise
+            pull these buttons into the center column */}
+        <div className="col-start-3 flex items-center gap-2 justify-self-end">
           <ThemeToggle />
           <button
             type="button"
@@ -79,7 +86,7 @@ export function Header() {
         <nav
           id="mobile-nav"
           aria-label="Main"
-          className="border-t border-card-border px-4 pb-4 pt-2 md:hidden"
+          className="max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-card-border px-4 pb-4 pt-2 md:hidden"
         >
           <ul className="m-0 flex list-none flex-col gap-1 p-0">
             {navLinks.map((link) => (

@@ -15,13 +15,24 @@ import type { HeroTitleHandle } from '../three/heroTitle'
 export function HeroTitle({
   text,
   subtitle,
+  onSettled,
+  reveal,
 }: {
   text: string
   subtitle: string
+  /** Fires once when the scene has painted its first frame OR failed —
+   * lets the page gate several scenes into one simultaneous reveal. */
+  onSettled?: () => void
+  /** When provided, a ready scene stays hidden until this turns true. */
+  reveal?: boolean
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [live, setLive] = useState(false)
+  const [ready, setReady] = useState(false)
   const [failed, setFailed] = useState(false)
+  const live = ready && (reveal ?? true)
+  // Ref keeps the mount effect independent of the callback's identity.
+  const onSettledRef = useRef(onSettled)
+  onSettledRef.current = onSettled
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -44,12 +55,27 @@ export function HeroTitle({
             dark: document.documentElement.classList.contains('dark'),
             reduceMotion: reduceMotion.matches,
           })
-          if (handle) setLive(true)
-          else setFailed(true)
+          if (handle) {
+            // Same double-rAF as JamStudio: first frame compiles and
+            // paints invisibly, then the cross-fade starts stutter-free.
+            requestAnimationFrame(() =>
+              requestAnimationFrame(() => {
+                if (disposed) return
+                setReady(true)
+                onSettledRef.current?.()
+              }),
+            )
+          } else {
+            setFailed(true)
+            onSettledRef.current?.()
+          }
         })
         .catch(() => {
           // WebGL/context failure — bring the CSS lettering back.
-          if (!disposed) setFailed(true)
+          if (!disposed) {
+            setFailed(true)
+            onSettledRef.current?.()
+          }
         })
     }
 
@@ -87,10 +113,10 @@ export function HeroTitle({
       className={`hero3d hero3d-tall ${live ? 'is-live' : ''} ${failed ? 'no3d' : ''}`}
     >
       <div className="hero3d-fallback">
-        <h1 className="m-0 text-[clamp(1.55rem,7.8vw,2.25rem)] leading-tight sm:text-6xl lg:text-7xl">
+        <h1 className="m-0 text-[clamp(1.55rem,7.8vw,2.25rem)] leading-tight sm:text-6xl lg:text-7xl xl:text-8xl">
           <Wordmark3D text={text} />
         </h1>
-        <p className="m-0 mt-1 flex items-center justify-center gap-[0.4em] text-[clamp(0.9rem,4.4vw,1.3rem)] sm:text-[2.1rem] lg:text-[2.5rem]">
+        <p className="m-0 mt-1 flex items-center justify-center gap-[0.4em] text-[clamp(0.9rem,4.4vw,1.3rem)] sm:text-[min(4.6vw,2.1rem)] lg:text-[2.5rem] xl:text-[3rem]">
           <Wordmark3D text={subtitle} />
           {/* Explicit width: sprite <svg>s have no intrinsic ratio, so
               w-auto would balloon to the 300px SVG default and blow the

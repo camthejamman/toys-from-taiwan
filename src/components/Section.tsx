@@ -11,15 +11,20 @@ export function Section({
   children,
   center = false,
   as: Heading = 'h2',
+  className = '',
 }: {
   title: string
   eyebrow?: string
   children: ReactNode
   center?: boolean
   as?: 'h1' | 'h2'
+  /** Extra classes on the <section> (e.g. flex-col so a child can grow). */
+  className?: string
 }) {
   return (
-    <section className={`mx-auto w-full max-w-6xl px-4 py-10 ${center ? 'text-center' : ''}`}>
+    <section
+      className={`mx-auto w-full max-w-6xl px-4 py-10 2xl:max-w-7xl ${center ? 'text-center' : ''} ${className}`}
+    >
       {eyebrow ? (
         <p className="m-0 text-sm font-semibold uppercase tracking-widest text-accent">
           {eyebrow}

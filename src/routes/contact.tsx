@@ -58,24 +58,25 @@ function Contact() {
   return (
     <>
       <Section title="Get in Touch" eyebrow="Contact & booking" as="h1">
-        <div className="card-glass flex flex-col-reverse items-center gap-8 p-6 sm:p-10 md:flex-row md:justify-between">
-          <ul className="m-0 flex list-none flex-col gap-4 p-0">
+        <div className="card-glass flex flex-col-reverse items-center gap-8 p-6 sm:flex-row sm:justify-between sm:p-10">
+          <div>
+          <ul className="m-0 flex list-none flex-col gap-4 p-0 lg:gap-5">
             <li>
               <a
                 href={`mailto:${site.email}`}
-                className="group flex items-center gap-3 text-ink no-underline transition hover:text-accent"
+                className="group flex items-start gap-3 text-ink no-underline transition hover:text-accent"
               >
-                <SpriteIcon name="icon-envelop" className="h-6 w-6 text-accent" />
-                <span className="font-semibold">{site.email}</span>
+                <SpriteIcon name="icon-envelop" className="h-6 w-6 text-accent lg:h-7 lg:w-7" />
+                <span className="font-semibold lg:text-lg">{site.email}</span>
               </a>
             </li>
             <li>
               <a
                 href={`tel:${site.phone}`}
-                className="group flex items-center gap-3 text-ink no-underline transition hover:text-accent"
+                className="group flex items-start gap-3 text-ink no-underline transition hover:text-accent"
               >
-                <SpriteIcon name="icon-phone" className="h-6 w-6 text-accent" />
-                <span className="font-semibold">{site.phoneDisplay}</span>
+                <SpriteIcon name="icon-phone" className="h-6 w-6 text-accent lg:h-7 lg:w-7" />
+                <span className="font-semibold lg:text-lg">{site.phoneDisplay}</span>
               </a>
             </li>
             <li>
@@ -83,37 +84,38 @@ function Contact() {
                 href={site.linktree}
                 target="_blank"
                 rel="noreferrer"
-                className="group flex items-center gap-3 text-ink no-underline transition hover:text-accent"
+                className="group flex items-start gap-3 text-ink no-underline transition hover:text-accent"
               >
-                <SpriteIcon name="icon-eye" className="h-6 w-6 text-accent" />
-                <span className="font-semibold">Jam on the Web (Linktree)</span>
+                <SpriteIcon name="icon-eye" className="h-6 w-6 text-accent lg:h-7 lg:w-7" />
+                <span className="font-semibold lg:text-lg">Jam on the Web (Linktree)</span>
               </a>
             </li>
           </ul>
+          <p className="mb-0 mt-6 max-w-xl text-muted">
+            Booking a brewery night, coffee-shop afternoon, private party, or
+            something weirder? Email is the fastest way to reach me — tell me
+            the date, the space, and the vibe you&apos;re after.
+          </p>
+          </div>
           <img
             src={jamFace}
             alt="Cartoon drawing of Jam's face"
             width={180}
             height={180}
-            className="h-40 w-40 rounded-full border-2 border-card-border object-cover shadow-lg"
+            className="h-40 w-40 rounded-full border-2 border-card-border object-cover shadow-lg lg:h-52 lg:w-52"
             loading="lazy"
           />
         </div>
-        <p className="mt-6 text-muted">
-          Booking a brewery night, coffee-shop afternoon, private party, or
-          something weirder? Email is the fastest way to reach me — tell me the
-          date, the space, and the vibe you&apos;re after.
-        </p>
       </Section>
 
       <Section title="“How Much Music Stuff Should I Bring?”" eyebrow="Pick your rig">
-        <div className="grid items-start gap-5 lg:grid-cols-3">
+        <div className="grid items-start gap-5 md:grid-cols-3 xl:gap-6">
           {rigTiers.map((tier) => (
             <article
               key={tier.name}
               className={`card-glass flex flex-col p-6 ${
                 'featured' in tier && tier.featured
-                  ? 'ring-2 ring-accent lg:-mt-2 lg:mb-2'
+                  ? 'ring-2 ring-accent md:-mt-2 md:mb-2'
                   : ''
               }`}
             >
@@ -142,7 +144,7 @@ function Contact() {
               </ul>
               <a
                 href={`mailto:${site.email}?subject=Booking%3A%20${encodeURIComponent(tier.name)}`}
-                className="mt-6 btn-3d btn-3d-accent rounded-md bg-accent px-5 py-2 text-center font-semibold text-accent-ink no-underline transition hover:bg-accent-strong"
+                className="mt-6 btn-3d btn-3d-accent rounded-md bg-accent px-5 py-2 text-center font-semibold text-accent-ink no-underline transition hover:bg-accent-strong lg:px-6 lg:py-2.5"
               >
                 Book Now!
               </a>
