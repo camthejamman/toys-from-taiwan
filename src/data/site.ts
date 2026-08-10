@@ -4,8 +4,9 @@
  */
 
 export const site = {
-  /** Absolute production URL (no trailing slash) — used for og: meta tags. */
-  url: 'https://camthejamman.github.io/toys-from-taiwan',
+  /** Absolute production URL (no trailing slash) — used for og: meta tags,
+   * canonicals (pageHead below), robots.txt and sitemap.xml. */
+  url: 'https://toysfromtaiwan.com',
   name: 'Toys From Taiwan',
   artist: 'JAM',
   artistChinese: '果酱',

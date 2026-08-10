@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://camthejamman.github.io/toys-from-taiwan/sitemap.xml
+Sitemap: https://toysfromtaiwan.com/sitemap.xml

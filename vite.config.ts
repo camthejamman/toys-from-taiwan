@@ -3,12 +3,14 @@ import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import viteReact from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-// Deployed as a GitHub *project* page at
-// https://camthejamman.github.io/toys-from-taiwan/ — every asset and route
-// lives under this base path. If the site ever moves to a custom domain
-// (CNAME) or a <user>.github.io repo, change BASE to '/'; the router picks it
-// up automatically via import.meta.env.BASE_URL.
-const BASE = '/toys-from-taiwan/'
+// Deployed at the custom domain https://toysfromtaiwan.com/ (GitHub Pages,
+// custom domain set in repo Pages settings; DNS on Namecheap — 4 A records
+// on @ to the GitHub Pages IPs + www CNAME to camthejamman.github.io).
+// The old camthejamman.github.io/toys-from-taiwan/ URLs 301 here. Routes
+// and assets pick the base up automatically via import.meta.env.BASE_URL —
+// if the site ever moves back to a project page without a domain, restore
+// BASE = '/toys-from-taiwan/'.
+const BASE = '/'
 
 const config = defineConfig({
   base: BASE,

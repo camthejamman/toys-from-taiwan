@@ -14,7 +14,7 @@ bare three.js (no react-three-fiber, on purpose — load perf is a priority).
 
 ## Commands
 
-- `npm run dev` — http://localhost:3000/toys-from-taiwan/ (note the base path)
+- `npm run dev` — http://localhost:3000/ (base is '/' since the custom domain)
 - `npm run typecheck` — tsc --noEmit (run before calling work done)
 - `npm run build` — prerenders all routes into dist/client (postbuild hook
   copies the prerendered 404 route — dist/client/404/index.html — to
@@ -366,10 +366,13 @@ additive lg:/xl:/2xl: prefixes only.
 
 ## Gotchas (learned the hard way)
 
-- **Base path**: GitHub project page → `/toys-from-taiwan/` must be set in
-  vite.config.ts `base` AND flows to router basepath via
-  import.meta.env.BASE_URL. public/ asset URLs in JSX need the
-  BASE_URL prefix (see videoThumb() in src/data/videos.ts).
+- **Base path**: `'/'` since the custom-domain move (2026-08-10,
+  toysfromtaiwan.com) — set in vite.config.ts `base`, flows to router
+  basepath via import.meta.env.BASE_URL. public/ asset URLs in JSX still
+  need the BASE_URL prefix (see videoThumb() in src/data/videos.ts) so a
+  future base change stays a one-line edit. The production URL also
+  lives in site.ts `url` (canonicals/og) AND hardcoded in
+  public/robots.txt + public/sitemap.xml — change all three together.
 - **One font family, app-wide**: TeX Gyre Heros (self-hosted 400 + 700
   latin woff2, GUST Font License) — the libre Helvetica of the URW/Nimbus
   lineage, i.e. the same letterforms as the helvetiker face in the
@@ -436,17 +439,27 @@ additive lg:/xl:/2xl: prefixes only.
   current one. index.tsx:125 is the same pattern, still at mt-8, untouched.
 - grep on dist HTML: use `grep -a` (the `·` in titles trips binary detection).
 
-## Deploy status (as of 2026-08-09)
+## Deploy status (as of 2026-08-10: LAUNCHED)
 
 - `.github/workflows/deploy.yml` → GitHub Pages at
-  https://camthejamman.github.io/toys-from-taiwan/ — triggers: push to main,
-  weekly cron (Mon 12:00 UTC, refreshes Videos page), manual dispatch.
-- **Workflow is currently DISABLED** (`gh workflow disable`) — the site is
-  NOT launched yet; Cam is still tweaking. Launch checklist:
-  1. `gh workflow enable "Deploy to GitHub Pages"`
-  2. Push to main (or `gh workflow run`) — configure-pages runs with
-     `enablement: true`, so the Settings → Pages → Source flip happens
-     automatically on first run.
+  **https://toysfromtaiwan.com/** (custom domain since 2026-08-10; the old
+  camthejamman.github.io/toys-from-taiwan/ URLs 301 there; www CNAMEs to
+  camthejamman.github.io and GitHub redirects it to the apex; DNS =
+  Namecheap BasicDNS, 4 A records @ → 185.199.108-111.153) — triggers:
+  push to main, weekly cron (Mon 12:00 UTC, refreshes Videos page),
+  manual dispatch.
+- **Site is LIVE** (launched 2026-08-10): workflow enabled, first deploy
+  succeeded, verified end-to-end (200s, slash 301s, real 404 page,
+  sitemap/robots served, CI-resized thumbs). Every push to main
+  redeploys — use `[skip ci]` in the commit message to push WITHOUT
+  publishing.
+- **enablement: true could NOT create the Pages site** — GITHUB_TOKEN
+  gets "Resource not accessible by integration" from the create-pages
+  API even with pages:write; it can only configure a site that already
+  exists. The one-time fix (already done, never needed again):
+  `gh api repos/camthejamman/toys-from-taiwan/pages -X POST -f
+  build_type=workflow`, then rerun the failed run. The `enablement`
+  input stays in deploy.yml — harmless once the site exists.
 - **2026-08-10 pre-launch perf/SEO pass** (all verified in dist): 12
   unused sprite symbols pruned (−92KB); derp.jpg/instruments.jpg/
   channels4_banner.jpg/drive-download screenshots deleted (git history
