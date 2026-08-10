@@ -24,7 +24,11 @@ export function Footer() {
             step back down to compact. */}
         {/* brand wordmark is mobile-only — wide screens already have it in
             the sticky header right above */}
-        <p className="m-0 text-4xl sm:text-3xl lg:hidden">
+        {/* Fluid size: caps at text-3xl but shrinks below ~344px so the
+            one-line wordmark clears even 320px phones — .wm3d's letter/
+            word-spacing makes the string ~9.8em wide, so 30px needs 294px
+            while a 320px phone only has 288px inside px-4. */}
+        <p className="m-0 text-[clamp(1.625rem,8.75vw,1.875rem)] lg:hidden">
           <Wordmark3D small text={site.name} />
         </p>
 
