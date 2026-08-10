@@ -80,7 +80,10 @@ async function fetchRssEntries() {
     `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`,
   )
   return [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map(([, e]) => ({
-    id: e.match(/<yt:videoId>([^<]+)/)?.[1],
+    // Constrain to the 11-char YouTube id charset (same as the tab
+    // parsers below) — ids land in filesystem paths and fetch URLs, so
+    // an unconstrained capture would trust the feed not to contain `../`.
+    id: e.match(/<yt:videoId>([A-Za-z0-9_-]{11})</)?.[1],
     title: decodeEntities(e.match(/<title>([^<]*)/)?.[1] ?? ''),
     published: e.match(/<published>([^<]+)/)?.[1]?.slice(0, 10),
   }))
@@ -107,7 +110,7 @@ function parseVideosTab(html) {
 
   // Older layout: videoRenderer blocks.
   const re =
-    /"videoRenderer":\{"videoId":"([^"]+)".*?"title":\{"runs":\[\{"text":"((?:[^"\\]|\\.)*)"/g
+    /"videoRenderer":\{"videoId":"([A-Za-z0-9_-]{11})".*?"title":\{"runs":\[\{"text":"((?:[^"\\]|\\.)*)"/g
   for (const [, id, rawTitle] of html.matchAll(re)) {
     if (seen.has(id)) continue
     seen.add(id)
