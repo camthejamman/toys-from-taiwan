@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="12 17 396 214">
+  <!-- body: main box + feet -->
+  <rect x="16" y="48" width="388" height="170" rx="8" fill="#020202"/>
+  <rect x="40" y="214" width="26" height="12" rx="2" fill="#020202"/>
+  <rect x="354" y="214" width="26" height="12" rx="2" fill="#020202"/>
+
+  <!-- big knob row -->
+  <circle cx="48" cy="76" r="13" fill="#FFFFFF"/>
+  <circle cx="98" cy="76" r="13" fill="#FFFFFF"/>
+  <circle cx="148" cy="76" r="13" fill="#FFFFFF"/>
+  <circle cx="198" cy="76" r="13" fill="#FFFFFF"/>
+  <circle cx="248" cy="76" r="13" fill="#FFFFFF"/>
+  <circle cx="48" cy="76" r="4" fill="#020202"/>
+  <circle cx="98" cy="76" r="4" fill="#020202"/>
+  <circle cx="148" cy="76" r="4" fill="#020202"/>
+  <circle cx="198" cy="76" r="4" fill="#020202"/>
+  <circle cx="248" cy="76" r="4" fill="#020202"/>
+
+  <!-- medium knob row -->
+  <circle cx="48" cy="118" r="9" fill="#FFFFFF"/>
+  <circle cx="98" cy="118" r="9" fill="#FFFFFF"/>
+  <circle cx="148" cy="118" r="9" fill="#FFFFFF"/>
+  <circle cx="198" cy="118" r="9" fill="#FFFFFF"/>
+  <circle cx="248" cy="118" r="9" fill="#FFFFFF"/>
+  <circle cx="48" cy="118" r="3" fill="#020202"/>
+  <circle cx="98" cy="118" r="3" fill="#020202"/>
+  <circle cx="148" cy="118" r="3" fill="#020202"/>
+  <circle cx="198" cy="118" r="3" fill="#020202"/>
+  <circle cx="248" cy="118" r="3" fill="#020202"/>
+
+  <!-- small knob row -->
+  <circle cx="48" cy="152" r="6.5" fill="#FFFFFF"/>
+  <circle cx="84" cy="152" r="6.5" fill="#FFFFFF"/>
+  <circle cx="120" cy="152" r="6.5" fill="#FFFFFF"/>
+  <circle cx="156" cy="152" r="6.5" fill="#FFFFFF"/>
+  <circle cx="192" cy="152" r="6.5" fill="#FFFFFF"/>
+  <circle cx="228" cy="152" r="6.5" fill="#FFFFFF"/>
+
+  <!-- toggle switches -->
+  <rect x="274" y="64" width="7" height="22" rx="3.5" fill="#FFFFFF"/>
+  <rect x="274" y="106" width="7" height="22" rx="3.5" fill="#FFFFFF"/>
+
+  <!-- patchbay block -->
+  <rect x="300" y="58" width="92" height="96" rx="3" fill="#FFFFFF"/>
+  <circle cx="313" cy="70" r="4" fill="#020202"/>
+  <circle cx="335" cy="70" r="4" fill="#020202"/>
+  <circle cx="357" cy="70" r="4" fill="#020202"/>
+  <circle cx="379" cy="70" r="4" fill="#020202"/>
+  <circle cx="313" cy="87" r="4" fill="#020202"/>
+  <circle cx="335" cy="87" r="4" fill="#020202"/>
+  <circle cx="357" cy="87" r="4" fill="#020202"/>
+  <circle cx="379" cy="87" r="4" fill="#020202"/>
+  <circle cx="313" cy="104" r="4" fill="#020202"/>
+  <circle cx="335" cy="104" r="4" fill="#020202"/>
+  <circle cx="357" cy="104" r="4" fill="#020202"/>
+  <circle cx="379" cy="104" r="4" fill="#020202"/>
+  <circle cx="313" cy="121" r="4" fill="#020202"/>
+  <circle cx="335" cy="121" r="4" fill="#020202"/>
+  <circle cx="357" cy="121" r="4" fill="#020202"/>
+  <circle cx="379" cy="121" r="4" fill="#020202"/>
+  <circle cx="313" cy="138" r="4" fill="#020202"/>
+  <circle cx="335" cy="138" r="4" fill="#020202"/>
+  <circle cx="357" cy="138" r="4" fill="#020202"/>
+  <circle cx="379" cy="138" r="4" fill="#020202"/>
+
+  <!-- mini key / touch pad strip -->
+  <rect x="31" y="166" width="25" height="22" rx="2" fill="#FFFFFF"/>
+  <rect x="61" y="166" width="25" height="22" rx="2" fill="#FFFFFF"/>
+  <rect x="91" y="166" width="25" height="22" rx="2" fill="#FFFFFF"/>
+  <rect x="121" y="166" width="25" height="22" rx="2" fill="#FFFFFF"/>
+  <rect x="151" y="166" width="25" height="22" rx="2" fill="#FFFFFF"/>
+  <rect x="181" y="166" width="25" height="22" rx="2" fill="#FFFFFF"/>
+  <rect x="211" y="166" width="25" height="22" rx="2" fill="#FFFFFF"/>
+  <rect x="241" y="166" width="25" height="22" rx="2" fill="#FFFFFF"/>
+  <rect x="271" y="166" width="25" height="22" rx="2" fill="#FFFFFF"/>
+  <rect x="301" y="166" width="25" height="22" rx="2" fill="#FFFFFF"/>
+  <rect x="331" y="166" width="25" height="22" rx="2" fill="#FFFFFF"/>
+  <rect x="361" y="166" width="25" height="22" rx="2" fill="#FFFFFF"/>
+
+  <!-- panel / front-face groove + power LED -->
+  <rect x="26" y="192" width="368" height="3.5" fill="#FFFFFF"/>
+  <circle cx="388" cy="205" r="3" fill="#FFFFFF"/>
+
+  <!-- patch cables (filled crescents arcing above the top edge) -->
+  <path d="M164,58 C164,18 233,18 240,58 L232,58 C227,27 170,27 172,58 Z" fill="#020202"/>
+  <path d="M248,58 C246,4 316,12 317,70 L308,70 C308,22 258,16 257,58 Z" fill="#020202"/>
+  <path d="M330.5,70 C330.5,18 380,8 383.5,70 L374.5,70 C372,22 339.5,30 339.5,70 Z" fill="#020202"/>
+</svg>

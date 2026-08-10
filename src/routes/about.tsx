@@ -4,7 +4,7 @@ import { SpriteIcon } from '../components/SpriteIcon'
 import { Wordmark3D } from '../components/Wordmark3D'
 import { ICON_COLORS } from '../lib/rainbow'
 import { site } from '../data/site'
-import { JamStudio } from '../components/JamStudio'
+import rigPhoto from '../assets/images/rig-photo.jpg'
 
 export const Route = createFileRoute('/about')({
   component: About,
@@ -148,8 +148,16 @@ function About() {
 
       <Section title="The Rig" eyebrow="Toys, gizmos & gear">
         <div className="card-glass flex flex-col items-center gap-6 p-6 sm:p-8 lg:flex-row xl:gap-10">
-          {/* the live three.js rig — the copy next to it is the description */}
-          <JamStudio className="max-w-xl shrink-0 lg:w-1/2 [--studio-aspect:1.5/1] max-sm:[--studio-aspect:4/3] xl:w-[55%] xl:max-w-2xl" />
+          {/* 3D rendering of the actual live-looping rig — the copy next
+              to it is the description */}
+          <img
+            src={rigPhoto}
+            alt="3D rendering of Jam's live-looping rig: guitar, dual keyboards, HandSonic, loop pedals, and a boom mic with tablet"
+            width={1700}
+            height={1010}
+            className="h-64 w-64 shrink-0 rounded-full border-2 border-card-border object-cover shadow-lg sm:h-72 sm:w-72 lg:h-80 lg:w-80 xl:h-96 xl:w-96"
+            loading="lazy"
+          />
           <div>
             <p className="mt-0 text-ink">
               The one-man band runs on a small mountain of musical toys:

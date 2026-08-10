@@ -443,6 +443,47 @@ body {
   transition-delay: 400ms;
 }
 
+/* The About "Rig" card's static SVG tableau (RigTableau.tsx). Each
+ * instrument group sets --rl0..3 (light) / --rd0..3 (dark) inline; the
+ * layer classes read them here so theme flips are pure CSS. Knockout
+ * details (.k, or a pN slot pointed at the card color) cut through to
+ * the card surface. Grid colors match the jam-studio GridHelper. */
+.rig-tableau .rg {
+  stroke: #1a3a8a;
+}
+.dark .rig-tableau .rg {
+  stroke: #66ff33;
+}
+.rig-tableau .p0,
+.rig-tableau .b {
+  fill: var(--rl0);
+}
+.rig-tableau .p1 {
+  fill: var(--rl1);
+}
+.rig-tableau .p2 {
+  fill: var(--rl2);
+}
+.rig-tableau .p3 {
+  fill: var(--rl3);
+}
+.dark .rig-tableau .p0,
+.dark .rig-tableau .b {
+  fill: var(--rd0);
+}
+.dark .rig-tableau .p1 {
+  fill: var(--rd1);
+}
+.dark .rig-tableau .p2 {
+  fill: var(--rd2);
+}
+.dark .rig-tableau .p3 {
+  fill: var(--rd3);
+}
+.rig-tableau .k {
+  fill: var(--ttf-card-solid);
+}
+
 /* Shorts grid cards: browser-native virtualization — offscreen cards skip
  * layout and paint entirely; the intrinsic-size estimate keeps scrollbar
  * geometry stable before a card first renders. */

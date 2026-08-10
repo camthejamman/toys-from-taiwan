@@ -24,12 +24,14 @@ const rigTiers = [
     name: 'SOME STUFF',
     pitch: "I'll travel lite and set up quickly!",
     icon: 'icon-record',
+    tint: '#2a92c4', // blue
     gear: ['1 Looper', 'Drum Machine / Percussion', 'Electric Guitar', 'Effects', 'Maybe more!'],
   },
   {
     name: 'MOST STUFF',
     pitch: "Now I'll really start jamming out!",
     icon: 'icon-drums',
+    tint: '#d97e2e', // orange
     gear: [
       '2 Loopers',
       'Drum Machine / Percussion',
@@ -42,6 +44,7 @@ const rigTiers = [
     name: 'ALL OF THE STUFF!',
     pitch: "I'll bring the whole rig and get really weird!",
     icon: 'icon-rockstar',
+    tint: '#d6437f', // pink
     gear: [
       '3 Loopers',
       'Drum Machines / Percussions',
@@ -109,19 +112,18 @@ function Contact() {
       </Section>
 
       <Section title="“How Much Music Stuff Should I Bring?”" eyebrow="Pick your rig">
-        <div className="grid items-start gap-5 md:grid-cols-3 xl:gap-6">
+        <div className="grid gap-5 md:grid-cols-3 xl:gap-6">
           {rigTiers.map((tier) => (
             <article
               key={tier.name}
               className={`card-glass flex flex-col p-6 ${
-                'featured' in tier && tier.featured
-                  ? 'ring-2 ring-accent md:-mt-2 md:mb-2'
-                  : ''
+                'featured' in tier && tier.featured ? 'ring-2 ring-accent' : ''
               }`}
             >
               <SpriteIcon
                 name={tier.icon}
-                className="mx-auto h-12 w-12 text-accent"
+                className="mx-auto h-28 w-28 text-accent icon-3d dark:text-ink sm:h-32 sm:w-32 lg:h-36 lg:w-36 xl:h-40 xl:w-40"
+                tint={tier.tint}
               />
               <h3 className="mb-1 mt-4 text-center text-lg font-extrabold text-ink">
                 {tier.name}
@@ -132,7 +134,7 @@ function Contact() {
               <p className="mb-2 mt-5 font-bold text-ink">
                 Here&apos;s what I&apos;ll bring:
               </p>
-              <ul className="m-0 flex list-none flex-col gap-1.5 p-0 text-ink">
+              <ul className="m-0 flex grow list-none flex-col gap-1.5 p-0 text-ink">
                 {tier.gear.map((item) => (
                   <li key={item} className="flex items-baseline gap-2">
                     <span className="text-accent" aria-hidden="true">

@@ -90,8 +90,8 @@ function Home() {
         </div>
         <SocialStrip
           platforms={[...socials, ...streaming]}
-          className="mt-9 max-sm:max-w-60 lg:gap-8"
-          iconClassName="h-11 w-11 sm:h-12 sm:w-12 lg:h-14 lg:w-14"
+          className="mt-12 max-sm:max-w-48 lg:gap-8"
+          iconClassName="h-12 w-12 lg:h-14 lg:w-14"
         />
       </section>
 
@@ -237,16 +237,18 @@ function Home() {
               <strong>100% live-looped</strong>, instrumental jam session filled
               with cheesy midi video game sounds!
             </p>
-            <div className="flex flex-wrap gap-3 mt-6">
+            {/* grid, not flex-wrap: equal-width tracks keep the two buttons
+                the same size — w-fit shrinks the pair to the wider label */}
+            <div className="mt-6 grid w-full gap-3 sm:w-fit md:grid-cols-2 xl:grid-cols-1">
               <Link
                 to="/about"
-                className="btn-3d w-full rounded-md border border-card-border bg-card px-5 py-2 text-center text-sm font-semibold text-accent no-underline transition hover:border-accent md:w-auto"
+                className="btn-3d rounded-md border border-card-border bg-card px-5 py-2 text-center text-sm font-semibold text-accent no-underline transition hover:border-accent"
               >
                 More about the project
               </Link>
               <Link
                 to="/support"
-                className="inline-flex w-full items-center justify-center gap-2 btn-3d rounded-md border border-card-border bg-card px-5 py-2 text-sm font-semibold text-accent no-underline transition hover:border-accent md:w-auto"
+                className="inline-flex items-center justify-center gap-2 btn-3d rounded-md border border-card-border bg-card px-5 py-2 text-sm font-semibold text-accent no-underline transition hover:border-accent"
               >
                 <SpriteIcon name="icon-heart" className="h-4 w-4" />
                 Support the jams

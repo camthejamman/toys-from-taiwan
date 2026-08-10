@@ -85,6 +85,13 @@ export const streaming: PlatformLink[] = [
     color: '#408294',
   },
   {
+    id: 'soundcloud',
+    label: 'SoundCloud',
+    href: 'https://soundcloud.com/toysfromtaiwan',
+    icon: 'icon-soundcloud',
+    color: '#ff5500',
+  },
+  {
     id: 'applemusic',
     label: 'Apple Music',
     href: 'https://music.apple.com/us/artist/toys-from-taiwan/6796355234',
@@ -116,6 +123,7 @@ export const payments: PaymentLink[] = [
     href: 'https://cash.app/$jamontheweb',
     icon: 'icon-cashapp',
     handle: '$jamontheweb',
+    color: '#00c244',
   },
   {
     id: 'venmo',
@@ -123,6 +131,7 @@ export const payments: PaymentLink[] = [
     href: 'https://account.venmo.com/u/jamontheweb',
     icon: 'icon-venmo',
     handle: '@jamontheweb',
+    color: '#008cff',
   },
   {
     id: 'paypal',
@@ -130,5 +139,6 @@ export const payments: PaymentLink[] = [
     href: 'https://www.paypal.com/paypalme/toysfromtaiwan',
     icon: 'icon-paypal',
     handle: 'paypal.me/toysfromtaiwan',
+    color: '#003087',
   },
 ]

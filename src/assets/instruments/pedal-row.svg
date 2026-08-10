@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="2 13 396 90">
+  <!-- board slab (trapezoid, wider at bottom) -->
+  <path d="M 14 78 L 386 78 L 394 92 L 6 92 Z" fill="#020202"/>
+  <!-- feet -->
+  <rect x="30" y="92" width="26" height="7" rx="2" fill="#020202"/>
+  <rect x="187" y="92" width="26" height="7" rx="2" fill="#020202"/>
+  <rect x="344" y="92" width="26" height="7" rx="2" fill="#020202"/>
+
+  <!-- stompbox A body + side jacks -->
+  <rect x="21" y="30" width="9" height="9" rx="1.5" fill="#020202"/>
+  <rect x="84" y="30" width="9" height="9" rx="1.5" fill="#020202"/>
+  <path d="M 26 80 L 29 27 Q 29.3 21 35 21 L 79 21 Q 84.7 21 85 27 L 88 80 Z" fill="#020202"/>
+  <circle cx="44" cy="35" r="6.5" fill="#FFFFFF"/>
+  <circle cx="70" cy="35" r="6.5" fill="#FFFFFF"/>
+  <rect x="36" y="57" width="42" height="9" rx="4.5" fill="#FFFFFF"/>
+
+  <!-- stompbox B body + side jacks -->
+  <rect x="97" y="30" width="9" height="9" rx="1.5" fill="#020202"/>
+  <rect x="160" y="30" width="9" height="9" rx="1.5" fill="#020202"/>
+  <path d="M 102 80 L 105 27 Q 105.3 21 111 21 L 155 21 Q 160.7 21 161 27 L 164 80 Z" fill="#020202"/>
+  <circle cx="120" cy="35" r="6.5" fill="#FFFFFF"/>
+  <circle cx="146" cy="35" r="6.5" fill="#FFFFFF"/>
+  <rect x="112" y="57" width="42" height="9" rx="4.5" fill="#FFFFFF"/>
+
+  <!-- multi-FX wedge body -->
+  <path d="M 178 80 L 180 40 Q 180.3 36 184 36 L 326 36 Q 329.7 36 330 40 L 332 80 Z" fill="#020202"/>
+  <!-- screen -->
+  <rect x="188" y="43" width="36" height="14" rx="2" fill="#FFFFFF"/>
+  <rect x="193" y="46.5" width="4" height="7" fill="#020202"/>
+  <rect x="200" y="46.5" width="4" height="7" fill="#020202"/>
+  <rect x="207" y="46.5" width="4" height="7" fill="#020202"/>
+  <!-- knob row -->
+  <circle cx="238" cy="50" r="4.6" fill="#FFFFFF"/>
+  <circle cx="254" cy="50" r="4.6" fill="#FFFFFF"/>
+  <circle cx="270" cy="50" r="4.6" fill="#FFFFFF"/>
+  <circle cx="286" cy="50" r="4.6" fill="#FFFFFF"/>
+  <!-- footswitch bars -->
+  <rect x="190" y="63" width="44" height="9" rx="4.5" fill="#FFFFFF"/>
+  <rect x="250" y="63" width="44" height="9" rx="4.5" fill="#FFFFFF"/>
+
+  <!-- expression treadle (tilted) -->
+  <g transform="rotate(4 343 50)">
+    <rect x="324" y="18" width="38" height="64" rx="5" fill="#020202"/>
+    <rect x="329" y="26" width="28" height="5" rx="2.5" fill="#FFFFFF"/>
+    <rect x="329" y="39" width="28" height="5" rx="2.5" fill="#FFFFFF"/>
+    <rect x="329" y="52" width="28" height="5" rx="2.5" fill="#FFFFFF"/>
+    <rect x="329" y="65" width="28" height="5" rx="2.5" fill="#FFFFFF"/>
+  </g>
+</svg>

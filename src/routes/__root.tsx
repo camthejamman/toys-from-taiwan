@@ -25,7 +25,18 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: 'stylesheet', href: appCss },
-      { rel: 'icon', href: `${import.meta.env.BASE_URL}favicon.ico` },
+      // "TFT" tab mark — .ico first for legacy browsers, SVG for the rest
+      // (both generated from public/favicon.svg).
+      {
+        rel: 'icon',
+        href: `${import.meta.env.BASE_URL}favicon.ico`,
+        sizes: '48x48',
+      },
+      {
+        rel: 'icon',
+        type: 'image/svg+xml',
+        href: `${import.meta.env.BASE_URL}favicon.svg`,
+      },
     ],
     scripts: [
       // Sets the .dark class before first paint — must stay inline.

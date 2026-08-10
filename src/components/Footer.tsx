@@ -13,7 +13,7 @@ export function Footer() {
       {/* Full-bleed on desktop (icons hug the left edge, back-to-top the
           right, like a proper wide footer); only beyond 1920px does the
           content re-center inside a cap. Mobile keeps the centered stack. */}
-      <div className="mx-auto flex w-full flex-col items-center gap-8 px-4 py-6 sm:gap-6 lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center lg:gap-x-10 lg:gap-y-2 lg:px-10 lg:py-4 min-[1920px]:max-w-[120rem]">
+      <div className="mx-auto flex w-full flex-col items-center gap-8 px-4 py-6 sm:gap-6 lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center lg:gap-x-10 lg:gap-y-1 lg:px-10 lg:py-3 min-[1920px]:max-w-[120rem]">
         {/* Larger footer pieces below sm fill the phone footer's open space;
             sm+ keeps the settled compact row. */}
         {/* brand wordmark is mobile-only — wide screens already have it in
@@ -23,7 +23,7 @@ export function Footer() {
         </p>
 
         <ul
-          className="m-0 flex max-w-64 list-none flex-wrap items-center justify-center gap-5 p-0 sm:max-w-none sm:gap-4 lg:col-start-1 lg:row-start-1 lg:justify-self-start lg:gap-5"
+          className="m-0 flex max-w-48 list-none flex-wrap items-center justify-center gap-5 p-0 sm:max-w-none sm:gap-4 lg:col-start-1 lg:row-start-1 lg:translate-y-2.5 lg:justify-self-start lg:gap-5"
           aria-label="Social and streaming platforms"
         >
           {[...socials, ...streaming].map((p, i) => (

@@ -26,7 +26,7 @@ export function Header() {
       <div className="mx-auto grid w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-3 lg:px-10 min-[1920px]:max-w-[120rem]">
         <Link
           to="/"
-          className="flex items-baseline gap-2 justify-self-start whitespace-nowrap text-lg no-underline transition hover:-translate-y-0.5 sm:text-xl lg:text-2xl"
+          className="flex items-baseline gap-2 justify-self-start whitespace-nowrap text-[clamp(1.125rem,5vw,1.25rem)] no-underline transition hover:-translate-y-0.5 sm:text-xl lg:text-2xl"
           onClick={() => setOpen(false)}
         >
           <Wordmark3D small text={site.name} />
@@ -57,14 +57,14 @@ export function Header() {
           <ThemeToggle />
           <button
             type="button"
-            className="btn-3d rounded-lg border border-card-border bg-card p-2 text-ink md:hidden"
+            className="btn-3d rounded-lg border border-card-border bg-card p-2.5 text-ink md:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? 'Close menu' : 'Open menu'}
             onClick={() => setOpen((v) => !v)}
           >
             <svg
-              className="h-5 w-5"
+              className="h-6 w-6"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -99,7 +99,7 @@ export function Header() {
                     'aria-current': 'page',
                   }}
                   inactiveProps={{ className: 'text-ink' }}
-                  className="block rounded-lg px-3 py-2 no-underline transition hover:bg-accent/10 hover:text-accent"
+                  className="block rounded-lg px-3 py-2.5 no-underline transition hover:bg-accent/10 hover:text-accent"
                   onClick={() => setOpen(false)}
                 >
                   {link.label}

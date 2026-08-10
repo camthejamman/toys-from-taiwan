@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>TFT — Toys From Taiwan</title>
+  <!-- Letters are drawn as rects, not text: a favicon can't rely on a
+       webfont, and blocky strokes stay legible down to 16px. -->
+  <rect width="64" height="64" rx="12" fill="#06263f" />
+  <g fill="#ff77b0">
+    <rect x="4" y="18" width="17" height="6" />
+    <rect x="9.5" y="18" width="6" height="28" />
+  </g>
+  <g fill="#7fe89a">
+    <rect x="23.5" y="18" width="17" height="6" />
+    <rect x="23.5" y="18" width="6" height="28" />
+    <rect x="23.5" y="28" width="13" height="6" />
+  </g>
+  <g fill="#7cd0ff">
+    <rect x="43" y="18" width="17" height="6" />
+    <rect x="48.5" y="18" width="6" height="28" />
+  </g>
+</svg>

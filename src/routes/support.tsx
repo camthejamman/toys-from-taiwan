@@ -39,6 +39,7 @@ function Support() {
               <SpriteIcon
                 name={p.icon}
                 className="h-14 w-14 text-ink transition group-hover:scale-110 group-hover:text-accent lg:h-16 lg:w-16"
+                tint={p.color}
               />
               <span className="text-lg font-bold text-ink lg:text-xl">{p.label}</span>
               <span className="btn-3d max-w-full rounded-md border border-card-border bg-card px-3 py-1 text-center text-sm font-semibold wrap-anywhere text-muted lg:text-base">

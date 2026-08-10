@@ -2,7 +2,12 @@ import { SpriteIcon } from './SpriteIcon'
 import { ICON_COLORS } from '../lib/rainbow'
 import type { PlatformLink } from '../data/site'
 
-/** Icon-only row of platform links, like the old site's media links. */
+/**
+ * Icon-only row of platform links, like the old site's media links.
+ * The mobile max-width is the wrap mechanism: it decides how many icons
+ * fit per row, which is what keeps the phone layout symmetric (9 icons =
+ * 3+3+3) instead of leaving an orphan on a row of its own.
+ */
 export function SocialStrip({
   platforms,
   iconClassName = 'h-8 w-8',
@@ -14,7 +19,7 @@ export function SocialStrip({
 }) {
   return (
     <ul
-      className={`mx-auto my-0 flex max-w-52 list-none flex-wrap items-center justify-center gap-5 p-0 sm:max-w-none ${className}`}
+      className={`mx-auto my-0 flex max-w-40 list-none flex-wrap items-center justify-center gap-5 p-0 sm:max-w-none ${className}`}
     >
       {platforms.map((p, i) => (
         <li key={p.id}>

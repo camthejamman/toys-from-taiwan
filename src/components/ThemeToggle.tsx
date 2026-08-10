@@ -50,11 +50,11 @@ export function ThemeToggle() {
       aria-label="Night sky theme"
       aria-pressed={dark ?? undefined}
       title="Day / night sky"
-      className="btn-3d rounded-md border border-card-border bg-card p-2 text-ink transition hover:text-accent"
+      className="btn-3d rounded-md border border-card-border bg-card p-2.5 text-ink transition hover:text-accent md:p-2"
     >
       {/* sun — shown in light mode */}
       <svg
-        className="h-5 w-5 dark:hidden"
+        className="h-6 w-6 dark:hidden md:h-5 md:w-5"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -67,7 +67,7 @@ export function ThemeToggle() {
       </svg>
       {/* moon + stars — shown in dark mode */}
       <svg
-        className="hidden h-5 w-5 dark:block"
+        className="hidden h-6 w-6 dark:block md:h-5 md:w-5"
         viewBox="0 0 24 24"
         fill="currentColor"
         aria-hidden="true"

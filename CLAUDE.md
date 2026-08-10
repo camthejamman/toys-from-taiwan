@@ -41,7 +41,23 @@ bare three.js (no react-three-fiber, on purpose — load perf is a priority).
   Wordmark3D (all display lettering — per-letter 3D gradient, see below),
   HeroTitle (landing hero: title + "100% Live-Looping…果酱" subtitle as
   CSS lettering + lazy three.js overlay), JamStudio (landing instrument
-  tableau), JamGlyph3D (果酱: sprite fallback + lazy three.js overlay —
+  tableau), RigTableau (BUILT BUT UNUSED as of 2026-08-10 — Cam tried it
+  in the About "Rig" card, then went with a plain photo instead (see
+  about.tsx below); kept in the tree in case he wants it later. Static
+  inline SVG of the real live-rig layout — keytar/keyboard left,
+  HandSonic under the guitar, keyboard + boom-mic/tablet right, loopers +
+  pedalboard + drum machine on the floor. Art lives in
+  rigArt.generated.ts: the four Silhouette Studio silhouettes from
+  src/assets/instruments/ (defs/use resolved, svgo'd, per-path classes
+  p0..pN) plus five 2026-08 agent-drawn additions — keytar, mic-stand,
+  drum-machine, pedal-row, tabletop-synth, each drawn from real web
+  reference photos in the same two-tone style (classes b/k; SVG sources
+  kept in src/assets/instruments/). Colors = the jamStudio titlePalette
+  recipe baked to hex per theme, applied via --rl0..3/--rd0..3 CSS vars
+  set inline per instrument group; the .dark flip + knockout fill
+  (--ttf-card-solid) + grid colors are rules in styles.css, so the SVG
+  prerenders and theme-swaps with zero JS), JamGlyph3D (果酱: sprite
+  fallback + lazy three.js overlay —
   currently unused; was the footer glyph until the footer refactor),
   Decorations (fixed gutter scenery — palms/solids/instruments in TWO
   independently-stacked columns per side, xl+ only; the layer stays
@@ -66,10 +82,19 @@ bare three.js (no react-three-fiber, on purpose — load perf is a priority).
 - `src/three/jamStudio.ts` — lazy instrument tableau (the Solune poster
   scene: gear SVGs from src/assets/instruments/ extruded on a GridHelper
   floor, transparent canvas so the site sky shows through, eased color
-  drift instead of the poster's strobe). Mounted by JamStudio.tsx in TWO
-  places: the landing hero (default layout classes; the tagline below it
-  is the SEO/AT copy) and the About "Rig" card (via the className prop +
-  the `--studio-aspect` CSS var for a squarer box). Palettes
+  drift instead of the poster's strobe). Mounted by JamStudio.tsx on the
+  landing hero ONLY (default layout classes; the tagline below it is the
+  SEO/AT copy) — the About "Rig" card used to be its second mount, then
+  briefly the RigTableau SVG, and now (2026-08-10) a plain circular
+  `<img>` of cam-looper-rig.png (a rendered 3D scene of Jam's character
+  playing the actual rig), sourced from the repo-root PNG and saved as
+  src/assets/images/rig-photo.jpg. The crop is pre-baked into that JPEG,
+  NOT done with CSS: the source had dead white margin above the mic and
+  a thin strip of white studio floor showing in front of the dark rug at
+  the bottom, so it's cropped from the original PNG (top ~160px / bottom
+  ~60px trimmed, at original 3000x2000 scale) before resizing to 1700px
+  wide — a rounded-full + object-cover `<img>` then crops sides only,
+  landing squarely on the rug with no white sliver. Palettes
   (LIGHT_PALETTE/DARK_PALETTE) are sampled from the hero wordmark's
   color recipe (rainbow.ts hue curve + saturation 0.95 +
   extruded-face lightness, per theme) so the instruments wear the title's
@@ -290,6 +315,16 @@ additive lg:/xl:/2xl: prefixes only.
   to the 300px SVG default. Always give sprite icons an explicit width
   (the 果酱 glyph is 2.04:1 — `h-[1.5em] w-[3.06em]`). This once pushed
   the whole hero box off-center on phones.
+- **`transform: scale()` doesn't zoom a rounded/object-cover `<img>`** —
+  border-radius clips the element's OWN box, and a CSS transform moves
+  that box (clip path included) along with its content, so scaling up
+  just enlarges the whole circle rather than magnifying what's inside a
+  fixed-size one (confirmed via boundingBox: a scale-110 img visually
+  grew from 384px to 422px instead of staying clipped). To actually zoom
+  into a circular photo, either pre-crop the source image tighter (what
+  the About "Rig" photo does — see rig-photo.jpg above) or wrap the img
+  in a separate fixed-size `overflow-hidden rounded-full` div and scale
+  only the inner img.
 - **Flat camera fits lie when geometry has depth**: the jamStudio speakers
   and grid edge sit far forward and project ~20% wider than a
   width/height fit predicts — hence the projection-verified fit. Don't
