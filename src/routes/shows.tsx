@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Section } from '../components/Section'
 import { ShowList } from '../components/ShowList'
 import { SpriteIcon } from '../components/SpriteIcon'
-import { site } from '../data/site'
+import { pageHead, site } from '../data/site'
 import { pastShows, sortShows, upcomingShows } from '../data/shows'
 import jamFace from '../assets/images/jam-face.jpg'
 
@@ -16,16 +16,12 @@ const bookingCorners = [
 
 export const Route = createFileRoute('/shows')({
   component: Shows,
-  head: () => ({
-    meta: [
-      { title: `Shows · ${site.name}` },
-      {
-        name: 'description',
-        content:
-          'Upcoming Toys From Taiwan live-looping shows around Jacksonville and St. Augustine, FL.',
-      },
-    ],
-  }),
+  head: () =>
+    pageHead(
+      '/shows/',
+      `Shows · ${site.name}`,
+      'Upcoming Toys From Taiwan live-looping shows around Jacksonville and St. Augustine, FL.',
+    ),
 })
 
 function Shows() {
@@ -54,6 +50,7 @@ function Shows() {
               height={180}
               className="h-40 w-40 shrink-0 rounded-full border-2 border-photo-border object-cover shadow-lg md:ml-4 lg:ml-8 lg:h-52 lg:w-52"
               loading="lazy"
+              decoding="async"
             />
             <div className="flex flex-col items-center gap-4 md:items-start">
               <h3 className="m-0 text-xl font-bold text-ink">Booking soon!</h3>

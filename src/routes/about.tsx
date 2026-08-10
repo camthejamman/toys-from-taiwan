@@ -3,21 +3,17 @@ import { Section } from '../components/Section'
 import { SpriteIcon } from '../components/SpriteIcon'
 import { Wordmark3D } from '../components/Wordmark3D'
 import { ICON_COLORS } from '../lib/rainbow'
-import { site } from '../data/site'
+import { pageHead, site } from '../data/site'
 import rigPhoto from '../assets/images/rig-photo.jpg'
 
 export const Route = createFileRoute('/about')({
   component: About,
-  head: () => ({
-    meta: [
-      { title: `About · ${site.name}` },
-      {
-        name: 'description',
-        content:
-          'About Toys From Taiwan — a 100% live-looping one-man jam band from Jacksonville Beach, FL.',
-      },
-    ],
-  }),
+  head: () =>
+    pageHead(
+      '/about/',
+      `About · ${site.name}`,
+      'About Toys From Taiwan — a 100% live-looping one-man jam band from Jacksonville Beach, FL.',
+    ),
 })
 
 /** The six vibe cards, carried over from the original site. */
@@ -194,8 +190,8 @@ function About() {
           <img
             src={rigPhoto}
             alt="3D rendering of Jam's live-looping rig: guitar, dual keyboards, HandSonic, loop pedals, and a boom mic with tablet"
-            width={1700}
-            height={952}
+            width={1440}
+            height={806}
             className="h-64 w-64 shrink-0 rounded-full border-2 border-photo-border object-cover shadow-lg sm:h-72 sm:w-72 lg:h-80 lg:w-80 xl:h-96 xl:w-96"
             loading="lazy"
           />

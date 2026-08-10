@@ -1,21 +1,17 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Section } from '../components/Section'
 import { SpriteIcon } from '../components/SpriteIcon'
-import { payments, site } from '../data/site'
+import { pageHead, payments, site } from '../data/site'
 import jamFace from '../assets/images/jam-face.jpg'
 
 export const Route = createFileRoute('/support')({
   component: Support,
-  head: () => ({
-    meta: [
-      { title: `Support · ${site.name}` },
-      {
-        name: 'description',
-        content:
-          'Support Toys From Taiwan — send a tip via Cash App, Venmo, or PayPal, or just follow and share the jams.',
-      },
-    ],
-  }),
+  head: () =>
+    pageHead(
+      '/support/',
+      `Support · ${site.name}`,
+      'Support Toys From Taiwan — send a tip via Cash App, Venmo, or PayPal, or just follow and share the jams.',
+    ),
 })
 
 function Support() {
@@ -80,6 +76,7 @@ function Support() {
             height={160}
             className="mx-auto mt-6 h-64 w-64 rounded-full border-2 border-photo-border object-cover shadow-lg lg:h-80 lg:w-80"
             loading="lazy"
+            decoding="async"
           />
         </div>
       </Section>

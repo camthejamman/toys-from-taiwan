@@ -19,6 +19,24 @@ export const site = {
   linktree: 'https://linktr.ee/jamontheweb',
 } as const
 
+/**
+ * Standard per-route head(): title, meta description, canonical URL and
+ * og:url. `path` is the trailing-slash form GitHub Pages actually serves
+ * ('/', '/shows/', '/videos/shorts/') — the extensionless form 301s, so
+ * canonicals must point at the slash version.
+ */
+export function pageHead(path: string, title: string, description: string) {
+  const url = `${site.url}${path}`
+  return {
+    meta: [
+      { title },
+      { name: 'description', content: description },
+      { property: 'og:url', content: url },
+    ],
+    links: [{ rel: 'canonical', href: url }],
+  }
+}
+
 export type PlatformLink = {
   id: string
   label: string

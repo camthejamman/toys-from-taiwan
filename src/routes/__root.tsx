@@ -1,12 +1,14 @@
-import { HeadContent, Link, Scripts, createRootRoute } from '@tanstack/react-router'
+import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 
 import appCss from '../styles.css?url'
+import herosRegular from '../assets/fonts/TeXGyreHeros-Regular-latin.woff2?url'
+import herosBold from '../assets/fonts/TeXGyreHeros-Bold-latin.woff2?url'
 import { AmbientSky } from '../components/AmbientSky'
 import { Decorations } from '../components/Decorations'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { themeInitScript } from '../components/ThemeToggle'
-import { Wordmark3D } from '../components/Wordmark3D'
+import { NotFound } from '../components/NotFound'
 import { site } from '../data/site'
 
 export const Route = createRootRoute({
@@ -19,11 +21,29 @@ export const Route = createRootRoute({
       { property: 'og:title', content: site.name },
       { property: 'og:description', content: site.tagline },
       { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: `${site.url}/` },
+      // og:url + canonical are per-route (pageHead in src/data/site.ts).
       { property: 'og:image', content: `${site.url}/og.jpg` },
       { name: 'twitter:card', content: 'summary' },
     ],
     links: [
+      // Preload both font weights — otherwise they're only discovered after
+      // the CSS downloads and parses, serializing CSS → font and widening
+      // the Arial-first FOUT window. crossOrigin is mandatory on font
+      // preloads even same-origin, or browsers re-fetch the file.
+      {
+        rel: 'preload',
+        as: 'font',
+        type: 'font/woff2',
+        href: herosRegular,
+        crossOrigin: 'anonymous',
+      },
+      {
+        rel: 'preload',
+        as: 'font',
+        type: 'font/woff2',
+        href: herosBold,
+        crossOrigin: 'anonymous',
+      },
       { rel: 'stylesheet', href: appCss },
       // "TFT" tab mark — .ico first for legacy browsers, SVG for the rest
       // (both generated from public/favicon.svg).
@@ -75,24 +95,3 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   )
 }
 
-function NotFound() {
-  return (
-    <div className="mx-auto flex max-w-2xl flex-col items-center px-4 py-24 text-center">
-      <p className="m-0 text-7xl">
-        <Wordmark3D text="404" />
-      </p>
-      <h1 className="mt-2 text-3xl">
-        <Wordmark3D text="Lost in the clouds" />
-      </h1>
-      <p className="mt-3 text-muted">
-        This page floated away. Head back home and the jams will find you.
-      </p>
-      <Link
-        to="/"
-        className="mt-6 btn-3d btn-3d-accent rounded-md bg-accent px-6 py-2.5 font-semibold text-accent-ink no-underline transition hover:bg-accent-strong"
-      >
-        Back to the Jam Lounge
-      </Link>
-    </div>
-  )
-}

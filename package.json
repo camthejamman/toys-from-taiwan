@@ -10,7 +10,7 @@
     "fetch-videos": "node scripts/fetch-videos.mjs",
     "generate-routes": "tsr generate",
     "build": "vite build",
-    "postbuild": "cp dist/client/index.html dist/client/404.html && touch dist/client/.nojekyll",
+    "postbuild": "cp dist/client/404/index.html dist/client/404.html && touch dist/client/.nojekyll",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview",
     "build-icon-guide": "node scripts/build-icon-guide.mjs"

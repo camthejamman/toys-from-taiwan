@@ -268,6 +268,20 @@ if (shorts.length === 0 && (previous.shorts?.length ?? 0) > 0) {
   console.warn(`reusing previous ${previous.shorts.length} shorts`)
   shorts = previous.shorts
 }
+// A continuation that dies mid-pagination returns a PARTIAL list (first
+// page only). Left alone it would truncate videos.json and the prune loop
+// below would delete the committed thumbs that fell out. Keep runs
+// additive: merge the previous list back in behind the fresh entries.
+if (shorts.length < (previous.shorts?.length ?? 0)) {
+  const have = new Set(shorts.map((s) => s.id))
+  shorts = [...shorts, ...previous.shorts.filter((s) => !have.has(s.id))].slice(
+    0,
+    SHORTS_KEEP,
+  )
+  console.warn(
+    `shorts fetch came back short — merged previous list (now ${shorts.length})`,
+  )
+}
 
 await mkdir(thumbsDir, { recursive: true })
 for (const video of videos) {
@@ -275,10 +289,17 @@ for (const video of videos) {
   let thumb = await fetch(`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`)
   if (!thumb.ok) thumb = await fetch(`https://i.ytimg.com/vi/${video.id}/mqdefault.jpg`)
   if (!thumb.ok) throw new Error(`Thumbnail failed for ${video.id}`)
-  await writeFile(
-    path.join(thumbsDir, `${video.id}.jpg`),
-    Buffer.from(await thumb.arrayBuffer()),
-  )
+  let buf = Buffer.from(await thumb.arrayBuffer())
+  // maxresdefault is 1280×720; the cards render ~360px wide, so 768w
+  // covers 2× DPR at roughly 40% of the bytes.
+  if (sharp) {
+    buf = await sharp(buf)
+      .resize(768, null, { withoutEnlargement: true })
+      .jpeg({ quality: 78 })
+      .toBuffer()
+      .catch(() => buf)
+  }
+  await writeFile(path.join(thumbsDir, `${video.id}.jpg`), buf)
 }
 await mapPool(shorts, 4, async (short) => {
   // Thumbs are effectively immutable — skip ones we already have.

@@ -38,20 +38,6 @@
       ]
     },
     {
-      "id": "icon-youtube2",
-      "appearance": "The word 'You' in plain letters next to 'Tube' reversed out of a filled rounded rectangle",
-      "description": "The full YouTube wordmark lockup, for spots where the horizontal logotype reads better than the square play badge.",
-      "nameMatchesArt": false,
-      "mismatchNote": "Unlike icon-youtube it is not a square badge but a wide 80x32 (2.5:1) wordmark, so it needs an explicit width or it will render squashed or oversized.",
-      "keywords": [
-        "youtube",
-        "wordmark",
-        "logotype",
-        "video",
-        "brand text"
-      ]
-    },
-    {
       "id": "icon-instagram",
       "appearance": "Rounded-square camera outline with a circle lens inside and a small solid dot at the upper right",
       "description": "The Instagram camera outline for profile and Reels links.",
@@ -423,90 +409,6 @@
       ]
     },
     {
-      "id": "icon-star",
-      "appearance": "Solid filled five-pointed star",
-      "description": "Filled five-pointed star for ratings, featured items, or highlights.",
-      "nameMatchesArt": true,
-      "mismatchNote": "",
-      "keywords": [
-        "star",
-        "rating",
-        "favorite",
-        "featured",
-        "filled"
-      ]
-    },
-    {
-      "id": "icon-star-empty",
-      "appearance": "Five-pointed star drawn as an outline only, hollow center",
-      "description": "Outlined star — the unfilled counterpart to icon-star for empty rating states.",
-      "nameMatchesArt": true,
-      "mismatchNote": "",
-      "keywords": [
-        "star",
-        "outline",
-        "rating",
-        "empty",
-        "unfilled"
-      ]
-    },
-    {
-      "id": "icon-brightness-contrast",
-      "appearance": "Solid disc whose right half is knocked out white, ringed by eight short rounded rays — a sun half-lit",
-      "description": "Sun with a half-filled disc, the standard light/dark theme or brightness toggle glyph.",
-      "nameMatchesArt": true,
-      "mismatchNote": "",
-      "keywords": [
-        "theme toggle",
-        "dark mode",
-        "sun",
-        "brightness",
-        "contrast"
-      ]
-    },
-    {
-      "id": "icon-home3",
-      "appearance": "Filled house silhouette with a pitched roof, wide eaves and a chimney on the right slope; no door or windows",
-      "description": "Solid house glyph for the home link in nav, breadcrumbs, or a back-to-start button.",
-      "nameMatchesArt": true,
-      "mismatchNote": "",
-      "keywords": [
-        "house",
-        "home",
-        "landing",
-        "index",
-        "start"
-      ]
-    },
-    {
-      "id": "icon-address-book",
-      "appearance": "Solid upright rectangle with a person bust (round head over rounded shoulders) knocked out white, plus four small separate tabs down the left spine",
-      "description": "Contact-book cover with a person silhouette and binder tabs — use for a contact list or address/roster page.",
-      "nameMatchesArt": true,
-      "mismatchNote": "",
-      "keywords": [
-        "contacts",
-        "address book",
-        "directory",
-        "rolodex",
-        "person"
-      ]
-    },
-    {
-      "id": "icon-accessibility",
-      "appearance": "Standing stick figure with a detached round head, arms flung straight out and legs spread in a wide stance",
-      "description": "Universal human/accessibility figure with outstretched limbs, for a11y settings or an inclusive-access notice.",
-      "nameMatchesArt": true,
-      "mismatchNote": "",
-      "keywords": [
-        "a11y",
-        "accessible",
-        "person",
-        "universal access",
-        "disability"
-      ]
-    },
-    {
       "id": "icon-spotify",
       "appearance": "Solid black circle with three white curved arcs stacked inside, longest at the top — the Spotify wave mark",
       "description": "Spotify's circular logo for streaming links, platform pills, and social icon strips.",
@@ -589,32 +491,6 @@
       ]
     },
     {
-      "id": "icon-rig-handsonic",
-      "appearance": "Wedge-shaped electronic hand drum from above, segmented round head, small display",
-      "description": "The bare HandSonic-style electronic hand-percussion pad in three-quarter view — round playing surface split into pie-slice pads plus an LCD and rows of oval buttons; pick this over the generic icon-handsonic (a plain undivided round practice pad on a stand) when you want the real unit sitting on a table or in a flat gear row.",
-      "nameMatchesArt": true,
-      "keywords": [
-        "handsonic",
-        "hand drum",
-        "percussion pad",
-        "roland",
-        "rig"
-      ]
-    },
-    {
-      "id": "icon-rig-handsonic-stand",
-      "appearance": "Same segmented hand drum pad atop tall tripod stand, angled view",
-      "description": "The stand-mounted version of the HandSonic pad — pad angled toward the player on a telescoping post with a splayed tripod base and rubber feet — for rig tableaus and stage-layout drawings where instruments stand on the floor; note the generic icon-handsonic is also on a stand but shows a featureless round pad.",
-      "nameMatchesArt": true,
-      "keywords": [
-        "handsonic",
-        "drum pad stand",
-        "percussion",
-        "tripod",
-        "rig"
-      ]
-    },
-    {
       "id": "icon-jam-head",
       "appearance": "Ink line-art portrait of young man, solid black wavy hair, collar",
       "description": "JAM's face as a brand/character mark — three-quarter head-and-shoulders portrait where the hair is a solid mass and the features, neck and shirt collar are open outline; it is a portrait, not gear, so use it for avatars, bylines and about-page moments, and keep it large (the thin facial lines mush below ~64px).",
@@ -628,19 +504,6 @@
       ]
     },
     {
-      "id": "icon-jam-callig",
-      "appearance": "Two hand-brushed Chinese characters 果酱, wobbly tapered ink strokes",
-      "description": "The 果酱 wordmark in a hand-inked brush style — same two characters as icon-jam-cn but with irregular, tapered, slightly wobbly strokes instead of that one's clean typeset geometry — so reach for it when a placement wants the handmade, signature-like feel and for icon-jam-cn when it needs to look like set type; roughly 2:1 wide.",
-      "nameMatchesArt": true,
-      "keywords": [
-        "jam",
-        "guo jiang",
-        "chinese",
-        "calligraphy",
-        "wordmark"
-      ]
-    },
-    {
       "id": "icon-rig-keyboard",
       "appearance": "Solid black slab keyboard in 3/4 view from above-left; white keys knocked out, black sharps as tabs, blank control panel to the right",
       "description": "Cam's own stage keyboard drawn as a bare slab with no stand — reach for it when you want the instrument floating on its own (a hero mark, a bullet next to \"keys\"), and give it a ~2:1 wide box (viewBox 215.6x105.9) since it is much wider than tall.",
@@ -651,32 +514,6 @@
         "synth",
         "piano",
         "rig"
-      ]
-    },
-    {
-      "id": "icon-rig-keyboard-stand",
-      "appearance": "Same slab keyboard sitting on a four-leg table-style stand with two long rails and rubber feet",
-      "description": "The stage-ready version of icon-rig-keyboard — keyboard plus its folding table stand, nearly square (162x136) and visually heavier, so use it in rig/gear layouts where the piece should stand on the floor and use the bare icon-rig-keyboard when it should not.",
-      "nameMatchesArt": true,
-      "keywords": [
-        "keyboard",
-        "stand",
-        "rig",
-        "stage",
-        "keys"
-      ]
-    },
-    {
-      "id": "icon-rig-loopstation",
-      "appearance": "Extremely wide, short flat panel seen edge-on: raised block at left, one row of round jacks and knobs, small window and squares at right",
-      "description": "Cam's looper drawn as a long low control/patch panel rather than a top-down pedal, so it only reads as gear at large sizes in a wide slot — its viewBox is 245.6x35.5 (~7:1), which will render as a thin dash in any square 24px icon box.",
-      "nameMatchesArt": true,
-      "keywords": [
-        "looper",
-        "loop station",
-        "pedal",
-        "jacks",
-        "panel"
       ]
     },
     {
@@ -721,8 +558,6 @@
         "icon-applemusic",
         "icon-youtubemusic",
         "icon-twitch",
-        "icon-youtube2",
-        "icon-jam-callig",
         "icon-jam-head"
       ]
     },
@@ -760,11 +595,6 @@
       "ids": [
         "icon-heart",
         "icon-calendar",
-        "icon-brightness-contrast",
-        "icon-home3",
-        "icon-star",
-        "icon-star-empty",
-        "icon-accessibility",
         "icon-eye"
       ]
     },
@@ -773,8 +603,7 @@
       "subtitle": "Ways to reach Jam directly: email, phone and the contact card.",
       "ids": [
         "icon-envelop",
-        "icon-phone",
-        "icon-address-book"
+        "icon-phone"
       ]
     },
     {
@@ -792,11 +621,7 @@
       "ids": [
         "icon-rig-bass",
         "icon-rig-guitar",
-        "icon-rig-handsonic",
-        "icon-rig-handsonic-stand",
         "icon-rig-keyboard",
-        "icon-rig-keyboard-stand",
-        "icon-rig-loopstation",
         "icon-rig-speaker-left",
         "icon-rig-speaker-right"
       ]

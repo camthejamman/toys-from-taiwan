@@ -359,7 +359,7 @@ ${spriteInner}
       <li>${unused.length} icons have no reference anywhere in <code>src/</code>: ${unused.map((i) => `<code>${esc(i.id)}</code>`).join(', ')}.</li>
       ${noted.length ? `<li>Art more specific than the name — worth knowing before you pick by id alone:
         ${noted.map((c) => `<code>${esc(c.id)}</code> is ${esc(c.appearance.replace(/^A /, '').replace(/^The /, ''))}`).join('; ')}.
-        Both were independently reviewed and judged terse rather than misleading, so nothing needs renaming.</li>` : ''}
+        ${noted.length === 1 ? 'It was' : 'These were'} independently reviewed and judged terse rather than misleading, so nothing needs renaming.</li>` : ''}
     </ul>
   </section>
 </div>

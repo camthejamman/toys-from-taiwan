@@ -244,7 +244,13 @@ function useStackedTops(items: Placed[]): (number | null)[] | null {
   const [tops, setTops] = useState<(number | null)[] | null>(null)
   useEffect(() => {
     const GAP = 22
+    let raf = 0
     const compute = () => {
+      raf = 0
+      // The layer is display:none below xl (1280px) — skip the layout
+      // reads there (phone URL-bar/orientation resizes fire constantly).
+      // Growing back past 1280 fires resize events that land here again.
+      if (window.innerWidth < 1280) return
       const vh = window.innerHeight
       const headerH =
         document.querySelector('header')?.getBoundingClientRect().height ?? 62
@@ -261,11 +267,26 @@ function useStackedTops(items: Placed[]): (number | null)[] | null {
         out.push(top)
         cursor = top + h + GAP
       }
-      setTops(out)
+      // A fresh array every pass would re-render every DecoItem per
+      // resize event — keep the old identity when nothing moved.
+      setTops((prev) =>
+        prev &&
+        prev.length === out.length &&
+        prev.every((v, i) => v === out[i])
+          ? prev
+          : out,
+      )
+    }
+    // Collapse resize-event bursts to one compute per frame.
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(compute)
     }
     compute()
-    window.addEventListener('resize', compute)
-    return () => window.removeEventListener('resize', compute)
+    window.addEventListener('resize', schedule)
+    return () => {
+      window.removeEventListener('resize', schedule)
+      if (raf) cancelAnimationFrame(raf)
+    }
   }, [items])
   return tops
 }

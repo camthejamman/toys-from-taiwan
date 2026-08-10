@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Trailing-slash URLs: GitHub Pages 301s the extensionless form. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://camthejamman.github.io/toys-from-taiwan/</loc></url>
+  <url><loc>https://camthejamman.github.io/toys-from-taiwan/about/</loc></url>
+  <url><loc>https://camthejamman.github.io/toys-from-taiwan/music/</loc></url>
+  <url><loc>https://camthejamman.github.io/toys-from-taiwan/shows/</loc></url>
+  <url><loc>https://camthejamman.github.io/toys-from-taiwan/videos/</loc></url>
+  <url><loc>https://camthejamman.github.io/toys-from-taiwan/videos/shorts/</loc></url>
+  <url><loc>https://camthejamman.github.io/toys-from-taiwan/contact/</loc></url>
+  <url><loc>https://camthejamman.github.io/toys-from-taiwan/support/</loc></url>
+</urlset>

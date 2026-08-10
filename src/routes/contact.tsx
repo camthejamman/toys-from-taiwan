@@ -1,21 +1,17 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Section } from '../components/Section'
 import { SpriteIcon } from '../components/SpriteIcon'
-import { site } from '../data/site'
+import { pageHead, site } from '../data/site'
 import jamFace from '../assets/images/jam-face.jpg'
 
 export const Route = createFileRoute('/contact')({
   component: Contact,
-  head: () => ({
-    meta: [
-      { title: `Contact & Booking · ${site.name}` },
-      {
-        name: 'description',
-        content:
-          'Book Toys From Taiwan for your venue or event — contact Jam directly by email or phone.',
-      },
-    ],
-  }),
+  head: () =>
+    pageHead(
+      '/contact/',
+      `Contact & Booking · ${site.name}`,
+      'Book Toys From Taiwan for your venue or event — contact Jam directly by email or phone.',
+    ),
 })
 
 /** "How Much Music Stuff Should I Bring?" — the three rig tiers. */
@@ -107,6 +103,7 @@ function Contact() {
             height={180}
             className="h-40 w-40 rounded-full border-2 border-photo-border object-cover shadow-lg lg:h-52 lg:w-52"
             loading="lazy"
+            decoding="async"
           />
         </div>
       </Section>

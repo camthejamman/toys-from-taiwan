@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useIsDark } from './ThemeToggle'
 import type { Release } from '../data/releases'
+import { preconnect } from '../lib/preconnect'
 
 /**
  * Click-to-load Bandcamp player. Shows the (self-hosted) cover art until the
@@ -12,10 +13,21 @@ export function BandcampEmbed({ release }: { release: Release }) {
   const dark = useIsDark() ?? false
 
   if (!loaded) {
+    // The player document comes from bandcamp.com; its assets and audio
+    // stream from the bcbits CDNs — warm all three on intent.
+    const warm = () =>
+      preconnect([
+        'https://bandcamp.com',
+        'https://s4.bcbits.com',
+        'https://t4.bcbits.com',
+      ])
     return (
       <button
         type="button"
         onClick={() => setLoaded(true)}
+        onPointerEnter={warm}
+        onFocus={warm}
+        onTouchStart={warm}
         className="group relative block w-full max-w-sm cursor-pointer overflow-hidden rounded-lg border border-card-border bg-transparent p-0 text-left shadow-lg xl:max-w-md"
         aria-label={`Play ${release.title} — loads the Bandcamp player`}
       >
@@ -24,6 +36,7 @@ export function BandcampEmbed({ release }: { release: Release }) {
           alt={release.coverAlt}
           width={700}
           height={700}
+          decoding="async"
           className="block w-full transition duration-300 group-hover:scale-[1.02]"
         />
         <span className="absolute inset-0 flex items-center justify-center bg-black/25 opacity-90 transition group-hover:opacity-100">

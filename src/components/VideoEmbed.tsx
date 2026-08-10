@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { formatVideoDate, videoThumb } from '../data/videos'
 import type { Video } from '../data/videos'
+import { preconnect } from '../lib/preconnect'
 
 /** Broadcast when any embed starts, so only one video plays at a time. */
 const PLAY_EVENT = 'ttf-video-play'
@@ -15,9 +16,12 @@ const PLAY_EVENT = 'ttf-video-play'
 export function VideoEmbed({
   video,
   vertical = false,
+  eager = false,
 }: {
   video: Video
   vertical?: boolean
+  /** Above-the-fold thumbnails: eager-load at high priority (LCP). */
+  eager?: boolean
 }) {
   const [playing, setPlaying] = useState(false)
   const date = formatVideoDate(video.published)
@@ -37,6 +41,8 @@ export function VideoEmbed({
     setPlaying(true)
   }
 
+  const warm = () => preconnect(['https://www.youtube-nocookie.com'])
+
   return (
     <article>
       {playing ? (
@@ -55,15 +61,20 @@ export function VideoEmbed({
         <button
           type="button"
           onClick={play}
+          onPointerEnter={warm}
+          onFocus={warm}
+          onTouchStart={warm}
           aria-label={`Play video: ${video.title}`}
           className="group relative block w-full cursor-pointer overflow-hidden rounded-lg border border-card-border bg-transparent p-0 shadow-lg"
         >
           <img
             src={videoThumb(video)}
             alt=""
-            width={vertical ? 1080 : 1280}
-            height={vertical ? 1920 : 720}
-            loading="lazy"
+            width={vertical ? 480 : 768}
+            height={vertical ? 853 : 432}
+            loading={eager ? 'eager' : 'lazy'}
+            fetchPriority={eager ? 'high' : undefined}
+            decoding="async"
             className={`block ${aspect} w-full object-cover transition duration-300 group-hover:scale-[1.03]`}
           />
           <span className="absolute inset-0 flex items-center justify-center bg-black/20 transition group-hover:bg-black/30">

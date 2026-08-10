@@ -17,7 +17,8 @@ bare three.js (no react-three-fiber, on purpose — load perf is a priority).
 - `npm run dev` — http://localhost:3000/toys-from-taiwan/ (note the base path)
 - `npm run typecheck` — tsc --noEmit (run before calling work done)
 - `npm run build` — prerenders all routes into dist/client (postbuild hook
-  copies index.html → 404.html + touches .nojekyll automatically)
+  copies the prerendered 404 route — dist/client/404/index.html — to
+  404.html + touches .nojekyll automatically)
 - `npm run preview` — serve dist/client. **Restart it after each rebuild** —
   vite preview serves stale HTML from before a rebuild.
 - `npm run fetch-videos` — refresh Videos page data from YouTube (see below)
@@ -26,12 +27,29 @@ bare three.js (no react-three-fiber, on purpose — load perf is a priority).
 
 - `src/data/` — ALL editable content: site.ts (links/contact/handles),
   shows.ts (upcoming+past), releases.ts (discography), videos.json (generated
-  — never hand-edit; run fetch-videos)
+  — never hand-edit; run fetch-videos).
+  `pastShows` was re-anchored to 2026 on 2026-08-10: eight Feb–Jul 2026
+  rooms (transcribed from Cam's Facebook posts + flyers) replaced the
+  2024/2022 entries, which were DELETED at his request — recover them with
+  `git show 6aa9637:src/data/shows.ts` if they should ever come back (that
+  commit holds the only copies of the Bold Bean and Wildcrafters links).
+  Solune Coffee and Spinster Abbott's have no `href` yet, so those cards
+  render without a Details button — ShowList makes it optional. Venue links
+  on file: Dragonfly Lounge = dragonflylounge-beaches.com, Green Room =
+  greenroombrewing.com, Graet Goods = facebook.com/graetgoods.
 - `src/routes/` — index, about, music, shows, contact, support, and
   videos as a layout route with two tabs: videos.index.tsx = Jams
   (regular uploads, default) and videos.shorts.tsx = Shorts (portrait
-  9:16 grid); videos.tsx holds the tab nav + shared footer buttons
-  (+ __root.tsx = document shell, nav/footer, theme init, 404)
+  9:16 grid); videos.tsx holds the tab nav + shared footer buttons but NO
+  head() — head() lives on the CHILD routes, because a layout-route
+  canonical stacks with the child's (two rel=canonical links = search
+  engines ignore both). Every route's head() goes through pageHead() in
+  src/data/site.ts (title + description + canonical + og:url, trailing-
+  slash paths — GH Pages 301s the extensionless form). 404.tsx exists so
+  the prerender emits a real 404 page (postbuild copies 404/index.html →
+  404.html; noindex meta). (+ __root.tsx = document shell, nav/footer,
+  theme init, font preloads; notFoundComponent renders the shared
+  components/NotFound.tsx)
 - `src/components/` — Header, Footer, Section (page section w/ heading —
   optional `className` passthrough for layout, e.g. the xl flex-col trick
   that lets Meet JAM's card stretch to match its neighbor column —
@@ -98,14 +116,17 @@ bare three.js (no react-three-fiber, on purpose — load perf is a priority).
   SEO/AT copy) — the About "Rig" card used to be its second mount, then
   briefly the RigTableau SVG, and now (2026-08-10) a plain circular
   `<img>` of cam-looper-rig.png (a rendered 3D scene of Jam's character
-  playing the actual rig), sourced from the repo-root PNG and saved as
-  src/assets/images/rig-photo.jpg. The crop is pre-baked into that JPEG,
+  playing the actual rig), sourced from jam/cam-looper-rig.png (moved
+  from the repo root into the source-artwork folder 2026-08-10) and saved
+  as src/assets/images/rig-photo.jpg. The crop is pre-baked into that JPEG,
   NOT done with CSS: the source had dead white margin above the mic and
   a thin strip of white studio floor showing in front of the dark rug at
   the bottom. Current recipe (2026-08-10), from the 3000x2000 original:
-  `convert cam-looper-rig.png -crop 3000x1680+0+100 +repage -resize
-  1700x -quality 82` → 1700x952 (keep the img width/height attrs in
-  sync). The crop HEIGHT sets the zoom and the crop OFFSET sets vertical
+  `convert jam/cam-looper-rig.png -crop 3000x1680+0+100 +repage -resize
+  1440x -quality 82` → 1440x806 (keep the img width/height attrs in
+  sync; 1440w = ~2× the 384px xl render, trimmed from 1700w in the
+  pre-launch perf pass). The crop HEIGHT sets the zoom and the crop
+  OFFSET sets vertical
   framing — slide the offset (keeping height fixed) to move the subject
   within the circle without rescaling it; `object-position` cannot do
   this, because the square fit is height-governed and already shows the
@@ -129,10 +150,12 @@ bare three.js (no react-three-fiber, on purpose — load perf is a priority).
   saturated under ACES; dark grid
   is bright lime #66ff33; left speaker sits at x=-545 (not the poster's
   -620) so its feet stay on the grid when narrow layouts compact.
-- `src/assets/sprite.svg` — icon sprite (52 symbols: legacy icons +
-  simple-icons brands + 11 `icon-rig-*`/`icon-jam-*` artworks imported
+- `src/assets/sprite.svg` — icon sprite (40 symbols: legacy icons +
+  simple-icons brands + 7 `icon-rig-*`/`icon-jam-*` artworks imported
   from `jam/svg/` on 2026-08-10), all fills stripped so icons inherit
-  currentColor.
+  currentColor. 12 unreferenced symbols (~92KB — icon-jam-callig,
+  icon-youtube2, 4 rig artworks, 6 legacy UI icons) were pruned in the
+  2026-08-10 pre-launch pass; recover them from git history if needed.
   **Importing more of Cam's Silhouette Studio art** (`jam/svg/`, the
   repo-root source artwork): those exports are `<defs>` paths + `<use>`
   on a 304.8 mat canvas with NO transforms, so each `<use>` maps 1:1 to
@@ -158,9 +181,8 @@ bare three.js (no react-three-fiber, on purpose — load perf is a priority).
   `scripts/icon-catalog.json` is hand-maintained. A symbol with no
   catalog entry still renders (under "Other") and logs a build warning,
   so new icons can't silently vanish from the guide.
-  Two naming quirks the guide records: `icon-keys` is a MELODICA (the
-  full stage keyboard is `icon-synth`), and `icon-youtube2` is the wide
-  2.5:1 YouTube wordmark, not a second badge.
+  One naming quirk the guide records: `icon-keys` is a MELODICA (the
+  full stage keyboard is `icon-synth`).
 - `scripts/fetch-videos.mjs` — keylessly pulls the latest 9 regular
   uploads (the /videos tab) AND up to 108 Shorts: initial /shorts tab
   HTML (shortsLockupViewModel blocks, title in
@@ -169,10 +191,14 @@ bare three.js (no react-three-fiber, on purpose — load perf is a priority).
   page; the GRID token is the first structural continuationItemRenderer —
   shorter tokens are chip/tab endpoints that return the wrong route;
   continuation responses are PRETTY-PRINTED JSON, parsers must be
-  whitespace-tolerant). Portrait thumbs are downscaled to 480w via sharp
+  whitespace-tolerant). Portrait thumbs are downscaled to 480w and the 9
+  regular-video thumbs to 768w (~2× their rendered card) via sharp
   (optional dep — script survives without it). Resilience rules learned
   the hard way: the previous videos.json is a cache (known dates are
-  never re-fetched; an empty shorts fetch KEEPS the old list; existing
+  never re-fetched; an empty shorts fetch KEEPS the old list; a PARTIAL
+  shorts fetch — a continuation dying mid-pagination — merges the
+  previous list back in behind the fresh entries instead of truncating
+  the grid and orphaning committed thumbs; existing
   shorts thumbs are skipped), and watch-page date lookups have a 429
   circuit breaker (dates go null instead of the run failing — they
   backfill on later runs). Writes {videos, shorts} + public/thumbs/*.jpg
@@ -398,6 +424,16 @@ additive lg:/xl:/2xl: prefixes only.
 - Radius language after the de-rounding pass: cards 0.625rem
   (.card-glass), buttons/pills rounded-md, avatars stay rounded-full.
   Don't reintroduce rounded-full buttons or rounded-2xl cards.
+- **Text below a `.card-glass` grid needs `mt-20`, not mt-6/mt-8** — the
+  card's biggest drop is `0 64px 96px -32px`, so the shadow reaches
+  64 + 48 − 32 = **80px** past the card's bottom edge. A trailing line at
+  mt-6/mt-8 lands INSIDE that smudge and reads as "too close" with no
+  obvious cause (Cam flagged it twice on 2026-08-10 — the Shows past-list
+  footnote and the Music page's "Every video short is a real live loop",
+  both now mt-20). 5rem is also the CEILING: Section is `py-10`, so
+  consecutive sections sit 80px apart — go past that and the trailing line
+  starts reading as the NEXT section's intro instead of a tail on the
+  current one. index.tsx:125 is the same pattern, still at mt-8, untouched.
 - grep on dist HTML: use `grep -a` (the `·` in titles trips binary detection).
 
 ## Deploy status (as of 2026-08-09)
@@ -408,8 +444,23 @@ additive lg:/xl:/2xl: prefixes only.
 - **Workflow is currently DISABLED** (`gh workflow disable`) — the site is
   NOT launched yet; Cam is still tweaking. Launch checklist:
   1. `gh workflow enable "Deploy to GitHub Pages"`
-  2. Repo Settings → Pages → Source → "GitHub Actions" (one-time)
-  3. Push to main (or `gh workflow run`)
+  2. Push to main (or `gh workflow run`) — configure-pages runs with
+     `enablement: true`, so the Settings → Pages → Source flip happens
+     automatically on first run.
+- **2026-08-10 pre-launch perf/SEO pass** (all verified in dist): 12
+  unused sprite symbols pruned (−92KB); derp.jpg/instruments.jpg/
+  channels4_banner.jpg/drive-download screenshots deleted (git history
+  keeps them); both woff2 fonts preloaded in __root head (crossOrigin
+  mandatory or browsers double-fetch); jams thumbs 1280w→768w (−625KB,
+  fetch-videos now does this every run); rig-photo 1700w→1440w; first 3
+  jams + first short are loading=eager fetchPriority=high (LCP), all
+  other imgs lazy + decoding=async; .jam-card content-visibility matches
+  .short-card; embed facades preconnect to youtube-nocookie/bandcamp/
+  bcbits on hover-intent via src/lib/preconnect.ts (keeps the
+  zero-third-party-before-intent promise — sockets only, no bytes);
+  public/robots.txt + sitemap.xml; per-route canonical/og:url via
+  pageHead(); real prerendered 404 page; Decorations stacker rAF-throttled
+  + early-returns below xl + setState bails when tops are unchanged.
 - `gh` is a user-local install at ~/.local/bin/gh, already authenticated.
 - The 2026-08-09 3D/typography/decoration overhaul landed as one big
   working-tree change (Cam commits himself — don't commit unprompted).
@@ -426,7 +477,15 @@ additive lg:/xl:/2xl: prefixes only.
   deliberately REDUCED once; don't beef them back up. Non-interactive
   chips (music tags) stay flat.
 - **Cards**: `.card-glass` floats high — three-layer shadow (contact +
-  mid + 64px/96px soft drop). That's intentional drama, not a bug.
+  mid + 64px/96px soft drop). That's intentional drama, not a bug. It does
+  cost 80px of clearance for anything placed under a card — see the mt-20
+  rule in Gotchas.
+- **Header brand link**: hover is the rainbow underline ONLY
+  (`.brand-underline::after`, which owns its own 220ms transform
+  transition — the link element needs no `transition` utility of its own).
+  The wordmark also lifted on hover until 2026-08-10; Cam had it removed.
+  The `.btn-3d` hover lift is the language for BUTTONS — don't put a
+  translate back on the wordmark.
 - **Section headings**: the rainbow underline auto-matches the heading's
   width (inline-block wrapper in Section.tsx, `mt-2` gap — tightened
   after the lettering went flat).
@@ -443,6 +502,13 @@ additive lg:/xl:/2xl: prefixes only.
 - Content edits go in src/data/*, not components.
 - All copy carried over from the legacy site should stay faithful (links,
   handles, tier lists were verbatim-audited — don't paraphrase URLs/handles).
+- **Adding shows from flyers/screenshots**: formatShowDate() RENDERS the
+  weekday, so a wrong year silently prints a wrong day. Flyers say "this
+  Saturday" and posts are dated — check every entry with `date -d
+  2026-06-06 +%A` before calling it done. Transcribe times from the
+  artist's own set time, not the event's run (Green Room's 15th ran
+  4pm–midnight; Cam played 4–7). Don't invent a venue URL or city that the
+  screenshot doesn't show — leave `href` off and ask.
 - External links: target="_blank" rel="noreferrer". Icon-only links must
   pass `label` to SpriteIcon for screen readers.
 - Third-party embeds are click-to-load facades (BandcampEmbed, VideoEmbed) —

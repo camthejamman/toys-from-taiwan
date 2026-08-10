@@ -4,21 +4,17 @@ import { BandcampEmbed } from '../components/BandcampEmbed'
 import { PlatformPillRow } from '../components/PlatformPill'
 import { SpriteIcon } from '../components/SpriteIcon'
 import { Wordmark3D } from '../components/Wordmark3D'
-import { site, socials, streaming } from '../data/site'
+import { pageHead, site, socials, streaming } from '../data/site'
 import { releases } from '../data/releases'
 
 export const Route = createFileRoute('/music')({
   component: Music,
-  head: () => ({
-    meta: [
-      { title: `Music · ${site.name}` },
-      {
-        name: 'description',
-        content:
-          'Listen to Toys From Taiwan — 100% live-looped jams on Bandcamp, Spotify, Apple Music, and YouTube Music.',
-      },
-    ],
-  }),
+  head: () =>
+    pageHead(
+      '/music/',
+      `Music · ${site.name}`,
+      'Listen to Toys From Taiwan — 100% live-looped jams on Bandcamp, Spotify, Apple Music, and YouTube Music.',
+    ),
 })
 
 function Music() {

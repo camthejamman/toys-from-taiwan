@@ -1,7 +1,7 @@
 import { memo, useEffect, useMemo, useRef } from 'react'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { VideoEmbed } from '../components/VideoEmbed'
-import { site } from '../data/site'
+import { pageHead, site } from '../data/site'
 import { shorts } from '../data/videos'
 import type { Video } from '../data/videos'
 
@@ -11,16 +11,12 @@ export const Route = createFileRoute('/videos/shorts')({
     const page = Math.floor(Number(search.page))
     return Number.isFinite(page) && page > 1 ? { page } : {}
   },
-  head: () => ({
-    meta: [
-      { title: `Shorts · ${site.name}` },
-      {
-        name: 'description',
-        content:
-          'Short-form Toys From Taiwan live-looping videos — bite-size video-game grooves, every one looped live.',
-      },
-    ],
-  }),
+  head: () =>
+    pageHead(
+      '/videos/shorts/',
+      `Shorts · ${site.name}`,
+      'Short-form Toys From Taiwan live-looping videos — bite-size video-game grooves, every one looped live.',
+    ),
 })
 
 /** fetch-videos caps shorts at 108, so the pager never exceeds 6 pages
@@ -37,12 +33,19 @@ function displayTitle(title: string) {
   return stripped || title
 }
 
-const ShortCard = memo(function ShortCard({ video }: { video: Video }) {
+const ShortCard = memo(function ShortCard({
+  video,
+  eager = false,
+}: {
+  video: Video
+  eager?: boolean
+}) {
   return (
     <div className="short-card">
       <VideoEmbed
         video={{ ...video, title: displayTitle(video.title) }}
         vertical
+        eager={eager}
       />
     </div>
   )
@@ -110,8 +113,12 @@ function Shorts() {
             ref={gridRef}
             className="grid scroll-mt-24 grid-cols-1 gap-x-5 gap-y-8 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5"
           >
-            {pageShorts.map((short) => (
-              <ShortCard key={short.id} video={short} />
+            {pageShorts.map((short, i) => (
+              <ShortCard
+                key={short.id}
+                video={short}
+                eager={current === 1 && i === 0}
+              />
             ))}
           </div>
           {totalPages > 1 ? (

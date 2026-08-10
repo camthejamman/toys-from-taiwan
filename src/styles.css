@@ -537,6 +537,12 @@ body {
   contain-intrinsic-size: auto 480px;
 }
 
+/* Same treatment for the 9-card Jams grid (16:9 thumb + title/date). */
+.jam-card {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 300px;
+}
+
 /* ------------------------------------------------------------- buttons --- */
 
 /* Chunky 3D buttons: bevel highlight along the top, an extruded edge

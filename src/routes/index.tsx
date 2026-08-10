@@ -7,13 +7,21 @@ import { Section } from '../components/Section'
 import { SocialStrip } from '../components/SocialStrip'
 import { PlatformPillRow } from '../components/PlatformPill'
 import { SpriteIcon } from '../components/SpriteIcon'
-import { site, socials, streaming } from '../data/site'
+import { pageHead, site, socials, streaming } from '../data/site'
 import { releases } from '../data/releases'
 import { sortShows, upcomingShows, formatShowDate } from '../data/shows'
 import jamFace from '../assets/images/jam-face.jpg'
 
 export const Route = createFileRoute('/')({
   component: Home,
+  // Search engines truncate descriptions around 155-160 chars — the full
+  // site.description paragraph stays for on-page/OG use.
+  head: () =>
+    pageHead(
+      '/',
+      site.name,
+      '100% live-looping one-man jam band from Jacksonville Beach, FL — guitar, bass, keys, drum machines and loopers stacked live. Shows, videos, and music.',
+    ),
 })
 
 const highlights = [
@@ -144,6 +152,7 @@ function Home() {
               height={700}
               className="block w-full"
               loading="lazy"
+              decoding="async"
             />
           </Link>
           <div>
@@ -239,6 +248,7 @@ function Home() {
             height={160}
             className="h-48 w-48 rounded-full border-2 border-photo-border object-cover shadow-lg xl:h-56 xl:w-56"
             loading="lazy"
+            decoding="async"
           />
           <div>
             <p className="mt-0 text-ink xl:text-lg">

@@ -1,21 +1,14 @@
 import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
 import { Section } from '../components/Section'
 import { SpriteIcon } from '../components/SpriteIcon'
-import { site, socials } from '../data/site'
+import { socials } from '../data/site'
 import { channelUrl } from '../data/videos'
 
+// head() lives on the CHILD routes (videos.index.tsx / videos.shorts.tsx),
+// not here: a layout-route canonical would stack with the child's — two
+// rel=canonical links on the Shorts page, which search engines ignore.
 export const Route = createFileRoute('/videos')({
   component: VideosLayout,
-  head: () => ({
-    meta: [
-      { title: `Videos · ${site.name}` },
-      {
-        name: 'description',
-        content:
-          'Watch Toys From Taiwan live-looping videos — full jams, live streams, and video-game-flavored grooves, built one loop at a time.',
-      },
-    ],
-  }),
 })
 
 const tabClass =
