@@ -43,6 +43,9 @@
   --ttf-card: rgba(255, 255, 255, 0.68);
   --ttf-card-solid: #f4fafe;
   --ttf-card-border: rgba(103, 165, 210, 0.4);
+  /* Circular photo rings only — deliberately neutral grey rather than the
+   * blue card border, so portraits read as framed art, not as cards. */
+  --ttf-photo-border: rgba(24, 28, 36, 0.28);
   --ttf-accent: #025d92;
   --ttf-accent-strong: #024a75;
   --ttf-accent-ink: #ffffff;
@@ -50,11 +53,20 @@
 }
 
 .dark {
-  --ttf-ink: #e6effd;
-  --ttf-muted: #9db1cd;
+  /* Dark mode runs body copy at PURE white and collapses muted into ink.
+   * The old #9db1cd read as dimmed/disabled grey; even the softened
+   * #e6effd still read blue-grey against the near-black sky, which is
+   * what the page sits on outside the cards. Light mode keeps its own
+   * ink/muted pair, AA-tuned against the sky gradient. Hierarchy in dark
+   * comes from size and weight, not from a lower-contrast grey. */
+  --ttf-ink: #ffffff;
+  --ttf-muted: #ffffff;
   --ttf-card: rgba(10, 18, 40, 0.62);
   --ttf-card-solid: #0d1630;
   --ttf-card-border: rgba(148, 180, 255, 0.18);
+  /* Black would vanish on the dark card — the neutral read inverts to a
+   * faint light grey so the ring still separates photo from background. */
+  --ttf-photo-border: rgba(226, 232, 244, 0.22);
   --ttf-accent: #67c7f5;
   --ttf-accent-strong: #9adcff;
   --ttf-accent-ink: #04121f;
@@ -67,6 +79,7 @@
   --color-card: var(--ttf-card);
   --color-card-solid: var(--ttf-card-solid);
   --color-card-border: var(--ttf-card-border);
+  --color-photo-border: var(--ttf-photo-border);
   --color-accent: var(--ttf-accent);
   --color-accent-strong: var(--ttf-accent-strong);
   --color-accent-ink: var(--ttf-accent-ink);
@@ -396,10 +409,10 @@ body {
   );
 }
 
-.rainbow-bar {
-  height: 4px;
-  border-radius: 2px;
-  background-image: linear-gradient(
+/* One definition of the bar gradient, shared by the section-heading rule
+ * and the header brand's hover underline so the two can't drift apart. */
+:root {
+  --ttf-rainbow: linear-gradient(
     90deg,
     #e0508c,
     #e08a3c,
@@ -408,6 +421,38 @@ body {
     #2e9fd0,
     #7f6ae0
   );
+}
+
+.rainbow-bar {
+  height: 4px;
+  border-radius: 2px;
+  background-image: var(--ttf-rainbow);
+}
+
+/* Header brand: the section-heading rainbow bar, wiped in from the left on
+ * hover/focus. A pseudo-element rather than a child, because the link is a
+ * baseline flex row — a real element would sit BESIDE the wordmark, not
+ * under it. The global reduced-motion block already flattens the wipe. */
+.brand-underline {
+  position: relative;
+}
+
+.brand-underline::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: -0.2em;
+  height: 3px;
+  border-radius: 2px;
+  background-image: var(--ttf-rainbow);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 220ms ease;
+}
+
+.brand-underline:hover::after,
+.brand-underline:focus-visible::after {
+  transform: scaleX(1);
 }
 
 /* The landing-page instrument tableau (JamStudio.tsx). The container owns

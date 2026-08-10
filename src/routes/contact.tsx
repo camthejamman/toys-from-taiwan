@@ -69,7 +69,7 @@ function Contact() {
                 href={`mailto:${site.email}`}
                 className="group flex items-start gap-3 text-ink no-underline transition hover:text-accent"
               >
-                <SpriteIcon name="icon-envelop" className="h-6 w-6 text-accent lg:h-7 lg:w-7" />
+                <SpriteIcon name="icon-envelop" className="h-6 w-6 text-accent transition group-hover:text-accent dark:text-ink dark:group-hover:text-accent lg:h-7 lg:w-7" />
                 <span className="font-semibold lg:text-lg">{site.email}</span>
               </a>
             </li>
@@ -78,7 +78,7 @@ function Contact() {
                 href={`tel:${site.phone}`}
                 className="group flex items-start gap-3 text-ink no-underline transition hover:text-accent"
               >
-                <SpriteIcon name="icon-phone" className="h-6 w-6 text-accent lg:h-7 lg:w-7" />
+                <SpriteIcon name="icon-phone" className="h-6 w-6 text-accent transition group-hover:text-accent dark:text-ink dark:group-hover:text-accent lg:h-7 lg:w-7" />
                 <span className="font-semibold lg:text-lg">{site.phoneDisplay}</span>
               </a>
             </li>
@@ -89,7 +89,7 @@ function Contact() {
                 rel="noreferrer"
                 className="group flex items-start gap-3 text-ink no-underline transition hover:text-accent"
               >
-                <SpriteIcon name="icon-eye" className="h-6 w-6 text-accent lg:h-7 lg:w-7" />
+                <SpriteIcon name="icon-eye" className="h-6 w-6 text-accent transition group-hover:text-accent dark:text-ink dark:group-hover:text-accent lg:h-7 lg:w-7" />
                 <span className="font-semibold lg:text-lg">Jam on the Web (Linktree)</span>
               </a>
             </li>
@@ -105,7 +105,7 @@ function Contact() {
             alt="Cartoon drawing of Jam's face"
             width={180}
             height={180}
-            className="h-40 w-40 rounded-full border-2 border-card-border object-cover shadow-lg lg:h-52 lg:w-52"
+            className="h-40 w-40 rounded-full border-2 border-photo-border object-cover shadow-lg lg:h-52 lg:w-52"
             loading="lazy"
           />
         </div>

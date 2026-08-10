@@ -28,7 +28,7 @@ function VideosLayout() {
   const instagram = socials.find((s) => s.id === 'instagram')
 
   return (
-    <Section title="Latest Videos" eyebrow="Watch the loops happen" as="h1">
+    <Section title="Latest Videos" eyebrow="Watch live loops" as="h1">
       <nav aria-label="Video type" className="mb-8 flex flex-wrap gap-3">
         <Link
           to="/videos"

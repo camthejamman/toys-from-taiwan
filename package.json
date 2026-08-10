@@ -12,7 +12,8 @@
     "build": "vite build",
     "postbuild": "cp dist/client/index.html dist/client/404.html && touch dist/client/.nojekyll",
     "typecheck": "tsc --noEmit",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build-icon-guide": "node scripts/build-icon-guide.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",

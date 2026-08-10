@@ -54,7 +54,7 @@ function Home() {
       {/* the hero runs wider than the card sections at 2xl — the studio
           canvas is transparent, so it can stretch toward the deco gutters
           without burying them the way an opaque card would */}
-      <section className="mx-auto flex max-w-6xl flex-col items-center overflow-x-clip px-4 pb-10 pt-6 text-center 2xl:max-w-[88rem] min-[1800px]:max-w-[96rem]">
+      <section className="mx-auto flex max-w-6xl flex-col items-center overflow-x-clip px-4 pb-6 pt-6 text-center 2xl:max-w-[88rem] min-[1800px]:max-w-[96rem]">
         {/* Fluid clamp keeps the single-line wordmark inside 320px+ phones;
             overflow-x-clip stops the canvas bleed from widening the page. */}
         <HeroTitle
@@ -88,10 +88,22 @@ function Home() {
             Book a Show
           </Link>
         </div>
+        {/* mt-16 (64px) balances the 64px below it — the hero's pb-6 plus
+            the next Section's pt-10 — so the strip sits optically centered
+            between the CTAs and the "What is this?" eyebrow. */}
+        {/* Phones drop the wrap-cap trick for an explicit 3-col grid: the
+            cap can't both fill the button's width AND keep 3 per row (a gap
+            wide enough to reach it fits only 2 at 320px, orphaning the 9th).
+            A grid pins 3+3+3 at every width, so the 22rem cap is free to
+            tune spacing (it can't orphan an icon the way a wrap cap can) —
+            it's the knob for how far apart the 64px icons sit. w-full is
+            load-bearing: the hero is a centered column flex, so without it
+            the ul takes fit-content width and the grid collapses back to
+            max-content, silently undoing the whole effect. */}
         <SocialStrip
           platforms={[...socials, ...streaming]}
-          className="mt-12 max-sm:max-w-48 lg:gap-8"
-          iconClassName="h-12 w-12 lg:h-14 lg:w-14"
+          className="mt-16 max-sm:grid max-sm:w-full max-sm:max-w-88 max-sm:grid-cols-3 max-sm:justify-items-center max-sm:gap-y-7 lg:gap-8"
+          iconClassName="h-16 w-16 sm:h-12 sm:w-12 lg:h-14 lg:w-14"
         />
       </section>
 
@@ -225,7 +237,7 @@ function Home() {
             alt="Cartoon drawing of Jam's face"
             width={160}
             height={160}
-            className="h-48 w-48 rounded-full border-2 border-card-border object-cover shadow-lg xl:h-56 xl:w-56"
+            className="h-48 w-48 rounded-full border-2 border-photo-border object-cover shadow-lg xl:h-56 xl:w-56"
             loading="lazy"
           />
           <div>

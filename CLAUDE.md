@@ -60,11 +60,22 @@ bare three.js (no react-three-fiber, on purpose — load perf is a priority).
   fallback + lazy three.js overlay —
   currently unused; was the footer glyph until the footer refactor),
   Decorations (fixed gutter scenery — palms/solids/instruments in TWO
-  independently-stacked columns per side, xl+ only; the layer stays
-  invisible until the runtime stacker has placed everything, then fades
-  in via .deco-ready — kills the hydration "wiggle" — and depth tiers
-  cull toward the edges as the viewport narrows: items at x ≥ 10rem need
-  ~1800px, x ≥ 5rem need ~1560px), LoadingGears (the legacy site's
+  independently-stacked columns per side at xl, plus THREE more
+  ultrawide-only rings per side (2026-08-10) that fill the huge gutters a
+  2200px+ display leaves; the layer stays invisible until the runtime
+  stacker has placed everything, then fades in via .deco-ready — kills
+  the hydration "wiggle" — and depth tiers cull toward the edges as the
+  viewport narrows. Each tier threshold is derived, not picked: an item
+  at depth x reaching x+size clears the widest OPAQUE content (sections
+  cap at 1280px from 2xl) when viewport ≥ 1280 + 2·(x+size). That gives
+  x ≥ 38rem → 3100px, ≥ 26rem → 2600px, ≥ 15rem → 2200px, ≥ 10rem →
+  1800px, ≥ 5rem → 1560px — measured clearance never drops below ~170px.
+  Rings deliberately carry DIFFERENT item counts (7/6/8) and the right
+  gutter's tops are offset half a step from the left, so nothing lines up
+  into a horizontal row or mirrors across the page. Adding a ring: put
+  its x band past the last one, add the matching tier branch in
+  DecoItem, and add the column to the `cols` array in Decorations()),
+  LoadingGears (the legacy site's
   spinning gears, used by the hero loading state — rainbow-gradient
   filled via the in-SVG #lg-rainbow def)
 - `src/lib/rainbow.ts` — the brand hue curve + extruded-face lightness +
@@ -91,10 +102,26 @@ bare three.js (no react-three-fiber, on purpose — load perf is a priority).
   src/assets/images/rig-photo.jpg. The crop is pre-baked into that JPEG,
   NOT done with CSS: the source had dead white margin above the mic and
   a thin strip of white studio floor showing in front of the dark rug at
-  the bottom, so it's cropped from the original PNG (top ~160px / bottom
-  ~60px trimmed, at original 3000x2000 scale) before resizing to 1700px
-  wide — a rounded-full + object-cover `<img>` then crops sides only,
-  landing squarely on the rug with no white sliver. Palettes
+  the bottom. Current recipe (2026-08-10), from the 3000x2000 original:
+  `convert cam-looper-rig.png -crop 3000x1680+0+100 +repage -resize
+  1700x -quality 82` → 1700x952 (keep the img width/height attrs in
+  sync). The crop HEIGHT sets the zoom and the crop OFFSET sets vertical
+  framing — slide the offset (keeping height fixed) to move the subject
+  within the circle without rescaling it; `object-position` cannot do
+  this, because the square fit is height-governed and already shows the
+  JPEG's full height, so it has no vertical overflow to shift.
+  ZOOM LEVEL IS SET BY THIS CROP, not CSS — the square
+  object-cover fit is height-governed, so it shows the JPEG's full
+  height and zoom depends purely on the source aspect ratio; no
+  transform can change it (see the scale() gotcha below). Two hard
+  limits when re-cropping: the white studio floor starts at original row
+  ~1944, so the bottom edge must stay above it; and the hair crown sits
+  at row 205 dead-center (x≈1496), while the inscribed circle's topmost
+  point IS the square's top edge — so the top trim must stay under 205
+  or the hair clips out of the circle. Clearance on the rendered circle
+  = (205 − topTrim) × 384/height; the current 100 leaves ~24px. The
+  bottom edge is free of the hair constraint, so it's the knob for extra
+  zoom. Palettes
   (LIGHT_PALETTE/DARK_PALETTE) are sampled from the hero wordmark's
   color recipe (rainbow.ts hue curve + saturation 0.95 +
   extruded-face lightness, per theme) so the instruments wear the title's
@@ -102,8 +129,38 @@ bare three.js (no react-three-fiber, on purpose — load perf is a priority).
   saturated under ACES; dark grid
   is bright lime #66ff33; left speaker sits at x=-545 (not the poster's
   -620) so its feet stay on the grid when narrow layouts compact.
-- `src/assets/sprite.svg` — icon sprite (legacy icons + simple-icons brands),
-  all fills stripped so icons inherit currentColor
+- `src/assets/sprite.svg` — icon sprite (52 symbols: legacy icons +
+  simple-icons brands + 11 `icon-rig-*`/`icon-jam-*` artworks imported
+  from `jam/svg/` on 2026-08-10), all fills stripped so icons inherit
+  currentColor.
+  **Importing more of Cam's Silhouette Studio art** (`jam/svg/`, the
+  repo-root source artwork): those exports are `<defs>` paths + `<use>`
+  on a 304.8 mat canvas with NO transforms, so each `<use>` maps 1:1 to
+  a defs path in document order — inline them in that order, no
+  coordinate math. Two things are load-bearing. (1) Tighten the viewBox
+  to the real drawing bounds (`getBBox()` in headless Chrome gives user
+  units directly; inkscape's `--query-*` returns px at 96dpi and needs
+  converting) or the icon renders tiny inside a mostly-empty square.
+  (2) The exports are TWO-TONE — black body paths plus `#FFFFFF`
+  knockouts. Do NOT just strip the fills: that flattens every icon into
+  an unreadable blob (the keyboard becomes a plain slab). Instead merge
+  all subpaths into ONE `<path fill-rule="evenodd">`, which turns the
+  white shapes into real transparent holes — single-color, still
+  inherits currentColor, works on any background. The Silhouette layers
+  don't overlap, so evenodd reproduces the original exactly (verified
+  per-icon). Round path coords to 2dp; 1dp is visibly worse (RMSE 4% on
+  the loopstation at 600px) for only ~12KB gzip.
+  **Browse them in `docs/icon-guide.html`** — a self-contained searchable
+  grid of every symbol with its name, aspect ratio, usage status and a
+  click-to-copy `<SpriteIcon>` snippet. Regenerate with `npm run
+  build-icon-guide` after touching the sprite: geometry and usage counts
+  are derived from the sprite + `src/`, so only the prose in
+  `scripts/icon-catalog.json` is hand-maintained. A symbol with no
+  catalog entry still renders (under "Other") and logs a build warning,
+  so new icons can't silently vanish from the guide.
+  Two naming quirks the guide records: `icon-keys` is a MELODICA (the
+  full stage keyboard is `icon-synth`), and `icon-youtube2` is the wide
+  2.5:1 YouTube wordmark, not a second badge.
 - `scripts/fetch-videos.mjs` — keylessly pulls the latest 9 regular
   uploads (the /videos tab) AND up to 108 Shorts: initial /shorts tab
   HTML (shortsLockupViewModel blocks, title in

@@ -1,0 +1,805 @@
+{
+  "_comment": "Curated descriptions and grouping for docs/icon-guide.html. Geometry (viewBox/aspect) and usage counts are derived at build time by scripts/build-icon-guide.mjs -- do not add them here. When you add a symbol to sprite.svg, add an entry below and list its id in a group; unlisted icons still render, under an 'Other' group, with a build warning.",
+  "icons": [
+    {
+      "id": "icon-twitch",
+      "appearance": "Outlined speech-balloon screen with a notched bottom-left tail and two vertical bars inside",
+      "description": "The Twitch glyph for linking to live-stream jams.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "twitch",
+        "live stream",
+        "streaming",
+        "broadcast"
+      ]
+    },
+    {
+      "id": "icon-bandcamp",
+      "appearance": "Solid filled circle with a slanted parallelogram knocked out of the center",
+      "description": "The Bandcamp mark set in a circular badge, for release and store links.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "bandcamp",
+        "music store",
+        "album",
+        "buy music"
+      ]
+    },
+    {
+      "id": "icon-youtube",
+      "appearance": "Filled rounded-rectangle badge with a white play triangle in the middle",
+      "description": "The YouTube play-button badge for channel and video links.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "youtube",
+        "video",
+        "play button",
+        "channel"
+      ]
+    },
+    {
+      "id": "icon-youtube2",
+      "appearance": "The word 'You' in plain letters next to 'Tube' reversed out of a filled rounded rectangle",
+      "description": "The full YouTube wordmark lockup, for spots where the horizontal logotype reads better than the square play badge.",
+      "nameMatchesArt": false,
+      "mismatchNote": "Unlike icon-youtube it is not a square badge but a wide 80x32 (2.5:1) wordmark, so it needs an explicit width or it will render squashed or oversized.",
+      "keywords": [
+        "youtube",
+        "wordmark",
+        "logotype",
+        "video",
+        "brand text"
+      ]
+    },
+    {
+      "id": "icon-instagram",
+      "appearance": "Rounded-square camera outline with a circle lens inside and a small solid dot at the upper right",
+      "description": "The Instagram camera outline for profile and Reels links.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "instagram",
+        "reels",
+        "photo",
+        "social",
+        "camera"
+      ]
+    },
+    {
+      "id": "icon-tiktok",
+      "appearance": "Solid eighth-note shape: a hooked flag at top right joined to a circular note head at bottom left",
+      "description": "The TikTok music-note glyph for short-form video links.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "tiktok",
+        "shorts",
+        "music note",
+        "social",
+        "video"
+      ]
+    },
+    {
+      "id": "icon-soundcloud",
+      "appearance": "A row of four rising vertical waveform bars beside a solid cloud shape",
+      "description": "The SoundCloud waveform-and-cloud mark for streaming and track links.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "soundcloud",
+        "audio",
+        "waveform",
+        "streaming",
+        "cloud"
+      ]
+    },
+    {
+      "id": "icon-paypal",
+      "appearance": "Bold overlapping double 'P' monogram, the front P solid with a counter and a second P outline offset behind it",
+      "description": "The PayPal double-P mark for tip and support links.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "paypal",
+        "tip",
+        "donate",
+        "pay",
+        "support"
+      ]
+    },
+    {
+      "id": "icon-venmo",
+      "appearance": "Filled rounded-square badge with a stylized white lowercase 'v' reversed out of it",
+      "description": "The Venmo app badge for peer-to-peer tip links.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "venmo",
+        "tip",
+        "pay",
+        "donate",
+        "money"
+      ]
+    },
+    {
+      "id": "icon-cashapp",
+      "appearance": "Filled squircle badge with a white dollar sign, its vertical stroke poking out top and bottom",
+      "description": "The Cash App badge for $cashtag tip links.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "cash app",
+        "cashtag",
+        "tip",
+        "pay",
+        "dollar"
+      ]
+    },
+    {
+      "id": "icon-envelop",
+      "appearance": "Filled rectangular envelope with the flap and side creases drawn as white diagonals meeting at the center",
+      "description": "A closed envelope for email and contact-form links.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "email",
+        "mail",
+        "envelope",
+        "contact",
+        "message"
+      ]
+    },
+    {
+      "id": "icon-phone",
+      "appearance": "Solid black classic telephone handset receiver, tilted diagonally",
+      "description": "Filled telephone-handset glyph for phone numbers, call links, or a contact section.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "call",
+        "telephone",
+        "handset",
+        "contact",
+        "dial"
+      ]
+    },
+    {
+      "id": "icon-eye",
+      "appearance": "Almond-shaped eye outline with a large filled iris and a small white pupil highlight",
+      "description": "Eye glyph for view counts, visibility toggles, or preview affordances.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "view",
+        "visible",
+        "preview",
+        "watch",
+        "show"
+      ]
+    },
+    {
+      "id": "icon-guitar",
+      "appearance": "Solid black acoustic guitar silhouette angled diagonally, round soundhole, full neck and headstock",
+      "description": "Acoustic-guitar silhouette for rig lists, instrument tags, or gear callouts.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "acoustic",
+        "strings",
+        "axe",
+        "six-string",
+        "instrument"
+      ]
+    },
+    {
+      "id": "icon-bongos",
+      "appearance": "A joined pair of bongo drums seen from the front, small and large shell, tuning lugs and rims picked out in black and white",
+      "description": "Paired bongo drums for hand-percussion entries in an instrument or rig lineup.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "bongo",
+        "hand drums",
+        "percussion",
+        "latin",
+        "pair"
+      ]
+    },
+    {
+      "id": "icon-congos",
+      "appearance": "A SINGLE tall conga drum in three-quarter view, tuning hardware around the head, two-tone black-and-white shell",
+      "description": "Single tall conga drum for hand-percussion entries; note it is one drum, not a matched pair.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "conga",
+        "tumbadora",
+        "hand drum",
+        "percussion",
+        "latin"
+      ]
+    },
+    {
+      "id": "icon-drums",
+      "appearance": "Detailed silhouette of a full acoustic drum kit: bass drum, snare, rack toms, floor tom, hi-hat and two cymbals on stands",
+      "description": "Full acoustic drum-kit silhouette for drums or rhythm-section credits.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "drum kit",
+        "drumset",
+        "percussion",
+        "cymbals",
+        "snare"
+      ]
+    },
+    {
+      "id": "icon-keys",
+      "appearance": "A slim melodica — long thin keyboard body with a small mouthpiece tube protruding from the left end, keys drawn in perspective",
+      "description": "Melodica (blown keyboard harmonica) rather than a generic piano — pick it for the melodica specifically, and use icon-synth for plain keyboards.",
+      "nameMatchesArt": false,
+      "mismatchNote": "Name suggests a piano or generic keyboard, but the art is clearly a melodica with a blow mouthpiece on the left end.",
+      "keywords": [
+        "melodica",
+        "keyboard",
+        "piano",
+        "pianica",
+        "keys"
+      ]
+    },
+    {
+      "id": "icon-synth",
+      "appearance": "A full-length digital stage keyboard in perspective, long white key bed with a control panel of buttons and a small display along the left of the top surface",
+      "description": "Full-size electronic keyboard/stage piano for synth or keyboard rig entries.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "keyboard",
+        "stage piano",
+        "synthesizer",
+        "electric piano",
+        "digital piano"
+      ]
+    },
+    {
+      "id": "icon-vibes",
+      "appearance": "Angled mallet-percussion instrument — a row of tuned bars on a frame with two mallets laid across it diagonally",
+      "description": "Mallet keyboard percussion with crossed beaters for vibraphone/xylophone-style parts.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "vibraphone",
+        "xylophone",
+        "marimba",
+        "mallets",
+        "glockenspiel"
+      ]
+    },
+    {
+      "id": "icon-mic",
+      "appearance": "Solid rounded-capsule microphone head sitting in a U-shaped yoke over a short stem and flat base",
+      "description": "Classic microphone glyph for vocals, recording, or live-performance labels.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "microphone",
+        "vocals",
+        "sing",
+        "record",
+        "audio"
+      ]
+    },
+    {
+      "id": "icon-handsonic",
+      "appearance": "A round electronic hand-percussion pad with a pale striped playing surface, mounted on a tripod stand with a height-adjust clamp",
+      "description": "Roland HandSonic-style electronic hand-percussion pad on its tripod stand, for the looping rig's percussion slot.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "hand percussion",
+        "electronic drum pad",
+        "roland",
+        "percussion pad",
+        "tripod"
+      ]
+    },
+    {
+      "id": "icon-tv",
+      "appearance": "Rounded retro CRT television set with two rabbit-ear antennas and hollow screen",
+      "description": "Retro CRT television for live-stream, broadcast, or video-section links.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "television",
+        "tv",
+        "broadcast",
+        "screen",
+        "stream"
+      ]
+    },
+    {
+      "id": "icon-headphones",
+      "appearance": "Over-ear headphones: solid arched headband with a chunky earcup on each side",
+      "description": "Over-ear headphones for listening, audio, or 'hear the music' calls to action.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "headphones",
+        "listen",
+        "audio",
+        "music",
+        "cans"
+      ]
+    },
+    {
+      "id": "icon-equalizer2",
+      "appearance": "Three vertical fader tracks with square knobs — outer two set high, middle one lower",
+      "description": "Vertical mixer faders for audio settings, EQ, or mix/production content.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "equalizer",
+        "faders",
+        "sliders",
+        "mixer",
+        "settings"
+      ]
+    },
+    {
+      "id": "icon-music",
+      "appearance": "Beamed pair of eighth notes with solid oval noteheads and a thick connecting beam",
+      "description": "Classic beamed eighth-note pair — the generic marker for a song, track, or music link.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "music",
+        "note",
+        "song",
+        "track",
+        "audio"
+      ]
+    },
+    {
+      "id": "icon-video-camera",
+      "appearance": "Retro camcorder: rectangular body with hollow window, two round film reels on top, wedge lens at right",
+      "description": "Vintage film camcorder for video, filming, or the Videos section.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "video",
+        "camera",
+        "camcorder",
+        "film",
+        "record"
+      ]
+    },
+    {
+      "id": "icon-record",
+      "appearance": "Vinyl LP disc — solid black platter with concentric groove arcs and a white center label with spindle hole",
+      "description": "Vinyl LP record for releases, discography, or physical-music references.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "vinyl",
+        "record",
+        "lp",
+        "album",
+        "release"
+      ]
+    },
+    {
+      "id": "icon-rockstar",
+      "appearance": "Solid silhouette of a guitarist mid-leap, legs split, electric guitar slung across the body",
+      "description": "Leaping electric-guitar player silhouette for live performance, shows, or band energy.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "guitarist",
+        "guitar",
+        "rock",
+        "performer",
+        "live"
+      ]
+    },
+    {
+      "id": "icon-calendar",
+      "appearance": "Calendar page with two top tabs, thick border, and a 4x3 grid of solid date squares",
+      "description": "Wall calendar for tour dates, upcoming shows, and scheduling.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "calendar",
+        "dates",
+        "schedule",
+        "shows",
+        "events"
+      ]
+    },
+    {
+      "id": "icon-heart",
+      "appearance": "Solid filled heart shape",
+      "description": "Solid heart for favorites, likes, support, or tip-jar affection.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "heart",
+        "like",
+        "favorite",
+        "love",
+        "support"
+      ]
+    },
+    {
+      "id": "icon-star",
+      "appearance": "Solid filled five-pointed star",
+      "description": "Filled five-pointed star for ratings, featured items, or highlights.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "star",
+        "rating",
+        "favorite",
+        "featured",
+        "filled"
+      ]
+    },
+    {
+      "id": "icon-star-empty",
+      "appearance": "Five-pointed star drawn as an outline only, hollow center",
+      "description": "Outlined star — the unfilled counterpart to icon-star for empty rating states.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "star",
+        "outline",
+        "rating",
+        "empty",
+        "unfilled"
+      ]
+    },
+    {
+      "id": "icon-brightness-contrast",
+      "appearance": "Solid disc whose right half is knocked out white, ringed by eight short rounded rays — a sun half-lit",
+      "description": "Sun with a half-filled disc, the standard light/dark theme or brightness toggle glyph.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "theme toggle",
+        "dark mode",
+        "sun",
+        "brightness",
+        "contrast"
+      ]
+    },
+    {
+      "id": "icon-home3",
+      "appearance": "Filled house silhouette with a pitched roof, wide eaves and a chimney on the right slope; no door or windows",
+      "description": "Solid house glyph for the home link in nav, breadcrumbs, or a back-to-start button.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "house",
+        "home",
+        "landing",
+        "index",
+        "start"
+      ]
+    },
+    {
+      "id": "icon-address-book",
+      "appearance": "Solid upright rectangle with a person bust (round head over rounded shoulders) knocked out white, plus four small separate tabs down the left spine",
+      "description": "Contact-book cover with a person silhouette and binder tabs — use for a contact list or address/roster page.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "contacts",
+        "address book",
+        "directory",
+        "rolodex",
+        "person"
+      ]
+    },
+    {
+      "id": "icon-accessibility",
+      "appearance": "Standing stick figure with a detached round head, arms flung straight out and legs spread in a wide stance",
+      "description": "Universal human/accessibility figure with outstretched limbs, for a11y settings or an inclusive-access notice.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "a11y",
+        "accessible",
+        "person",
+        "universal access",
+        "disability"
+      ]
+    },
+    {
+      "id": "icon-spotify",
+      "appearance": "Solid black circle with three white curved arcs stacked inside, longest at the top — the Spotify wave mark",
+      "description": "Spotify's circular logo for streaming links, platform pills, and social icon strips.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "spotify",
+        "streaming",
+        "music service",
+        "listen",
+        "platform"
+      ]
+    },
+    {
+      "id": "icon-applemusic",
+      "appearance": "Solid rounded-square (squircle) tile with a pair of beamed eighth notes knocked out in white",
+      "description": "Apple Music's rounded app tile with a beamed note, for streaming links and platform buttons.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "apple music",
+        "itunes",
+        "streaming",
+        "app tile",
+        "platform"
+      ]
+    },
+    {
+      "id": "icon-youtubemusic",
+      "appearance": "Solid black circle containing a white ring with a right-pointing play triangle centered inside it",
+      "description": "YouTube Music's play-in-a-ring mark; monochrome it reads much like a generic play button, so pair it with a label.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "youtube music",
+        "yt music",
+        "streaming",
+        "play circle",
+        "platform"
+      ]
+    },
+    {
+      "id": "icon-jam-cn",
+      "appearance": "Two solid Chinese characters set side by side — 果 then 酱 — drawn as flat black lettering, wider than tall",
+      "description": "The 果酱 (\"JAM\") Chinese wordmark used as the band's brand glyph; it is a wide 2:1 lettering block, so give it an explicit width.",
+      "nameMatchesArt": true,
+      "mismatchNote": "",
+      "keywords": [
+        "jam",
+        "果酱",
+        "chinese wordmark",
+        "brand mark",
+        "logo"
+      ]
+    },
+    {
+      "id": "icon-rig-bass",
+      "appearance": "Upright black electric bass, four in-line tuners, white pickguard, split pickup",
+      "description": "Cam's actual Fender-style P-bass drawn face-on and neck-up with real detail (4-in-line clover tuners, split-coil pickup with polepiece dots, knobs, screw dots) — use it in rig lineups where the generic diagonal acoustic icon-guitar would be wrong; it is tall and narrow (0.29:1), so give it real height or it reads as a sliver.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "bass",
+        "electric bass",
+        "p-bass",
+        "fender",
+        "rig"
+      ]
+    },
+    {
+      "id": "icon-rig-guitar",
+      "appearance": "Upright black Stratocaster, six in-line tuners, white pickguard, three slanted pickups",
+      "description": "Cam's own Strat-style electric guitar, upright and front-on with three slanted single-coils, tremolo/jack plate and screw dots — the specific-gear counterpart to the generic icon-guitar (a plain diagonal acoustic silhouette with a sound hole); at small sizes it is nearly indistinguishable from icon-rig-bass, so pair them only above ~48px.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "guitar",
+        "electric guitar",
+        "stratocaster",
+        "fender",
+        "rig"
+      ]
+    },
+    {
+      "id": "icon-rig-handsonic",
+      "appearance": "Wedge-shaped electronic hand drum from above, segmented round head, small display",
+      "description": "The bare HandSonic-style electronic hand-percussion pad in three-quarter view — round playing surface split into pie-slice pads plus an LCD and rows of oval buttons; pick this over the generic icon-handsonic (a plain undivided round practice pad on a stand) when you want the real unit sitting on a table or in a flat gear row.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "handsonic",
+        "hand drum",
+        "percussion pad",
+        "roland",
+        "rig"
+      ]
+    },
+    {
+      "id": "icon-rig-handsonic-stand",
+      "appearance": "Same segmented hand drum pad atop tall tripod stand, angled view",
+      "description": "The stand-mounted version of the HandSonic pad — pad angled toward the player on a telescoping post with a splayed tripod base and rubber feet — for rig tableaus and stage-layout drawings where instruments stand on the floor; note the generic icon-handsonic is also on a stand but shows a featureless round pad.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "handsonic",
+        "drum pad stand",
+        "percussion",
+        "tripod",
+        "rig"
+      ]
+    },
+    {
+      "id": "icon-jam-head",
+      "appearance": "Ink line-art portrait of young man, solid black wavy hair, collar",
+      "description": "JAM's face as a brand/character mark — three-quarter head-and-shoulders portrait where the hair is a solid mass and the features, neck and shirt collar are open outline; it is a portrait, not gear, so use it for avatars, bylines and about-page moments, and keep it large (the thin facial lines mush below ~64px).",
+      "nameMatchesArt": true,
+      "keywords": [
+        "jam",
+        "portrait",
+        "face",
+        "avatar",
+        "mascot"
+      ]
+    },
+    {
+      "id": "icon-jam-callig",
+      "appearance": "Two hand-brushed Chinese characters 果酱, wobbly tapered ink strokes",
+      "description": "The 果酱 wordmark in a hand-inked brush style — same two characters as icon-jam-cn but with irregular, tapered, slightly wobbly strokes instead of that one's clean typeset geometry — so reach for it when a placement wants the handmade, signature-like feel and for icon-jam-cn when it needs to look like set type; roughly 2:1 wide.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "jam",
+        "guo jiang",
+        "chinese",
+        "calligraphy",
+        "wordmark"
+      ]
+    },
+    {
+      "id": "icon-rig-keyboard",
+      "appearance": "Solid black slab keyboard in 3/4 view from above-left; white keys knocked out, black sharps as tabs, blank control panel to the right",
+      "description": "Cam's own stage keyboard drawn as a bare slab with no stand — reach for it when you want the instrument floating on its own (a hero mark, a bullet next to \"keys\"), and give it a ~2:1 wide box (viewBox 215.6x105.9) since it is much wider than tall.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "keyboard",
+        "keys",
+        "synth",
+        "piano",
+        "rig"
+      ]
+    },
+    {
+      "id": "icon-rig-keyboard-stand",
+      "appearance": "Same slab keyboard sitting on a four-leg table-style stand with two long rails and rubber feet",
+      "description": "The stage-ready version of icon-rig-keyboard — keyboard plus its folding table stand, nearly square (162x136) and visually heavier, so use it in rig/gear layouts where the piece should stand on the floor and use the bare icon-rig-keyboard when it should not.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "keyboard",
+        "stand",
+        "rig",
+        "stage",
+        "keys"
+      ]
+    },
+    {
+      "id": "icon-rig-loopstation",
+      "appearance": "Extremely wide, short flat panel seen edge-on: raised block at left, one row of round jacks and knobs, small window and squares at right",
+      "description": "Cam's looper drawn as a long low control/patch panel rather than a top-down pedal, so it only reads as gear at large sizes in a wide slot — its viewBox is 245.6x35.5 (~7:1), which will render as a thin dash in any square 24px icon box.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "looper",
+        "loop station",
+        "pedal",
+        "jacks",
+        "panel"
+      ]
+    },
+    {
+      "id": "icon-rig-speaker-left",
+      "appearance": "Two-way PA cabinet (small tweeter ring above big woofer ring) on a splayed tripod stand; drivers sit left of center, long leg trails down-right",
+      "description": "The left half of Cam's stereo PA pair — a real monitor-on-a-tripod silhouette, tall (112.9x249, ~1:2.2), meant to flank content or a stage diagram opposite icon-rig-speaker-right, which is its exact mirror.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "speaker",
+        "pa",
+        "monitor",
+        "tripod stand",
+        "sound"
+      ]
+    },
+    {
+      "id": "icon-rig-speaker-right",
+      "appearance": "Identical PA cabinet and tripod, mirrored: drivers sit right of center, long leg trails down-left",
+      "description": "Pixel-for-pixel the horizontal mirror of icon-rig-speaker-left (verified by flip-compare), same tall 112.9x249 box — pick it for the right-hand side of a flanking pair so the two lean toward each other instead of repeating.",
+      "nameMatchesArt": true,
+      "keywords": [
+        "speaker",
+        "pa",
+        "monitor",
+        "tripod stand",
+        "mirrored"
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "title": "Brand & Platforms",
+      "subtitle": "The 果酱 wordmark plus every streaming, video and social service Jam links out to.",
+      "ids": [
+        "icon-youtube",
+        "icon-tiktok",
+        "icon-instagram",
+        "icon-jam-cn",
+        "icon-spotify",
+        "icon-bandcamp",
+        "icon-soundcloud",
+        "icon-applemusic",
+        "icon-youtubemusic",
+        "icon-twitch",
+        "icon-youtube2",
+        "icon-jam-callig",
+        "icon-jam-head"
+      ]
+    },
+    {
+      "title": "Instruments & Rig",
+      "subtitle": "The one-man-band's gear — strings, keys, drums, percussion and the mic out front.",
+      "ids": [
+        "icon-guitar",
+        "icon-drums",
+        "icon-bongos",
+        "icon-synth",
+        "icon-mic",
+        "icon-keys",
+        "icon-vibes",
+        "icon-handsonic",
+        "icon-rockstar",
+        "icon-congos"
+      ]
+    },
+    {
+      "title": "Music & Media",
+      "subtitle": "Records, playback and studio props used as decorative accents across the site.",
+      "ids": [
+        "icon-headphones",
+        "icon-record",
+        "icon-tv",
+        "icon-music",
+        "icon-video-camera",
+        "icon-equalizer2"
+      ]
+    },
+    {
+      "title": "Interface & Wayfinding",
+      "subtitle": "Chrome and affordances — dates, favorites, ratings, theme toggle and navigation.",
+      "ids": [
+        "icon-heart",
+        "icon-calendar",
+        "icon-brightness-contrast",
+        "icon-home3",
+        "icon-star",
+        "icon-star-empty",
+        "icon-accessibility",
+        "icon-eye"
+      ]
+    },
+    {
+      "title": "Contact & Booking",
+      "subtitle": "Ways to reach Jam directly: email, phone and the contact card.",
+      "ids": [
+        "icon-envelop",
+        "icon-phone",
+        "icon-address-book"
+      ]
+    },
+    {
+      "title": "Support & Payment",
+      "subtitle": "Tip-jar and payment services listed on the support page.",
+      "ids": [
+        "icon-cashapp",
+        "icon-venmo",
+        "icon-paypal"
+      ]
+    },
+    {
+      "title": "Jam's Rig",
+      "subtitle": "Cam's own line-art of the real live-looping setup — guitars, keys, HandSonic, looper and PA, several drawn both bare and on their stands.",
+      "ids": [
+        "icon-rig-bass",
+        "icon-rig-guitar",
+        "icon-rig-handsonic",
+        "icon-rig-handsonic-stand",
+        "icon-rig-keyboard",
+        "icon-rig-keyboard-stand",
+        "icon-rig-loopstation",
+        "icon-rig-speaker-left",
+        "icon-rig-speaker-right"
+      ]
+    }
+  ]
+}

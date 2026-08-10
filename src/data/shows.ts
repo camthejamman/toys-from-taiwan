@@ -28,32 +28,57 @@ export const upcomingShows: Show[] = [
 /** Rooms the live-looping rig has filled. */
 export const pastShows: Show[] = [
   {
-    date: '2024-06-19',
-    time: '6:00–8:00pm',
+    date: '2026-07-17',
+    venue: 'Dragonfly Lounge — Live Music w/ Cam Jam',
+    city: 'Neptune Beach, FL',
+    href: 'https://dragonflylounge-beaches.com/',
+  },
+  {
+    date: '2026-06-20',
+    time: '4:00–7:00pm',
+    venue: 'Green Room Brewing — 15 Year Anniversary',
+    city: 'Jacksonville Beach, FL',
+    href: 'https://greenroombrewing.com/',
+  },
+  {
+    date: '2026-06-06',
+    time: '7:00–10:00pm',
+    venue: 'Solune Coffee',
+    city: 'Jacksonville, FL',
+  },
+  {
+    date: '2026-05-02',
+    time: '8:00–11:00pm',
+    venue: 'Dragonfly Lounge',
+    city: 'Neptune Beach, FL',
+    href: 'https://dragonflylounge-beaches.com/',
+  },
+  {
+    date: '2026-04-11',
+    time: '6:00–9:00pm',
+    venue: "Spinster Abbott's",
+    city: 'St. Augustine, FL',
+  },
+  {
+    date: '2026-04-04',
+    time: '8:00–11:00pm',
+    venue: 'Dragonfly Lounge',
+    city: 'Neptune Beach, FL',
+    href: 'https://dragonflylounge-beaches.com/',
+  },
+  {
+    date: '2026-03-28',
+    time: '7:00pm',
+    venue: 'Solune Coffee — Eccentrically Electric Energy (E3)',
+    city: 'Jacksonville, FL',
+    note: 'Free show w/ Veritas Prism & Cellular Terror',
+  },
+  {
+    date: '2026-02-18',
+    time: '5:00–8:00pm',
     venue: 'Graet Goods — West King Wednesday',
     city: 'St. Augustine, FL',
     href: 'https://www.facebook.com/graetgoods',
-  },
-  {
-    date: '2024-06-15',
-    time: '4:00–6:30pm',
-    venue: 'Green Room Brewing — 13 Year Anniversary',
-    city: 'Jacksonville Beach, FL',
-    href: 'https://www.instagram.com/reel/C6e_K0Au2Mv/',
-  },
-  {
-    date: '2022-11-26',
-    time: '4:00–6:30pm',
-    venue: 'Bold Bean Coffee Roasters',
-    city: 'Jacksonville, FL',
-    href: 'https://boldbeancoffee.com/',
-  },
-  {
-    date: '2022-10-22',
-    time: '6:30–9:30pm',
-    venue: 'Wildcrafters — Booze-Free Bar',
-    city: 'Jacksonville, FL',
-    href: 'https://www.instagram.com/wildcraftersjax/',
   },
 ]
 

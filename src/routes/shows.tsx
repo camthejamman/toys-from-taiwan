@@ -43,7 +43,7 @@ function Shows() {
               <SpriteIcon
                 key={corner.pos}
                 name="icon-calendar"
-                className={`absolute ${corner.pos} h-6 w-6 text-accent icon-3d dark:text-ink sm:h-8 sm:w-8 lg:h-10 lg:w-10`}
+                className={`absolute ${corner.pos} h-5 w-5 text-accent icon-3d dark:text-ink sm:h-6 sm:w-6 lg:h-7 lg:w-7`}
                 tint={corner.tint}
               />
             ))}
@@ -52,7 +52,7 @@ function Shows() {
               alt="Cartoon drawing of Jam's face"
               width={180}
               height={180}
-              className="h-40 w-40 shrink-0 rounded-full border-2 border-card-border object-cover shadow-lg md:ml-4 lg:ml-8 lg:h-52 lg:w-52"
+              className="h-40 w-40 shrink-0 rounded-full border-2 border-photo-border object-cover shadow-lg md:ml-4 lg:ml-8 lg:h-52 lg:w-52"
               loading="lazy"
             />
             <div className="flex flex-col items-center gap-4 md:items-start">
@@ -79,7 +79,7 @@ function Shows() {
 
       <Section title="Rooms the Loops Have Filled" eyebrow="Past shows">
         <ShowList shows={past} />
-        <p className="mt-6 text-center text-sm text-muted">
+        <p className="mt-20 text-center text-sm text-muted">
           Plus live-looping streams online every week — see the music page for
           where to watch.
         </p>

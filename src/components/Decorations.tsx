@@ -117,7 +117,7 @@ const LEFT: Placed[] = [
  * on 1900px+ screens; on narrower viewports it simply slides behind the
  * content column (z -5) like the outer column already does at ~1280px. */
 const LEFT2: Placed[] = [
-  { kind: 'octa', color: PALETTE.green, top: '6%', x: '11.5rem', size: 38, rot: 0, dur: 7.5, delay: 1.3 },
+  { kind: 'prism', color: PALETTE.purple, top: '6%', x: '10rem', size: 38, rot: 0, dur: 7.5, delay: 1.3 },
   { kind: 'octa', color: PALETTE.teal, top: '14%', x: '11rem', size: 40, rot: 0, dur: 7.3, delay: 0.5 },
   { kind: 'icon', icon: 'icon-headphones', color: PALETTE.red, top: '26%', x: '12.5rem', size: 62, rot: 8, dur: 8.6, delay: 1.7 },
   { kind: 'palm', top: '36%', x: '10.5rem', size: 50, rot: 4, dur: 8.1, delay: 1.0 },
@@ -155,6 +155,75 @@ const RIGHT2: Placed[] = [
   { kind: 'prism', color: PALETTE.green, top: '88%', x: '10rem', size: 40, rot: -8, dur: 7.4, delay: 0.4 },
 ]
 
+/** Ultrawide ring 3 (x 15-21rem, from 2200px). The first of three extra
+ * columns per side that only exist past the 1920px layout — they fill the
+ * 460-1210px gutters an ultrawide leaves, and unmount again on the way down.
+ * Leans on the icon-rig-* / icon-jam-head artwork, unused elsewhere. */
+const LEFT3: Placed[] = [
+  { kind: 'octa', color: PALETTE.purple, top: '6%', x: '16.5rem', size: 42, rot: 0, dur: 7.9, delay: 0.8 },
+  { kind: 'icon', icon: 'icon-rig-speaker-left', color: PALETTE.teal, top: '20%', x: '19rem', size: 92, rot: -6, dur: 8.8, delay: 1.9 },
+  { kind: 'palm', top: '34%', x: '15.5rem', size: 84, rot: 7, dur: 9.4, delay: 0.5 },
+  { kind: 'icon', icon: 'icon-record', color: PALETTE.red, top: '48%', x: '20rem', size: 78, rot: 14, dur: 7.6, delay: 0.9 },
+  { kind: 'cube', color: PALETTE.yellow, top: '62%', x: '17rem', size: 38, rot: -13, dur: 7.2, delay: 1.1 },
+  { kind: 'icon', icon: 'icon-jam-head', color: PALETTE.orange, top: '76%', x: '15rem', size: 96, rot: -10, dur: 8.6, delay: 0.2 },
+  { kind: 'prism', color: PALETTE.blue, top: '90%', x: '18.5rem', size: 44, rot: 12, dur: 6.9, delay: 1.6 },
+]
+
+const RIGHT3: Placed[] = [
+  { kind: 'icon', icon: 'icon-rig-bass', color: PALETTE.purple, top: '13%', x: '18rem', size: 104, rot: 8, dur: 9.0, delay: 1.4 },
+  { kind: 'cube', color: PALETTE.blue, top: '27%', x: '15.5rem', size: 40, rot: 11, dur: 7.4, delay: 0.3 },
+  { kind: 'icon', icon: 'icon-tv', color: PALETTE.yellow, top: '41%', x: '20.5rem', size: 80, rot: 13, dur: 7.1, delay: 0.4 },
+  { kind: 'palm', top: '55%', x: '16.5rem', size: 72, rot: 5, dur: 9.3, delay: 1.8 },
+  { kind: 'prism', color: PALETTE.orange, top: '69%', x: '19.5rem', size: 40, rot: -14, dur: 7.8, delay: 2.1 },
+  { kind: 'icon', icon: 'icon-rockstar', color: PALETTE.pink, top: '83%', x: '15rem', size: 94, rot: -11, dur: 8.9, delay: 1.0 },
+  { kind: 'octa', color: PALETTE.red, top: '96%', x: '17.5rem', size: 46, rot: 0, dur: 6.8, delay: 2.4 },
+]
+
+/** Ultrawide ring 4 (x 26-33rem, from 2600px). Six items, not seven —
+ * each ring carries a different count so their vertical rhythms never
+ * line up into a horizontal row across the gutter. */
+const LEFT4: Placed[] = [
+  { kind: 'prism', color: PALETTE.teal, top: '12%', x: '30rem', size: 40, rot: -11, dur: 7.3, delay: 1.2 },
+  { kind: 'palm', top: '29%', x: '26.5rem', size: 82, rot: -7, dur: 9.4, delay: 0.4 },
+  { kind: 'icon', icon: 'icon-rig-keyboard', color: PALETTE.pink, top: '45%', x: '29.5rem', size: 108, rot: 11, dur: 8.1, delay: 2.2 },
+  { kind: 'octa', color: PALETTE.yellow, top: '61%', x: '32.5rem', size: 44, rot: 0, dur: 7.4, delay: 1.9 },
+  { kind: 'icon', icon: 'icon-headphones', color: PALETTE.blue, top: '77%', x: '27rem', size: 74, rot: 8, dur: 8.9, delay: 0.2 },
+  { kind: 'icon', icon: 'icon-rig-speaker-right', color: PALETTE.orange, top: '93%', x: '31rem', size: 90, rot: 6, dur: 9.1, delay: 2.5 },
+]
+
+const RIGHT4: Placed[] = [
+  { kind: 'icon', icon: 'icon-music', color: PALETTE.teal, top: '5%', x: '27rem', size: 70, rot: -9, dur: 7.9, delay: 0.6 },
+  { kind: 'cube', color: PALETTE.red, top: '21%', x: '32rem', size: 42, rot: 12, dur: 6.8, delay: 2.1 },
+  { kind: 'icon', icon: 'icon-rig-guitar', color: PALETTE.blue, top: '37%', x: '26.5rem', size: 110, rot: -13, dur: 8.3, delay: 0.9 },
+  { kind: 'palm', top: '53%', x: '30.5rem', size: 76, rot: 6, dur: 9.5, delay: 1.7 },
+  { kind: 'prism', color: PALETTE.yellow, top: '69%', x: '28rem', size: 36, rot: 10, dur: 7.2, delay: 1.3 },
+  { kind: 'icon', icon: 'icon-jam-head', color: PALETTE.purple, top: '85%', x: '32.5rem', size: 92, rot: 9, dur: 8.0, delay: 0.1 },
+]
+
+/** Ultrawide ring 5 (x 38-45rem, from 3100px). The outermost band; only
+ * a 3100px+ display has gutter for it. */
+const LEFT5: Placed[] = [
+  { kind: 'palm', top: '4%', x: '41rem', size: 86, rot: -6, dur: 9.1, delay: 0.4 },
+  { kind: 'icon', icon: 'icon-vibes', color: PALETTE.blue, top: '16%', x: '38.4rem', size: 88, rot: 5, dur: 8.4, delay: 1.5 },
+  { kind: 'cube', color: PALETTE.teal, top: '27%', x: '44rem', size: 40, rot: 12, dur: 7.1, delay: 0.3 },
+  { kind: 'icon', icon: 'icon-rig-bass', color: PALETTE.pink, top: '39%', x: '40rem', size: 112, rot: -9, dur: 8.8, delay: 2.2 },
+  { kind: 'prism', color: PALETTE.purple, top: '51%', x: '43.5rem', size: 38, rot: -14, dur: 7.8, delay: 2.5 },
+  { kind: 'icon', icon: 'icon-record', color: PALETTE.orange, top: '63%', x: '39rem', size: 82, rot: 15, dur: 8.1, delay: 0.7 },
+  { kind: 'octa', color: PALETTE.yellow, top: '75%', x: '42.5rem', size: 46, rot: 0, dur: 7.4, delay: 0.9 },
+  { kind: 'palm', top: '87%', x: '40.2rem', size: 64, rot: 9, dur: 9.6, delay: 1.3 },
+]
+
+const RIGHT5: Placed[] = [
+  { kind: 'icon', icon: 'icon-video-camera', color: PALETTE.pink, top: '10%', x: '42.6rem', size: 98, rot: -7, dur: 8.6, delay: 1.1 },
+  { kind: 'prism', color: PALETTE.blue, top: '22%', x: '39rem', size: 42, rot: 9, dur: 7.6, delay: 0.2 },
+  { kind: 'palm', top: '33%', x: '44.5rem', size: 78, rot: -4, dur: 9.2, delay: 2.3 },
+  { kind: 'icon', icon: 'icon-drums', color: PALETTE.teal, top: '45%', x: '40.4rem', size: 96, rot: 6, dur: 8.3, delay: 0.6 },
+  { kind: 'cube', color: PALETTE.orange, top: '57%', x: '43.2rem', size: 44, rot: -13, dur: 7.2, delay: 1.4 },
+  { kind: 'icon', icon: 'icon-rig-speaker-left', color: PALETTE.purple, top: '69%', x: '38.2rem', size: 100, rot: -10, dur: 8.7, delay: 1.7 },
+  { kind: 'octa', color: PALETTE.red, top: '81%', x: '41.8rem', size: 38, rot: 0, dur: 6.9, delay: 1.0 },
+  { kind: 'icon', icon: 'icon-equalizer2', color: PALETTE.green, top: '93%', x: '44.2rem', size: 72, rot: 11, dur: 7.7, delay: 2.2 },
+]
+
 function itemHeight(item: Placed): number {
   return item.kind === 'palm' ? item.size * 1.3 : item.size
 }
@@ -166,6 +235,10 @@ function itemHeight(item: Placed): number {
  * and anything that runs off the bottom is hidden. The float animation
  * moves items ±7px, so the gap comfortably covers it. Runs after mount
  * (SSR keeps the raw percents — the layer is pure decor).
+ *
+ * The layer is position:fixed, so the stack starts BELOW the sticky
+ * header (measured, not guessed) — otherwise the topmost item in each
+ * column tucks under the navbar, which the blur then smears.
  */
 function useStackedTops(items: Placed[]): (number | null)[] | null {
   const [tops, setTops] = useState<(number | null)[] | null>(null)
@@ -173,7 +246,9 @@ function useStackedTops(items: Placed[]): (number | null)[] | null {
     const GAP = 22
     const compute = () => {
       const vh = window.innerHeight
-      let cursor = 8
+      const headerH =
+        document.querySelector('header')?.getBoundingClientRect().height ?? 62
+      let cursor = headerH + 10
       const out: (number | null)[] = []
       for (const item of items) {
         const h = itemHeight(item)
@@ -206,15 +281,28 @@ function DecoItem({
 }) {
   if (topPx === null) return null
   // Deeper items disappear first as the viewport narrows, so the scenery
-  // recedes toward the edges instead of crowding the content column:
-  // x >= 10rem (inner columns) need ~1800px, x >= 5rem need ~1560px.
+  // recedes toward the edges instead of crowding the content column. Each
+  // threshold is the width at which that ring still clears the widest
+  // OPAQUE content (sections cap at 1280px from 2xl): an item at depth x
+  // reaching x+size needs viewport >= 1280 + 2*(x+size).
+  //   x >= 38rem -> ~810px deep -> 3100px    (ultrawide ring 5)
+  //   x >= 26rem -> ~618px deep -> 2600px    (ultrawide ring 4)
+  //   x >= 15rem -> ~426px deep -> 2200px    (ultrawide ring 3)
+  //   x >= 10rem -> inner columns            -> 1800px
+  //   x >=  5rem                             -> 1560px
   const xRem = parseFloat(item.x)
   const tier =
-    xRem >= 10
-      ? 'hidden min-[1800px]:block'
-      : xRem >= 5
-        ? 'hidden min-[1560px]:block'
-        : ''
+    xRem >= 38
+      ? 'hidden min-[3100px]:block'
+      : xRem >= 26
+        ? 'hidden min-[2600px]:block'
+        : xRem >= 15
+          ? 'hidden min-[2200px]:block'
+          : xRem >= 10
+            ? 'hidden min-[1800px]:block'
+            : xRem >= 5
+              ? 'hidden min-[1560px]:block'
+              : ''
   const style: CSSProperties = {
     top: topPx !== undefined ? topPx : item.top,
     [side]: item.x,
@@ -250,37 +338,41 @@ function DecoGraphic({ item }: { item: Deco }) {
 
 
 export function Decorations() {
-  const leftTops = useStackedTops(LEFT)
-  const rightTops = useStackedTops(RIGHT)
-  // Each inner column stacks independently — items only ever collide
-  // vertically within their own column.
-  const left2Tops = useStackedTops(LEFT2)
-  const right2Tops = useStackedTops(RIGHT2)
+  // One stacker per column — items only ever collide vertically within
+  // their own column. Rings 3-5 are the ultrawide-only outer bands; their
+  // items are hidden by the depth tier in DecoItem until the viewport is
+  // wide enough, but they still stack so nothing jumps when they appear.
+  const cols = [
+    { items: LEFT, side: 'left' as const, tops: useStackedTops(LEFT) },
+    { items: RIGHT, side: 'right' as const, tops: useStackedTops(RIGHT) },
+    { items: LEFT2, side: 'left' as const, tops: useStackedTops(LEFT2) },
+    { items: RIGHT2, side: 'right' as const, tops: useStackedTops(RIGHT2) },
+    { items: LEFT3, side: 'left' as const, tops: useStackedTops(LEFT3) },
+    { items: RIGHT3, side: 'right' as const, tops: useStackedTops(RIGHT3) },
+    { items: LEFT4, side: 'left' as const, tops: useStackedTops(LEFT4) },
+    { items: RIGHT4, side: 'right' as const, tops: useStackedTops(RIGHT4) },
+    { items: LEFT5, side: 'left' as const, tops: useStackedTops(LEFT5) },
+    { items: RIGHT5, side: 'right' as const, tops: useStackedTops(RIGHT5) },
+  ]
   // Until the stacker has produced pixel tops, the items sit at their raw
   // SSR percentages — keep the layer invisible (JS visitors only) so they
   // fade in at their settled positions instead of visibly snapping.
-  const ready =
-    leftTops !== null &&
-    rightTops !== null &&
-    left2Tops !== null &&
-    right2Tops !== null
+  const ready = cols.every((c) => c.tops !== null)
   return (
     <div
       className={`deco-layer hidden xl:block ${ready ? 'deco-ready' : ''}`}
       aria-hidden="true"
     >
-      {LEFT.map((item, i) => (
-        <DecoItem key={`l${i}`} item={item} side="left" topPx={leftTops?.[i]} />
-      ))}
-      {RIGHT.map((item, i) => (
-        <DecoItem key={`r${i}`} item={item} side="right" topPx={rightTops?.[i]} />
-      ))}
-      {LEFT2.map((item, i) => (
-        <DecoItem key={`l2${i}`} item={item} side="left" topPx={left2Tops?.[i]} />
-      ))}
-      {RIGHT2.map((item, i) => (
-        <DecoItem key={`r2${i}`} item={item} side="right" topPx={right2Tops?.[i]} />
-      ))}
+      {cols.map((col, c) =>
+        col.items.map((item, i) => (
+          <DecoItem
+            key={`${col.side}${c}-${i}`}
+            item={item}
+            side={col.side}
+            topPx={col.tops?.[i]}
+          />
+        )),
+      )}
     </div>
   )
 }

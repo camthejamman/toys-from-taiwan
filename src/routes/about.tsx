@@ -21,6 +21,26 @@ export const Route = createFileRoute('/about')({
 })
 
 /** The six vibe cards, carried over from the original site. */
+/** Corner scenery for the Rig card — one instrument per corner, colored
+ * from the shared icon rotation. Insets sit inside the card's p-6/sm:p-8
+ * padding so nothing overlaps the photo or the copy.
+ *
+ * `size` is per-icon because these boxes are square while the symbols are
+ * not: <use> letterboxes each one inside its box (preserveAspectRatio
+ * meet), so a wide symbol renders shorter than its box. Guitar (0.9:1),
+ * vibes (1.11:1) and keys (1.30:1) share one box so their WIDTHS line
+ * up; the wider two just sit a little shorter inside it. Bongos is the
+ * exception at 2.12:1 — in the shared box it would letterbox down to
+ * ~21px tall, so it gets a slightly larger one; going much past this
+ * makes it visually dominate the corner because its WIDTH grows twice
+ * as fast as its height. */
+const CORNER_INSTRUMENTS = [
+  { icon: 'icon-guitar', color: ICON_COLORS[0], at: 'left-3 top-3 sm:left-4 sm:top-4', size: 'h-11 w-11 sm:h-14 sm:w-14' },
+  { icon: 'icon-vibes', color: ICON_COLORS[1], at: 'right-3 top-3 sm:right-4 sm:top-4', size: 'h-11 w-11 sm:h-14 sm:w-14' },
+  { icon: 'icon-keys', color: ICON_COLORS[5], at: 'bottom-3 left-3 sm:bottom-4 sm:left-4', size: 'h-11 w-11 sm:h-14 sm:w-14' },
+  { icon: 'icon-bongos', color: ICON_COLORS[4], at: 'bottom-3 right-3 sm:bottom-4 sm:right-4', size: 'h-12 w-12 sm:h-14 sm:w-14' },
+] as const
+
 const vibeCards = [
   {
     title: '100%',
@@ -134,7 +154,7 @@ function About() {
               <div className="mt-auto flex flex-col items-center gap-2 pt-2">
                 <SpriteIcon
                   name={card.instrument}
-                  className="h-24 w-24 text-accent icon-3d dark:text-ink lg:h-28 lg:w-28"
+                  className="h-32 w-32 text-accent icon-3d dark:text-ink lg:h-40 lg:w-40"
                   tint={ICON_COLORS[i % ICON_COLORS.length]}
                 />
                 <p className="m-0 text-center text-sm font-semibold text-muted">
@@ -147,29 +167,77 @@ function About() {
       </Section>
 
       <Section title="The Rig" eyebrow="Toys, gizmos & gear">
-        <div className="card-glass flex flex-col items-center gap-6 p-6 sm:p-8 lg:flex-row xl:gap-10">
+        {/* Extra bottom padding buys the gap under the copy: the corner
+            icons are absolutely positioned against the card's PADDING BOX,
+            whose bottom edge sits at the border — so growing pb pushes the
+            text up without moving the bongos down with it. */}
+        {/* Extra bottom padding buys the gap under the copy: the corner
+            icons are absolutely positioned against the card's PADDING BOX,
+            whose bottom edge sits at the border — so growing pb pushes the
+            text up without moving the icons down with it. Sized so the
+            icon BOXES clear the last paragraph by ~8px; the wide icons
+            letterbox inside those boxes, so the visible gap is ~14px. */}
+        <div className="card-glass relative flex flex-col items-center gap-6 p-6 pb-16 sm:p-8 sm:pb-20 lg:flex-row xl:gap-10">
+          {/* One instrument tucked into each corner of the card, sitting in
+              the padding so they never crowd the photo or the copy. Purely
+              decorative: SpriteIcon is aria-hidden without a `label`. */}
+          {CORNER_INSTRUMENTS.map((c) => (
+            <SpriteIcon
+              key={c.icon}
+              name={c.icon}
+              className={`pointer-events-none absolute ${c.size} ${c.at}`}
+              tint={c.color}
+            />
+          ))}
           {/* 3D rendering of the actual live-looping rig — the copy next
               to it is the description */}
           <img
             src={rigPhoto}
             alt="3D rendering of Jam's live-looping rig: guitar, dual keyboards, HandSonic, loop pedals, and a boom mic with tablet"
             width={1700}
-            height={1010}
-            className="h-64 w-64 shrink-0 rounded-full border-2 border-card-border object-cover shadow-lg sm:h-72 sm:w-72 lg:h-80 lg:w-80 xl:h-96 xl:w-96"
+            height={952}
+            className="h-64 w-64 shrink-0 rounded-full border-2 border-photo-border object-cover shadow-lg sm:h-72 sm:w-72 lg:h-80 lg:w-80 xl:h-96 xl:w-96"
             loading="lazy"
           />
-          <div>
-            <p className="mt-0 text-ink">
-              The one-man band runs on a small mountain of musical toys:
-              acoustic and electric guitars, bass, keyboards and pads, drum
-              machines, bongos, mystery instruments, a pile of effects pedals —
-              and up to three loopers stacking it all together in real time.
-            </p>
-            <p className="m-0 text-muted">
-              I may also have some ambient nature sounds playing in the
-              background from time to time, so it&apos;s a very relaxing,
-              refreshing kind of vibe.
-            </p>
+          {/* Two setups, same shape: an accent label (the Section eyebrow
+              treatment, at h3 since the card sits under the "The Rig" h2)
+              then an ink paragraph and a muted follow-up. */}
+          <div className="flex flex-col gap-6">
+            <div>
+              <h3 className="m-0 text-sm font-semibold uppercase tracking-widest text-accent">
+                Live performance setup
+              </h3>
+              <p className="mb-0 mt-2 text-ink">
+                The one-man band runs on a small mountain of musical toys:
+                acoustic and electric guitars, bass, keyboards and pads, drum
+                machines, bongos, mystery instruments, a pile of effects
+                pedals — and up to three loopers stacking it all together in
+                real time.
+              </p>
+              <p className="mb-0 mt-2 text-muted">
+                I may also have some ambient nature sounds playing in the
+                background from time to time, so it&apos;s a very relaxing,
+                refreshing kind of vibe.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="m-0 text-sm font-semibold uppercase tracking-widest text-accent">
+                Shorts &amp; reels setup
+              </h3>
+              <p className="mb-0 mt-2 text-ink">
+                The shorts and reels get their own pile of gear: a looper and a
+                Roland GR-55 guitar synth to kick things off, a Loopstation
+                stacking the parts up live, and old vintage drum machines like
+                the Alesis SR-16 holding it all together.
+              </p>
+              <p className="mb-0 mt-2 text-muted">
+                From there it&apos;s a bunch of MIDI controllers and samplers,
+                plus whatever random gizmos and gadgets are within reach —
+                Kaossilators, old iPhones, vintage electronic drum sets, a MIDI
+                bass guitar, and a stack of old keyboards and synths.
+              </p>
+            </div>
           </div>
         </div>
       </Section>

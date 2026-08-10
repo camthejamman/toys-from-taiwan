@@ -4,8 +4,11 @@ import { ICON_COLORS } from '../lib/rainbow'
 import { site, socials, streaming } from '../data/site'
 
 export function Footer() {
+  // mt-4 on phones, mt-16 from sm: 64px of dead space above the footer
+  // pushed the platform icons off the screenful a reader lands on when they
+  // reach the end of a page. Desktop has the room, so it keeps the gap.
   return (
-    <footer className="mt-16 border-t border-card-border bg-card backdrop-blur-md">
+    <footer className="mt-4 border-t border-card-border bg-card backdrop-blur-md sm:mt-16">
       {/* Below lg: the settled centered stack. From lg: a three-column
           band — brand left, page links center, platform icons right,
           copyright centered underneath — so the footer fills the width
@@ -14,16 +17,26 @@ export function Footer() {
           right, like a proper wide footer); only beyond 1920px does the
           content re-center inside a cap. Mobile keeps the centered stack. */}
       <div className="mx-auto flex w-full flex-col items-center gap-8 px-4 py-6 sm:gap-6 lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center lg:gap-x-10 lg:gap-y-1 lg:px-10 lg:py-3 min-[1920px]:max-w-[120rem]">
-        {/* Larger footer pieces below sm fill the phone footer's open space;
-            sm+ keeps the settled compact row. */}
+        {/* Size ladder tracks the LAYOUT, not just the width: sm–lg is
+            still the centered stack with open space either side, so it
+            keeps generous sizes; only at lg — where the footer becomes the
+            three-column band and the pieces have to share a row — do they
+            step back down to compact. */}
         {/* brand wordmark is mobile-only — wide screens already have it in
             the sticky header right above */}
-        <p className="m-0 text-3xl sm:text-lg lg:hidden">
+        <p className="m-0 text-4xl sm:text-3xl lg:hidden">
           <Wordmark3D small text={site.name} />
         </p>
 
+        {/* Phones: same treatment as the hero strip — an explicit 3-col
+            grid at full width instead of a max-width wrap cap, so the 9
+            icons stay 3+3+3 at every width while spreading across the
+            footer. w-full is required because this stack is a centered
+            column flex below lg (fit-content otherwise). All of it is
+            max-sm-scoped so the sm one-row and lg justify-self-start
+            layouts below are untouched. */}
         <ul
-          className="m-0 flex max-w-48 list-none flex-wrap items-center justify-center gap-5 p-0 sm:max-w-none sm:gap-4 lg:col-start-1 lg:row-start-1 lg:translate-y-2.5 lg:justify-self-start lg:gap-5"
+          className="m-0 flex max-w-48 list-none flex-wrap items-center justify-center gap-5 p-0 max-sm:grid max-sm:w-full max-sm:max-w-88 max-sm:grid-cols-3 max-sm:justify-items-center max-sm:gap-y-7 sm:max-w-none sm:gap-4 lg:col-start-1 lg:row-start-1 lg:translate-y-2.5 lg:justify-self-start lg:gap-5"
           aria-label="Social and streaming platforms"
         >
           {[...socials, ...streaming].map((p, i) => (
@@ -36,7 +49,7 @@ export function Footer() {
               >
                 <SpriteIcon
                   name={p.icon}
-                  className="h-12 w-12 icon-3d sm:h-7 sm:w-7 lg:h-10 lg:w-10"
+                  className="h-16 w-16 icon-3d sm:h-12 sm:w-12 lg:h-10 lg:w-10"
                   tint={p.color ?? ICON_COLORS[i % ICON_COLORS.length]}
                   label={p.label}
                 />
@@ -58,10 +71,10 @@ export function Footer() {
                 : 'smooth',
             })
           }
-          className="inline-flex cursor-pointer items-center gap-1.5 border-0 bg-transparent p-0 text-sm font-semibold text-accent transition hover:underline lg:col-start-3 lg:row-start-1 lg:justify-self-end lg:text-base"
+          className="inline-flex cursor-pointer items-center gap-1.5 border-0 bg-transparent p-0 text-base font-semibold text-accent transition hover:underline sm:text-lg lg:col-start-3 lg:row-start-1 lg:justify-self-end lg:text-base"
         >
           <svg
-            className="h-4 w-4"
+            className="h-5 w-5 lg:h-4 lg:w-4"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"

@@ -1,8 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Section } from '../components/Section'
-import { SocialStrip } from '../components/SocialStrip'
 import { SpriteIcon } from '../components/SpriteIcon'
-import { payments, site, socials, streaming } from '../data/site'
+import { payments, site } from '../data/site'
 import jamFace from '../assets/images/jam-face.jpg'
 
 export const Route = createFileRoute('/support')({
@@ -38,7 +37,7 @@ function Support() {
             >
               <SpriteIcon
                 name={p.icon}
-                className="h-14 w-14 text-ink transition group-hover:scale-110 group-hover:text-accent lg:h-16 lg:w-16"
+                className="h-20 w-20 text-ink transition group-hover:scale-110 group-hover:text-accent lg:h-24 lg:w-24"
                 tint={p.color}
               />
               <span className="text-lg font-bold text-ink lg:text-xl">{p.label}</span>
@@ -50,7 +49,7 @@ function Support() {
         </div>
       </Section>
 
-      <Section title="Thank You" center>
+      <Section title="Thank You" center className="max-sm:pt-2">
         <div className="card-glass relative mx-auto max-w-2xl p-6 text-center sm:p-10 lg:max-w-3xl">
           {/* a heart in every corner */}
           <div aria-hidden="true">
@@ -79,22 +78,28 @@ function Support() {
             alt="Cartoon drawing of Jam's face"
             width={160}
             height={160}
-            className="mx-auto mt-6 h-64 w-64 rounded-full border-2 border-card-border object-cover shadow-lg lg:h-80 lg:w-80"
+            className="mx-auto mt-6 h-64 w-64 rounded-full border-2 border-photo-border object-cover shadow-lg lg:h-80 lg:w-80"
             loading="lazy"
           />
         </div>
       </Section>
 
-      <Section title="Free Ways to Support" center>
-        <p className="mx-auto -mt-2 mb-6 max-w-xl text-muted">
+      {/* Last section on the page. On phones both of its py-10 ends are dead
+          space: above, it stacks with the Thank You section's own pb-10; below,
+          it separates the copy from the footer's platform links, which are the
+          whole point of "free ways to support". */}
+      <Section
+        title="Free Ways to Support"
+        center
+        className="max-sm:pt-2 max-sm:pb-2"
+      >
+        {/* mb-0: this paragraph is the section's last child now, so the
+            only space under it should be the Section's own py-10 rhythm —
+            the old mb-6 was the gap above the platform icons. */}
+        <p className="mx-auto -mt-2 mb-0 max-w-xl text-muted">
           No tip required — following, subscribing, sharing a video, or adding
-          a track to a playlist helps just as much.
+          a track to a playlist helps just as much. Thanks!
         </p>
-        <SocialStrip
-          platforms={[...socials, ...streaming]}
-          className="lg:gap-7"
-          iconClassName="h-8 w-8 lg:h-10 lg:w-10"
-        />
       </Section>
     </>
   )

@@ -25,7 +25,7 @@ function Music() {
   return (
     <>
       <Section title="The Music" eyebrow="Discography" as="h1">
-        {releases.map((release) => (
+        {releases.map((release, i) => (
           <article
             key={release.slug}
             className="card-glass flex flex-col gap-8 p-6 sm:p-10 lg:flex-row xl:gap-12"
@@ -63,15 +63,20 @@ function Music() {
                 Bandcamp is name-your-price — it&apos;s the best way to directly
                 support the project.
               </p>
+              {/* closing note for the whole discography — guarded to the last
+                  card so it can't repeat once a second release lands */}
+              {i === releases.length - 1 ? (
+                <p className="mt-2 text-sm text-muted">
+                  More releases are on the way — new jams loop to life every
+                  week.
+                </p>
+              ) : null}
             </div>
           </article>
         ))}
-        <p className="mt-6 text-center text-muted">
-          More releases are on the way — new jams loop to life every week.
-        </p>
       </Section>
 
-      <Section title="Watch the Loops Happen" eyebrow="Video & live streams">
+      <Section title="Watch Live Loops" eyebrow="Video & live streams">
         <div className="grid gap-5 md:grid-cols-3 xl:gap-6">
           {socials
             .filter((s) => ['youtube', 'tiktok', 'twitch'].includes(s.id))
@@ -93,7 +98,7 @@ function Music() {
               </a>
             ))}
         </div>
-        <p className="mx-auto mt-8 max-w-2xl text-center text-muted">
+        <p className="mx-auto mt-20 max-w-2xl text-center text-muted">
           Every video short is a real live loop — the album versions on{' '}
           <span className="font-semibold">Shorts! Vol. 1</span> are the same
           takes you see being built on screen, one layer at a time.
