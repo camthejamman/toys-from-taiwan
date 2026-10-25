@@ -1,4 +1,5 @@
 import shortsVol1Cover from '../assets/images/shorts-vol-1.jpg'
+import shortsVol2Cover from '../assets/images/shorts-vol-2.jpg'
 
 export type Release = {
   slug: string
@@ -20,6 +21,21 @@ export type Release = {
  * src/assets/images, add an entry here, and the Music page picks it up.
  */
 export const releases: Release[] = [
+  {
+    slug: 'shorts-vol-2',
+    title: 'Shorts! Vol. 2',
+    year: 2026,
+    releaseDate: '2026-10-25',
+    cover: shortsVol2Cover,
+    coverAlt:
+      'Shorts! Vol. 2 album cover — rainbow chrome 3D lettering over a starry night sky and a 3D-rendered pair of shorts in a rainbow gradient',
+    blurb:
+      "The second compilation of my live looping video shorts! It's all 100% live looping jams again — 40 more bite-size tracks of cheesy-midi, retro N64-flavored grooves, every one looped live with no backing tracks.",
+    tags: ['live looping', 'game music', 'vaporwave', 'midi', 'utopian virtual', 'experimental'],
+    trackCount: 40,
+    bandcampUrl: 'https://toysfromtaiwan.bandcamp.com/album/shorts-vol-2-2',
+    bandcampAlbumId: '323272738',
+  },
   {
     slug: 'shorts-vol-1',
     title: 'Shorts! Vol. 1',

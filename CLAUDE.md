@@ -28,6 +28,13 @@ bare three.js (no react-three-fiber, on purpose — load perf is a priority).
 - `src/data/` — ALL editable content: site.ts (links/contact/handles),
   shows.ts (upcoming+past), releases.ts (discography), videos.json (generated
   — never hand-edit; run fetch-videos).
+  releases.ts is newest-first and holds Shorts! Vol. 1 (2026-07-30) and
+  Shorts! Vol. 2 (2026-10-25, Bandcamp album id 323272738 from the page's
+  bc-page-properties meta tag, cover = Bandcamp art a2976385180 at _10 →
+  `convert … -resize 700x700 -strip -quality 70`, the same 700×700 q70
+  recipe as Vol. 1). The home page's "Latest release" section features
+  releases[0], so a new entry at the top updates both pages; the Music
+  page wraps the cards in a flex-col gap-8 (Section adds no spacing).
   `pastShows` was re-anchored to 2026 on 2026-08-10: eight Feb–Jul 2026
   rooms (transcribed from Cam's Facebook posts + flyers) replaced the
   2024/2022 entries, which were DELETED at his request — recover them with
@@ -448,6 +455,12 @@ additive lg:/xl:/2xl: prefixes only.
   Namecheap BasicDNS, 4 A records @ → 185.199.108-111.153) — triggers:
   push to main, weekly cron (Mon 12:00 UTC, refreshes Videos page),
   manual dispatch.
+- **GitHub disables the weekly cron after 60 days without a push** (not
+  60 days without a run): the scheduled deploys stopped after 2026-10-12
+  and GitHub mailed "workflow has been disabled"; Cam re-enabled it on the
+  Actions page 2026-10-25. Any push to main resets the clock; check with
+  `gh workflow list --all` (state must be `active`) or re-enable with
+  `gh workflow enable deploy.yml`.
 - **Site is LIVE** (launched 2026-08-10): workflow enabled, first deploy
   succeeded, verified end-to-end (200s, slash 301s, real 404 page,
   sitemap/robots served, CI-resized thumbs). Every push to main
